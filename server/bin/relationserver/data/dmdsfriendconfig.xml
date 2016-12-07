@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<coder name="DMDSFRIEND" version="1_0">
+	<datas>
+		<Config>
+			<GiveAPCount>1</GiveAPCount>
+			<GiveAPTimes>10</GiveAPTimes>
+			<GetAPTimes>10</GetAPTimes>
+			<APResetHour>4</APResetHour>
+			<APResetMinute>0</APResetMinute>
+			<APResetSeconds>0</APResetSeconds>
+		</Config>
+	</datas>
+</coder>

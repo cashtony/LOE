@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<coder name="DMDSSYSTEM" version="1_0">
+	<datas>
+		<Limit>
+			<DefRoleItemCount>60</DefRoleItemCount>
+			<DefPetItemCount>200</DefPetItemCount>
+			<DefPetCount>100</DefPetCount>
+			<DefTimeEP>300</DefTimeEP>
+		</Limit>
+	</datas>
+</coder>

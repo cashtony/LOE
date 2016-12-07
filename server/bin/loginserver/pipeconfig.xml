@@ -1,0 +1,10 @@
+<config>
+	<connections>
+		<server id="1-1-2-1" />
+		<connection mode="listen" localip="127.0.0.1" localport="11121" recvbuf="655360" sendbuf="655360" />
+		<connection mode="connect">
+			<item id="1-1-1-1" remoteip="127.0.0.1" remoteport="11111" recvbuf="655360" sendbuf="655360" /> <!-- center -->
+			<item id="1-1-11-1" remoteip="127.0.0.1" remoteport="8802" recvbuf="655360" sendbuf="655360" /> <!-- account -->
+		</connection>
+	</connections>
+</config>

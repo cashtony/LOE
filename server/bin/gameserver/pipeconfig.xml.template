@@ -1,0 +1,12 @@
+<config>
+<connections>
+<server id="1-4-8-1" />
+<connection mode="listen" localip="127.0.0.1" localport="11281" recvbuf="655360" sendbuf="655360" />
+<connection mode="connect">
+<item id="1-4-7-1" remoteip="127.0.0.1" remoteport="11271" recvbuf="6144000" sendbuf="6144000" /> <!-- db Server -->
+<item id="1-4-5-1" remoteip="127.0.0.1" remoteport="11251" recvbuf="6144000" sendbuf="6144000" /> <!-- lm Server -->
+<item id="1-4-4-1" remoteip="127.0.0.1" remoteport="11241" recvbuf="6144000" sendbuf="6144000" /> <!-- rs Server -->
+<item id="1-4-28-1" remoteip="127.0.0.1" remoteport="20281" recvbuf="6144000" sendbuf="6144000" /> <!-- log Server -->
+</connection>
+</connections>
+</config>

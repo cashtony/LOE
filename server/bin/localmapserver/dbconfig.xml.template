@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <db type="mysql">
+        <!-- multiple db connection should have different name -->
+        <item name="lm" session="8" hostname="127.0.0.1" port="3306" username="root" password="root" dbname="ds_localmap" charset="utf8" />
+    </db>
+</config>

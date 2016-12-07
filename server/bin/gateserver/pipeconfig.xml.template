@@ -1,0 +1,14 @@
+<config>
+    <connections>
+        <server id="1-4-10-1" />
+        <connection mode="connect">
+            <item id="1-1-1-1" remoteip="127.0.0.1" remoteport="11111" recvbuf="6144000" sendbuf="6144000" /> <!-- center Server -->
+            <item id="1-4-7-1" remoteip="127.0.0.1" remoteport="11271" recvbuf="6144000" sendbuf="6144000" /> <!-- db Server -->
+            <item id="1-4-5-1" remoteip="127.0.0.1" remoteport="11251" recvbuf="6144000" sendbuf="6144000" /> <!-- lm Server -->
+            <item id="1-4-8-1" remoteip="127.0.0.1" remoteport="11281" recvbuf="6144000" sendbuf="6144000" /> <!-- gs Server -->
+            <item id="1-4-8-2" remoteip="127.0.0.1" remoteport="11282" recvbuf="6144000" sendbuf="6144000" /> <!-- gs Server -->
+        </connection>
+    </connections>
+</config>
+
+

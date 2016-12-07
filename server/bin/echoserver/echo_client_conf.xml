@@ -1,0 +1,5 @@
+<config>
+	<client>
+		<item loginip="127.0.0.1" loginport="8000" servergroup="2" logintype="pt"  loginnamebase="dfw" loginnumbase="14000" loginpassword="12345" rolenamebase="pttest" clientnum="100" clientnumper="50" clientlogininterval="20000" clientstay="30000" reconnectinterval="10000" recvbuf="100000" sendbuf="100000" maxlink="1000" maxid="6144" />
+	</client>
+</config>

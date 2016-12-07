@@ -1,0 +1,8 @@
+Index,Start,End,RewardItems.i1.ItemID,RewardItems.i1.Count,RewardItems.i2.ItemID,RewardItems.i2.Count,RewardItems.i3.ItemID,RewardItems.i3.Count,RewardItems.i4.ItemID,RewardItems.i4.Count,RewardItems.i5.ItemID,RewardItems.i5.Count
+10001,1,1,101,500,100,1000000,0,0,0,0,0,0
+10002,2,2,101,400,100,800000,0,0,0,0,0,0
+10003,3,3,101,300,100,600000,0,0,0,0,0,0
+10004,4,10,101,200,100,400000,0,0,0,0,0,0
+10005,11,100,101,100,100,200000,0,0,0,0,0,0
+10006,101,1000,101,50,100,100000,0,0,0,0,0,0
+10007,1001,9999,101,20,100,50000,0,0,0,0,0,0

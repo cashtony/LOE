@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <log>
+    <sdnet>
+      <level id="CRITICAL"  log="n" />
+      <level id="INFO"      log="n" />
+      <level id="WARN"      log="n" />
+      <level id="DBG"       log="n" />
+    </sdnet>
+    <sdpipe>
+      <level id="CRITICAL"  log="n" />
+      <level id="INFO"      log="n" />
+      <level id="WARN"      log="n" />
+      <level id="DBG"       log="n" />
+    </sdpipe>
+  </log>
+  <dbinfo>
+    <dbdata ip="172.30.70.152" port="3306" loginname="root" loginpwd="000000" dbname="cashlog" charactset="utf8" dbtype="0" />
+  </dbinfo>
+</config>

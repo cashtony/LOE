@@ -1,0 +1,54 @@
+<config>
+    <!--RSA private key file-->
+    <privatekey file="lg_privatekey.dat" />
+
+    <!--Signature key file-->
+    <sigkey file="lg_sigkey.dat" />
+
+    <!-- maintain.value=1 will stop login procedure
+    -->
+    <maintain value="0" info="本区维护中，预计维护工作持续到下午3点。请稍后再登陆，谢谢您的合作。长度不超过200汉字，或者400字符。">
+      <!-- 在此范围的ip不受维护限制 -->
+      <exceptiplist>
+        <ip type="single" val="127.0.0.1" />
+        <ip type="mask" val="172.30.10.*" />
+        <ip type="mask" val="172.30.60.*" />
+        <ip type="mask" val="172.30.70.*" />
+      </exceptiplist>
+    </maintain>
+    <!--
+        Server list public to client.
+        The last unit is wildcard if it's value is 255
+    -->
+    <bundles>
+		<!-- 若干可用的cdn列表 -->
+		<cdn url="http://127.0.0.1/ds"/>
+		<cdn url="http://127.0.0.1/ds"/>
+
+		<!-- 若干可选的版本列表 -->
+		<bundle resourcelevel="1" path="1/933/BundleInfo.xml"/>
+		<bundle resourcelevel="2" path="1/933/BundleInfo.xml"/>
+		<bundle resourcelevel="0" path="1/933/BundleInfo.xml"/>
+    </bundles>
+
+    <!--
+		configuration items: auth->open, name, dll, getmodulefunc, conffile.
+		1. Name must be unique, and can not be 0;
+		2. If importfunc is not set, the default function name: GetAuthModule is used;
+		3. "conffile" is the file name of configuration for the specified authmodule;
+		4. If the conffile is not set, the content of authmodule is used;
+		5. If open is set to y/Y, the relavent authenticating mode is opened.
+	-->
+    <authmodule>
+        <auth open="Y" name="pt" >
+			<config>
+			</config>
+        </auth>
+      
+        <auth open="y" name="gplus" >
+			<config>
+			</config>
+        </auth>
+
+    </authmodule>
+</config>

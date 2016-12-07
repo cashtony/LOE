@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!--The max user count-->
+    <maxuser value="50000" />
+    <!-- max queue user per group -->
+    <maxqueueuser value="1000" />
+    <pergate>
+	<!-- networkbytes: max network bytes of each gateserver -->
+	<networkbytes value="8000000" />
+	<!-- ingameconnection: max in-game connection count of each gateserver -->
+	<ingameconnection value="3000" />
+    </pergate>
+
+    <ViewAllGroup>
+		<iplist>
+			<ip type="single" val="127.0.0.1" />
+			<ip type="mask" val="172.30.10.*" />
+			<ip type="mask" val="172.30.70.*" />
+		</iplist>
+    </ViewAllGroup>
+    <gm>
+    	<iplist>
+        	<ip type="single" val="127.0.0.1" />
+	        <ip type="mask" val="172.30.10.*" />
+		    <ip type="mask" val="172.30.70.*" />
+	    </iplist>
+    </gm>
+    <!--
+        Valid time limitation of authentication information (second as unit).
+        If user is not in game server or user is in game server but didn't send
+        keep alive packet to center server,
+        Center server will delete authentication information of this user, and
+        he must pass the authentication of login sever before he enter game server
+    -->
+    <holdauth time="900" />
+
+    <!--
+        Additional server types which is allowed to communicate with center
+        server by protocol between center server and game server
+    -->
+    <addition_game_server_types>
+        <type value="101" />
+    </addition_game_server_types>
+
+    <!-- Time duration to broadcast game server list (second as unit) -->
+    <broadcast_svrlist_time value="10" />
+
+    <!--
+        Authentication level:
+        It is the assemble of binary mask code.
+        The 1st bit: It shows whether to enable verifying dynamic signature code
+                     (1 to enable and 0 to disable).
+                     The dynamic signature code is to make each authentication
+                     packet different.
+                     If the dynamic signature code in packet is bigger than
+                     which center server saved, it is available and center server
+                     will update its saved value with which in packet. 
+ 
+        The 2nd bit: It shows whether to enable verifying user's IP address
+                     (1 to enable and 0 to disable).
+                     In common situation, user's IP address saved both by login
+                     server and game server should be the same and needn't verify.
+                     If you want to take strict authentication,
+                     it should be enabled.
+                     
+        eg:
+        Authentication level 0
+            verify dynamic signature code: no
+            verify IP Address: no 
+        Authentication level 1
+            verify dynamic signature code: yes
+            verify IP Address: no 
+        Authentication level 2
+            verify dynamic signature code: no
+            verify IP Address: yes 
+        Authentication level 3
+            verify dynamic signature code: yes
+            verify IP Address: yes 
+    -->
+    <auth_level value="1" />
+
+    <!-- Monitor function configuration options -->
+    <!-- Monitor listening IP and port -->
+    <watch listenip="127.0.0.1" listenport="7000">
+        <!-- The IP limitation list used by monitor -->
+        <iplist>
+            <ip value="127.9.0.1"/>
+            <ip value="172.30.20.54"/>
+            <ip value="127.0.0.1"/>
+        </iplist>
+    </watch>
+</config>

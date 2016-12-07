@@ -1,0 +1,9 @@
+<config>
+    <connections>
+        <server id="1-4-4-1" />
+        <connection mode="listen" localip="127.0.0.1" localport="11241" recvbuf="6553600" sendbuf="6553600" />
+	<connection mode="connect">
+		<item id="1-4-28-1" remoteip="127.0.0.1" remoteport="20281" recvbuf="6144000" sendbuf="6144000" /> <!-- log Server -->
+	</connection>
+    </connections>
+</config>

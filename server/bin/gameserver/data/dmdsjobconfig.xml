@@ -1,0 +1,13 @@
+<coder name="DMDSJOB" version="1_0">
+    <datas>
+        <Jobs>
+            <Job>
+                <Job>0</Job>
+                <DfSkill>
+                    <SkillID>0</SkillID>
+                    <GetLevel>0</GetLevel>
+                </DfSkill>
+            </Job>
+        </Jobs>
+    </datas>
+</coder>

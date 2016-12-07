@@ -1,0 +1,7 @@
+<agentproxyconfig>
+<agentinfo ip="127.0.0.1" port="3000"/>
+<reconnectinterval>5</reconnectinterval>
+<recvbuf>12288</recvbuf>
+<sendbuf>12288</sendbuf>
+<unique64idgen url="http://127.0.0.1/phpscript_uniqueid/webservice/get_unique_32_id.php"/>
+</agentproxyconfig>

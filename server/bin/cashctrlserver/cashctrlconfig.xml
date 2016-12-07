@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <listen>
+    <android ip="172.30.70.22" port="9277" recvbuf="2048000" sendbuf="2048000"/>
+    <ios ip="172.30.70.22" port="9276" recvbuf="2048000" sendbuf="2048000"/>
+  </listen>
+  <log>
+    <sdnet>
+      <level id="CRITICAL"  log="y" />
+      <level id="INFO"      log="y" />
+      <level id="WARN"      log="y" />
+      <level id="DBG"       log="y" />
+    </sdnet>
+    <sdpipe>
+      <level id="CRITICAL"  log="y" />
+      <level id="INFO"      log="y" />
+      <level id="WARN"      log="y" />
+      <level id="DBG"       log="y" />
+    </sdpipe>
+  </log>
+  <dbinfo>
+    <dbdata ip="172.30.70.22" port="3306" loginname="root" loginpwd="123456" dbname="cashctrl" charactset="utf8" dbtype="0" />
+  </dbinfo>
+</config>

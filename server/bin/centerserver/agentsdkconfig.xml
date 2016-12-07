@@ -1,0 +1,6 @@
+<agentproxyconfig>
+<agentinfo ip="172.30.29.50" port="9988"/>
+<reconnectinterval>5</reconnectinterval>
+<recvbuf>12288</recvbuf>
+<sendbuf>12288</sendbuf>
+</agentproxyconfig>

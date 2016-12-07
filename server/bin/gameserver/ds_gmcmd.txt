@@ -1,0 +1,86 @@
+
+@luac script.cmd.gm.additem 角色名 模板ID 数量
+@luac script.cmd.gm.addexp 角色名 数量
+@luac script.cmd.gm.addmoney 角色名 数量
+@luac script.cmd.gm.submoney 角色名 数量
+@luac script.cmd.gm.addcash 角色名 数量
+@luac script.cmd.gm.addnoncash 角色名 数量
+@luac script.cmd.gm.subcash 角色名 数量
+@luac script.cmd.gm.subnoncash 角色名 数量
+@luac script.cmd.gm.addep 角色名 数量
+@luac script.cmd.gm.costep 角色名 数量
+@luac script.cmd.gm.setepboughtcount 角色名 数量
+@luac script.cmd.gm.setitemboughtcount 角色名 物品ID 数量
+@luac script.cmd.gm.finishdayquest 角色名 任务类型ID 完成次数
+@luac script.cmd.gm.addrmb 角色名 RMB数量(用以计算VIP等级，即VIP经验) [徽章数量](可以不填，默认RMB数量*10)
+@luac script.cmd.gm.resetepreceive 角色名
+@luac script.cmd.gm.setgmlevel 角色名 数量
+@luac script.cmd.gm.addpet 角色名 模板ID
+@luac script.cmd.gm.setlevelpass 角色名 等级
+@luac script.cmd.gm.sendmail 角色名 物品ID 数量
+@luac script.cmd.gm.addap 角色名 数量
+@luac script.cmd.gm.costap 角色名 数量
+@luac script.cmd.gm.addpvptimes 角色名 数量
+@luac script.cmd.gm.addrepute 角色名 数量
+@luac script.cmd.gm.addpvppoints 角色名 数量
+@luac script.cmd.gm.costpvptimes 角色名 数量
+@luac script.cmd.gm.pay 角色名 充值产品ID
+
+@cmd additem 角色名 模板ID 数量
+@cmd addexp 角色名 数量
+@cmd addmoney 角色名 数量
+@cmd submoney 角色名 数量
+@cmd addcash 角色名 数量
+@cmd addnoncash 角色名 数量
+@cmd subcash 角色名 数量
+@cmd subnoncash 角色名 数量
+@cmd addep 角色名 数量
+@cmd costep 角色名 数量
+@cmd setepboughtcount 角色名 数量
+@cmd addpet 角色名 模板ID
+@cmd setitemboughtcount 角色名 物品ID 数量
+@cmd finishdayquest 角色名 任务类型ID 完成次数
+@cmd addrmb 角色名 RMB数量(用以计算VIP等级，即VIP经验) [徽章数量](可以不填，默认RMB数量*10)
+@cmd resetepreceive 角色名
+@cmd setgmlevel 角色名 等级
+@cmd setlevelpass 角色名 关卡id
+@cmd addskillpoint 角色名 点数
+@cmd sendmail 角色名 物品ID 数量
+@cmd addap 角色名 数量
+@cmd costap 角色名 数量
+@cmd addpvptimes 角色名 数量
+@cmd addrepute 角色名 数量
+@cmd addpvppoints 角色名 数量
+@cmd costpvptimes 角色名 数量
+@cmd pay 角色名 充值产品ID
+
+@scmd additem 模板ID 数量
+@scmd addexp 数量
+@scmd addmoney 数量
+@scmd submoney 数量
+@scmd addcash 数量
+@scmd addnoncash 数量
+@scmd subcash 数量
+@scmd subnoncash 数量
+@scmd addep 数量
+@scmd costep 数量
+@scmd setepboughtcount 数量
+@scmd setitemboughtcount 物品ID 数量
+@scmd finishdayquest 任务类型ID 完成次数
+@scmd addrmb RMB数量(用以计算VIP等级，即VIP经验) [徽章数量](可以不填，默认RMB数量*10)
+@scmd resetepreceive
+@scmd addpet 模板ID
+@scmd setlevelpass 关卡id
+@scmd addskillpoint 点数
+@scmd sendmail 物品ID 数量
+@scmd addap 数量
+@scmd costap 数量
+@scmd addpvptimes 数量
+@scmd addrepute 数量
+@scmd addpvppoints 数量
+@scmd costpvptimes 数量
+@scmd pay 充值产品ID
+
+@luareload
+
+@luac script.item.upitem.upitemper 角色名 等级

@@ -1,0 +1,5 @@
+<config>
+	<connection mode="listen">
+		<item ip="127.0.0.1" port="8000" recvbuf="81920" sendbuf="524288" maxlink="1000" maxid="6144" />
+	</connection>
+</config>

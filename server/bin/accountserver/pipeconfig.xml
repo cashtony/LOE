@@ -1,0 +1,6 @@
+<config>
+	<connections>
+		<server id="1-1-11-1" />
+		<connection mode="listen" localip="127.0.0.1" localport="8802" recvbuf="655360" sendbuf="655360" />
+	</connections>
+</config>

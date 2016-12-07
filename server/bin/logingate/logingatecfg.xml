@@ -1,0 +1,5 @@
+<config>
+	<privatekey file="lg_privatekey.dat" /> <!--RSA private key file-->
+	<Listen clilistenip="127.0.0.1" clilistenport="8000" clilistenrecvbuf="4096" clilistensendbuf="4096" />
+	<timeout active="0" value="35" /> <!--Time out value of client connection (second as unit)-->
+</config>

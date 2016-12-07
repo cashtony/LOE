@@ -1,0 +1,6 @@
+Index,Repute,RewardItems.i1.ItemID,RewardItems.i1.Count,RewardItems.i2.ItemID,RewardItems.i2.Count,RewardItems.i3.ItemID,RewardItems.i3.Count,RewardItems.i4.ItemID,RewardItems.i4.Count,RewardItems.i5.ItemID,RewardItems.i5.Count
+10001,10,100,50000,0,0,0,0,0,0,0,0
+10002,20,100,80000,0,0,0,0,0,0,0,0
+10003,30,101,50,0,0,0,0,0,0,0,0
+10004,40,100,120000,0,0,0,0,0,0,0,0
+10005,50,101,100,0,0,0,0,0,0,0,0
