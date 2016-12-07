@@ -1,0 +1,2410 @@
+<?xml version="1.0" encoding="gb2312"?>
+<coder name="HeaderProto" version="1">
+    <defines>
+
+        <!-- ==================Begin the definition of agent ===================== -->
+        <define name="MAX_SERVICENAME_LENGTH"   value="16" />
+        <define name="MAX_SERVICEPARAM_LENGTH"  value="128" />
+        <define name="MAX_PLUGINPACKET_LENGTH"  value="10240" />
+        <!-- ==================End the definition of agent ===================== -->
+
+        <define name="MAX_TRANS_SKILL_NUM"        value="100" />
+        <define name="MAX_ERROR_STRING"        value="4096" />
+        <define name="MAX_PET_UP_LEVEL"        value="120" />
+        <define name="MAX_GEM_COUNT"        value="3" />
+        <define name="MAX_PET_BAG_COUNT"        value="210" />
+        <define name="MAX_PET_EQUIP_COUNT"        value="3" />
+        <define name="MAX_ITEM_COUNT"        value="200" />
+        <define name="MAX_SUIT_ITEM_COUNT"        value="20" />
+        <define name="MAX_ITEM_UP_USE_COUNT"        value="6" />
+        <define name="MAX_PET_MT_ROLE_LEVEL"        value="20" />
+
+        <define name="MAX_PROD_ITEM_COUNT"            value="5" />
+        <define name="MAX_EP_COUNT"        value="1000" />
+
+        <define name="MAX_MONEY"        value="1000000000" />
+        <define name="MAX_CASH"         value="500000000" />
+        <define name="MAX_NONCASH"      value="500000000" />
+        <define name="MAX_ALLCASH"      value="(MAX_CASH + MAX_NONCASH)" />
+
+        <define name="INVALID_MSG_ID"             value="0" />
+        <define name="SWIM_STATE_NEED_WATER_DEPTH"  value="1500" />
+        <define name="ACCOUNT_LEN"                value="21" desc="账号名的最大长度(PTID或DigtiID)" />
+        <define name="PTID_LEN"                   value="21" desc="PTID的最大长度" />
+        <define name="ROLE_NAME_LEN"              value="21" desc="角色名的最大长度" />
+        <define name="PASSWORD_LEN"               value="30" desc="世界描述的最大长度" />
+        <define name="ITEM_NAME_LEN"              value="61" desc="物品名的最大长度" />
+        <define name="DESCRIPTION_LEN"            value="255" desc="描述长度" />
+        <define name="MAX_SKILL_COOLDOWN_SIZE"    value="200" desc="一次发送的技能cd冷却信息最大数量" />
+        <define name="MAX_SCENE_NAME_LEN"         value="12" desc="场RankType景名长度" />
+        <define name="ACTIVE_ROLE_NUM"            value="4" desc="活跃角色的最大个数" />
+        <define name="AVATAR_LEN"                 value="8" />
+        <define name="ROLE_MALE"                  value="0" />
+        <define name="ROLE_FEMALE"                value="1" />
+        <define name="MAX_INSTANCED_COUNT"        value="20" desc="角色身上所有副本ID的最大数目" />
+        
+        <!-- 公会相关 开始 -->
+        <define name="MAX_GUILD_NAME_LEN"           value="21" desc="公会名称长度" />
+        <define name="MAX_GUILD_LIST_PER_PAGE"      value="100" desc="公会查询时一页最多返回数量" />
+        <define name="MAX_GUILD_AIM_LEN"            value="120" desc="公会宗旨长度(目前50个汉字)" />
+        <define name="MAX_GUILD_NOTICE_LEN"         value="120" desc="公会公告长度(目前50个汉字)" />
+        <define name="MAX_GUILD_LOG_COUNT"          value="100" desc="公会日志数量(目前100条)" />
+        <define name="MAX_GUILD_MEMBER_COUNT"       value="100" desc="最大公会成员数" />
+        <define name="MAX_GUILD_ENTER_COUNT"        value="50" desc="公会入会最大申请数" />
+        <!-- 公会相关 结束 -->
+
+        <define name="MAX_MESSAGE_LEN"            value="4096" />
+        <define name="MAX_MSG_CONTENT_LEN"        value="4096" />
+        <define name="MAX_LINK_SIZE"              value="4096" />
+
+        <define name="MAX_XMLDATA_COUNT"          value="100000" />
+
+        <define name="MAX_LEVEL_COUNT"            value="512" desc="游戏内总的关卡数量上限"/>
+        <define name="MAX_BATTLE_COUNT"           value="64" desc="游戏内总的战役数量上限"/>
+        <define name="MAX_BATTLE_BOX_COUNT"       value="256" desc="游戏内总的战役宝箱数量上限"/>
+        <define name="MAX_LEVEL_SELECT_CARD_COUNT"  value="5" desc="关卡获得的宝箱数量上限"/>
+        <define name="MAX_SCENE_NAME"             value="36" />
+        <define name="MAX_TASK_ITEM_NUM"          value="20" />
+        <define name="MAX_LOOT_ITEM_NUM"          value="20" />
+        <define name="ROLE_LOOT_ALL_ITEM"         value="255" />
+        <define name="MAX_XML_LEN"                value="40960" />
+        <define name="MAX_JSON_LEN"                value="10240" />
+        <define name="MAX_BIGXML_LEN"             value="204800" />
+        <define name="WORLD_NUM"                  value="100" />
+        <define name="HEAVEN_EXP_WORLD_NUM"       value="100" desc="境界获取修炼值的最大世界数目" />
+        <define name="MAX_SEARCHCONTENT_LEN"      value="17" />
+        <define name="MAX_MOUNT_COUNT"            value="255" desc="持有的坐骑最大数" />
+        <define name="MAX_SERVER_NAME_LEN"        value="32" desc="服务器名字最大长度" />
+        <define name="MAX_SERVER_DESC_LEN"        value="295" desc="服务器描述信息最大长度" />
+        <define name="MAX_SERVER_STATE_LEN"       value="196" desc="服务器状态信息最大长度" />
+        <define name="MAX_WORLDCORERANK_COUNT"    value="100" desc="服务器积分排名的最大数目" />
+
+        <define name="MAX_BAG_ITEM_NUM"           value="108" desc="背包物品的最大数目" />
+        <define name="MAX_CREATE_WORLD_BAG_ITEM_NUM" value="148" desc="创世背包物品的最大数目" />
+        <define name="MAX_EQUIP_ITEM_NUM"         value="10" desc="装备物品的最大数目" />
+        <define name="MAX_EQUIPANDBAG_ITEM_NUM"   value="(MAX_BAG_ITEM_NUM+MAX_EQUIP_ITEM_NUM)" desc="装备物品的最大数目" />
+
+        <define name="MAX_MOUNT_EQUIP_ITEM_NUM"   value="4" desc=" 坐骑装备物品最大数目" />
+        <define name="MAX_ITEM_DESC_LEN"          value="64" desc="物品描述最大长度" />
+        <define name="MAX_BANK_ITEM_NUM"          value="144" desc="银行物品的最大数目" />
+        <define name="MAX_SEND_ITEM_NUM"          value="200" desc="最大背包发送物品数目" />
+        <define name="MAX_ITEM_HOLE_NUM"          value="3" desc="物品带洞的最大数目" />
+        <define name="MAX_CHEST_LOOT_NUM"         value="5" desc="开箱子得物品最大数目" />
+        <define name="INVALID_EXINFO_INDEX"       value="255" desc="无效的物品附加信息位置" />
+        <define name="INVALID_MAKER_INFO_INDEX"   value="255" desc="无效的制造者信息位置" />
+        <define name="SELL_COST_MAX_COUNT"        value="1" desc="买东西花费数量" />
+        <define name="MAX_NPC_WARE_COUNT"         value="50" desc="NPC买卖最大数量" />
+        <define name="MAX_BUYBACK_COUNT"           value="24" desc="NPC玩家回购物品最大数目最大数量" />
+        <define name="MAX_EXCHANGE_SIZE"          value="8" desc="玩家交易物品最大数量" />
+        <define name="MAX_EQUIP_HEAD"             value="8" desc="装备最大字头数" />
+
+        <define name="ITEM_EX_TYPE_EQUIP"         value="0" desc="物品额外属性装备" />
+        <define name="ITEM_EX_TYPE_LOOT"          value="1" desc="物品额外属性拾取" />
+
+        <!-- 物品额外属性任务打包 -->
+        <define name="ITEM_EX_TYPE_NULL"          value="101" desc="物品额外属性任务打包" />
+        <define name="BATTLE_TROPHY_CLASS_MAX"    value="8" desc="战场战利品种类最大数目" />
+        <define name="MAX_WONDERSTRING_LEN"       value="128" desc="灵境字符串配置" />
+        <define name="MAX_MOVE_INCREASE_LEN"      value="64" />
+
+        <define name="SERVERSTATE_BIT_IS_QUEUE"   value="(1&lt;&lt;0)" desc="SGameServerInfo中byServerState。表示是否在排队中" />
+
+        <define name="SQL_SELECT"                 value="1" />
+        <define name="SQL_UPDATE"                 value="2" />
+        <define name="SQL_UPDATE_NORSP"           value="3" />
+        <define name="SQL_INSERT"                 value="4" />
+        <define name="SQL_DELETE"                 value="5" />
+        <define name="SQL_LOCK"                   value="6" />
+        <define name="SQL_UNLOCK"                 value="7" />
+        <define name="OPT_BOTH"                   value="0" />
+        <define name="OPT_MEMORY"                 value="1" />
+        <define name="OPT_DB"                     value="2" />
+
+        <define name="MAX_BLOB_LEN"               value="4096" />
+        <define name="MAX_BIGBLOB_LEN"            value="20480" />
+        <define name="MAX_MEDIUMBLOB_LEN"         value="51200" />
+        <define name="MAX_BIG_MORE_BLOB_LEN"      value="30720" />
+        <define name="MAX_EXEBIGBLOB_LEN"         value="102400" />
+        <define name="MAX_ROLE_ITEM_COUNT"        value="200" desc="角色物品上限" />
+        <define name="MIN_ROLE_ITEM_COUNT"        value="110" desc="角色物品下限" />
+
+        <define name="MAX_PET_ITEM_COUNT"         value="100" desc="宠物物品上限"/>
+        <define name="MAX_PET_COUNT"              value="110" />
+        <define name="MAX_PET_RECORD_COUNT"       value="1000" />
+        <!-- 协议包大小 -->
+        <define name="MAX_PACKET_LEN"             value="(2 * 1024 * 1024)" />
+		<!-- 世界聊天冷却时间 ms -->
+		<define name="WORLD_CHAT_COOLDOWN_TIME_MS"    value="(2 * 60 * 1000)" />
+		<define name="WORLD_CHAT_LEVEL_LIMIT"    value="20" />
+        <!-- 广播参数-->
+        <define name="TS_BROADCAST_ID_COUNT"      value="4096" />
+        <define name="TS_BROADCAST_LEFT_SIZE"     value="(TS_BROADCAST_ID_COUNT * 8 + 1024)" />
+        <define name="TS_BROADCAST_MSG_SIZE"      value="(MAX_PACKET_LEN - (TS_BROADCAST_LEFT_SIZE))" />
+        <define name="MAX_FRIENDS_COUNT"          value="50" />
+        <define name="MAX_FRIENDS_COUNT_PER_PAGE" value="20" />
+        <define name="MAX_FRIENDS_PET_COUNT"      value="3" />
+        <define name="MAX_FRIENDS_INVITE_COUNT"   value="30" />
+        <define name="MAX_FRIENDASSIST_COUNT"     value="30" />
+        <define name="MAX_BATTLE_PET_COUNT"       value="3" />
+
+        <define name="MAX_FRIEND_COUNT"           value="50"/>
+        <define name="MAX_ABYSS_OPEN_COUNT"       value="50"/>
+        <define name="MAX_XABYSS_RECORD_COUNT"    value="20"/>
+        <define name="MAX_ABYSS_NAME_STRING_COUNT"    value="1024"/>
+        
+        <define name="MAX_MAIL_TITLE_LEN"         value="100" />
+        <define name="MAX_MAIL_CONTENT_LEN"       value="400" />
+        <define name="MAX_MAIL_ITEM_COUNT"        value="5" />
+        <define name="MAX_MAIL_COUNT"             value="100" />
+        <define name="MAX_RANK_ROLE_COUNT"        value="10000" />
+        <define name="MAX_RANK_PAGE_COUNT"        value="50" />
+
+        <!-- 商城 -->
+        <define name="MAX_SHOP_BUY_PET_RESULT_COUNT" value="255" desc="商城一次购买战魂获得战魂最大数量"/>
+        <define name="MAX_SHOP_GOODS_COUNT" value="100" desc="服务器发送玩家限购商城物品最大数量"/>
+        <define name="MAX_SHOP_BUY_ITEM_COUNT" value="100" desc="商城购买一次道具获取物品最大数量"/>
+        <define name="MAX_SHOP_SECRET_ITEM_COUNT" value="6" desc="商城神秘商店物品最大数量"/>
+
+        <define name="MAX_GIFT_VIP_COUNT" value="31" desc="VIP每月补领最大值(不会超过一月最大天数31)"/>
+        <define name="MAX_GIFT_LEVEL_COUNT" value="100" desc="等级成长奖励已经领取的最大值"/>
+        <define name="MAX_GIFT_LEVEL_ITEM_COUNT" value="100" desc="等级成长奖励最大物品数量"/>
+        <define name="MAX_DAY_QUEST_COUNT" value="100" desc="每日任务最大数量"/>
+        <define name="MAX_DAY_QUEST_BOX_COUNT" value="100" desc="每日任务礼包最大数量"/>
+        <define name="MAX_JIHUOMA_LEN" value="100" desc="激活码领奖.激活码最大长度"/>
+        <define name="MAX_FOODS_COUNT" value="10" desc="每日领体力.最大领体力数量"/>
+
+        <define name="MAX_MONTHCARD_COUNT" value="100" desc="付费.最大月卡数量"/>
+
+        <define name="MAX_PVP_MATCH_COUNT" value="5" />
+        <define name="MAX_PVP_RANK_COUNT" value="10000" />
+        <define name="MAX_PVP_ROLE_INFO_STRING_COUNT"        value="409600" desc="pvp角色所有信息 "/>
+        
+        <define name="MAX_WB_RANK_COUNT"        value="10" desc="世界boss排行人数 "/>
+        <define name="MAX_WB_ATK_COUNT"        value="10000" desc="世界boss人数 "/>
+        <define name="MAX_PVP_ROBOT_BUFF_COUNT"        value="3" desc="机器人buff个数 "/>
+        <define name="MAX_PVP_ROBOT_SKILL_COUNT"        value="25" desc="机器人skill个数 "/>
+        
+    </defines>
+
+    <enums>
+        <enum name="EGTLSQuerySceneType"  desc="gt向ls申请场景的类型">
+            <item name="QUERY_TYPE_LOGON" value="0" desc=" 上线请求 " />
+            <item name="QUERY_TYPE_SWITCH_SCENE" value="1" desc="跳场景不指定实例id 包括跳副本(组队进副本) " />
+            <item name="QUERY_TYPE_SWITCH_SCENE_INSTANCE" value="2" desc="跳线指定实例 " />
+        </enum>
+
+        <enum name="EEnterGameType"  desc="进入gs的类型">
+            <item name="ENTER_GAME_TYPE_LOGON" value="0" desc=" 上线 " />
+            <item name="ENTER_GAME_TYPE_SWITCH_SCENE" value="1" desc="跳场景 " />
+        </enum>
+
+        <enum name="ESceneType"  desc="场景的类型">
+            <item name="SCENE_TYPE_NORMAL" value="0" desc=" 普通场景 " />
+            <item name="QUERY_TYPE_INSTANCE" value="1" desc="副本 " />
+        </enum>
+
+        <enum name="EErrorType">
+            <item name="ERROR_TYPE_COMMON" value="0" desc=" 公用 " />
+            <item name="ERROR_TYPE_DEBUG" value="1" desc=" 调试 " />
+            <item name="ERROR_TYPE_SHOWBOX" value="2" desc=" 弹框显示 " />
+        </enum>
+        <enum name="ERankType">
+            <item name="RANKTYPE_LEVEL" value="0" desc=" 等级排行 " />
+            <item name="RANKTYPE_ATTACK" value="1" desc=" 战力排行 " />
+            <item name="RANKTYPE_PVPWINS" value="2" desc=" pvp胜场 " />
+            <item name="RANKTYPE_PVPREPUTE" value="3" desc=" pvp声望 " />
+        </enum>
+        <enum name="EMergeType">
+            <item name="MERGETYPE_PET_SUBCARD" value="0" desc=" 宠物碎片 " />
+        </enum>
+
+		<enum name="EChatType">
+		    <item name="CHAT_TYPE_SYSTEM" value="0" desc=" 系统信息 gm工具或者有gm权限的用户发送 " />
+            <item name="CHAT_TYPE_WORLD" value="1" desc=" 世界聊天 " />
+            <item name="CHAT_TYPE_GUILD" value="2" desc=" 公会聊天 " />
+			<item name="CHAT_TYPE_GROUP" value="3" desc=" 组队聊天 " />
+			<item name="CHAT_TYPE_PRIVATE" value="4" desc=" 私聊 " />
+			<item name="CHAT_TYPE_MAX" value="4" desc=" 最大值 " />
+        </enum>
+
+        <enum name="ESpecialItemID">
+            <item name="SPECIALITEMID_nonMoney" value="1" desc="金钱 " />
+            <item name="SPECIALITEMID_nonCash" value="2" desc="绑定徽章 " />
+            <item name="SPECIALITEMID_cash" value="3" desc="徽章 " />
+        </enum>
+
+        <enum name="EPetEquipPos">
+            <item name="PET_EQUIP_POS1" value="0" desc=" POS1 " />
+            <item name="PET_EQUIP_POS2" value="1" desc=" POS2 " />
+            <item name="PET_EQUIP_POS3" value="2" desc=" POS3 " />
+            <item name="PET_EQUIP_MAX" value="" desc=" MAX " />
+        </enum>
+
+        <enum name="EPetJob">
+            <item name="PET_JOB_NONE" value="0" desc=" 无职业 " />
+
+            <item name="PET_JOB_Warrior" value="1" desc=" 战士 基础 " />
+            <item name="PET_JOB_Magic" value="4" desc=" 法师 基础 " />
+            <item name="PET_JOB_Rogue" value="7" desc=" 游侠 基础 " />
+            <item name="PET_JOB_Minister" value="10" desc=" 牧师 基础 " />
+        </enum>
+
+        <enum name="ERoleJob">
+            <item name="ROLE_JOB_NONE" value="0" desc=" 无职业 " />
+
+            <item name="ROLE_JOB_Warrior" value="1" desc=" 战士 基础 " />
+            <item name="ROLE_JOB_Berserker" value="2" desc=" 狂战士 " />
+            <item name="ROLE_JOB_Knight" value="3" desc=" 无畏骑士 " />
+
+            <item name="ROLE_JOB_Magic" value="4" desc=" 法师 基础 " />
+            <item name="ROLE_JOB_Wizard" value="5" desc=" 巫术师 " />
+            <item name="ROLE_JOB_Warlock" value="6" desc=" 魔导师 " />
+
+            <item name="ROLE_JOB_Rogue" value="7" desc=" 游侠 基础 " />
+            <item name="ROLE_JOB_Assassin" value="8" desc=" 刺客 " />
+            <item name="ROLE_JOB_Gunner" value="9" desc=" 重炮 " />
+
+            <item name="ROLE_JOB_Minister" value="10" desc=" 牧师 基础 " />
+            <item name="ROLE_JOB_Priest" value="11" desc=" 主教 " />
+            <item name="ROLE_JOB_Pastor" value="12" desc=" 战斗牧师 " />
+
+            <item name="ROLE_JOB_Max" />
+
+            <item name="ROLE_JOB_FLAG_NONE" value="1 << ROLE_JOB_NONE" desc=" 无职业 " />
+
+            <item name="ROLE_JOB_FLAG_Warrior" value="1 << ROLE_JOB_Warrior" desc=" 战士 基础 " />
+            <item name="ROLE_JOB_FLAG_Berserker" value="1 << ROLE_JOB_Berserker" desc=" 狂战士 " />
+            <item name="ROLE_JOB_FLAG_Knight" value="1 << ROLE_JOB_Knight" desc=" 无畏骑士 " />
+
+            <item name="ROLE_JOB_FLAG_Magic" value="1 << ROLE_JOB_Magic" desc=" 法师 基础 " />
+            <item name="ROLE_JOB_FLAG_Wizard" value="1 << ROLE_JOB_Wizard" desc=" 巫术师 " />
+            <item name="ROLE_JOB_FLAG_Warlock" value="1 << ROLE_JOB_Warlock" desc=" 魔导师 " />
+
+            <item name="ROLE_JOB_FLAG_Rogue" value="1 << ROLE_JOB_Rogue" desc=" 游侠 基础 " />
+            <item name="ROLE_JOB_FLAG_Assassin" value="1 << ROLE_JOB_Assassin" desc=" 刺客 " />
+            <item name="ROLE_JOB_FLAG_Gunner" value="1 << ROLE_JOB_Gunner" desc=" 重炮 " />
+
+            <item name="ROLE_JOB_FLAG_Minister" value="1 << ROLE_JOB_Minister" desc=" 牧师 基础 " />
+            <item name="ROLE_JOB_FLAG_Priest" value="1 << ROLE_JOB_Priest" desc=" 主教 " />
+            <item name="ROLE_JOB_FLAG_Pastor" value="1 << ROLE_JOB_Pastor" desc=" 战斗牧师 " />
+
+        </enum>
+
+        <enum name="EFBHard">
+            <item name="EFBHard_Normal" value="1" desc="普通副本" />
+            <item name="EFBHard_Outstanding" desc="精英副本" />
+            <item name="EFBHard_Expert" desc="专家副本" />
+            <item name="EFBHard_Other" desc="其它副本" />
+        </enum>
+
+        <enum name="ECalcType">
+            <item name="CALC_BASE" value="0" desc=" 基础 " />
+            <item name="CALC_EX" desc=" 扩展 " />
+            <item name="CALC_TOTAL" desc=" 总和 " />
+            <item name="CALC_MAX" desc=" max " />
+        </enum>
+
+        <enum name="EItemObjType">
+            <item name="ITEM_OBJ_ROLE_BASE" value="0" desc=" 角色基础背包 " />
+            <item name="ITEM_OBJ_PET_BASE" desc=" 宠物基础背包 " />
+        </enum>
+
+        <enum name="EProperty">
+            <item name="PROPERTY_BaseBegin" value="0" desc=" 一级属性开始 " />
+            <item name="PROPERTY_Str" value="0" desc=" 力量 " />
+            <item name="PROPERTY_Int" value="1" desc=" 智力 " />
+            <item name="PROPERTY_Dex" value="2" desc=" 敏捷 " />
+            <item name="PROPERTY_Sta" value="3" desc=" 体力 " />
+            <item name="PROPERTY_Fai" value="4" desc=" 信念 " />
+            <item name="PROPERTY_BaseMax" desc=" 一级属性最大值 " />
+
+            <item name="PROPERTY_MaxHP"  value="5" desc=" 血量上限 " />
+            <item name="PROPERTY_MaxSP" value="6" desc=" 技力上限 " />
+
+            <item name="PROPERTY_HPTick" value="7" desc=" 每轮回复血量 " />
+            <item name="PROPERTY_SPTick" value="8" desc=" 每轮回复技力量 " />
+
+            <item name="PROPERTY_AtkDmgMin" value="9" desc=" 当前伤害下限 " />
+            <item name="PROPERTY_AtkDmgMax" value="10" desc=" 当前伤害上限 " />
+            <item name="PROPERTY_Def" value="11" desc=" 当前防御 " />
+
+            <item name="PROPERTY_IceAtt" value="12" desc=" 冰属性攻击 " />
+            <item name="PROPERTY_FireAtt" value="13" desc=" 火属性攻击 " />
+            <item name="PROPERTY_PoisonAtt" value="14" desc=" 毒属性攻击 " />
+            <item name="PROPERTY_ThunderAtt" value="15" desc=" 雷属性攻击 " />
+            <item name="PROPERTY_IceDef" value="16" desc=" 冰属性抵抗 " />
+            <item name="PROPERTY_FireDef" value="17" desc=" 火属性抵抗 " />
+            <item name="PROPERTY_PoisonDef" value="18" desc=" 毒属性抵抗 " />
+            <item name="PROPERTY_ThunderDef" value="19" desc=" 雷属性抵抗 " />
+
+            <item name="PROPERTY_Pierce" value="20" desc=" 穿透点数 " />
+            <item name="PROPERTY_Hit" value="21" desc=" 命中点数 " />
+            <item name="PROPERTY_Dodge" value="22" desc=" 闪避点数 " />
+            <item name="PROPERTY_Cri" value="23" desc=" 致命一击点数 " />
+            <item name="PROPERTY_Flex" value="24" desc=" 韧性点数 " />
+
+            <item name="PROPERTY_CriDmg" value="25" desc=" 致命一击伤害系数 15000 = 1.5 " />
+            <item name="PROPERTY_CriDmgDef" value="26" desc=" 致命一击防御系数 正负 万分比  " />
+
+            <item name="PROPERTY_BodySize" value="27" desc=" 体型半径 mm " />
+            <item name="PROPERTY_AttSize" value="28" desc=" 攻击半径 mm  " />
+            <item name="PROPERTY_TableBaseMax" desc=" 能配置的最大值  " />
+
+            <item name="PROPERTY_AttSpeedModPer" value="29" desc=" 攻击加速百分比 " />
+            <item name="PROPERTY_MoveSpeedModPer" value="30" desc=" 移动加速百分比 " />
+
+            <item name="PROPERTY_PiercePer" value="31" desc=" 穿透百分比修正 正负 万分比 " />
+            <item name="PROPERTY_HitPer" value="32" desc=" 命中率修正  正负  万分比 " />
+            <item name="PROPERTY_DodgePer" value="33" desc=" 闪避率修正 正负  万分比 " />
+            <item name="PROPERTY_CriPer" value="34" desc=" 致命一击率修正 正负 万分比 " />
+            <item name="PROPERTY_FlexPer" value="35" desc=" 韧性率修正  正负 万分比  " />
+            <item name="PROPERTY_AttSpeed" value="36" desc=" 基础攻击速度 " />
+            <item name="PROPERTY_MoveSpeed" value="37" desc=" 基础移动速度 1秒移动多少mm " />
+            <item name="PROPERTY_MaxEP" value="38" desc=" 最大活力值 " />
+            <item name="PROPERTY_MaxAP" value="39" desc=" 协助点数最大值  " />
+            <item name="PROPERTY_ExpPer" value="40" desc=" 经验值 正负 万分比 " />
+            <item name="PROPERTY_MoneyPer" value="41" desc=" 金钱 正负 万分比 " />
+            <item name="PROPERTY_CanModMax" desc=" 可以被其他模块修正的属性枚举最大值  " />
+            
+            <item name="PROPERTY_HP"  value="64" desc=" 当前血量 " />
+            <item name="PROPERTY_SP" value="65" desc=" 当前技力 " />
+
+            <item name="PROPERTY_Money" value="66" desc=" 游戏币 " />
+            <item name="PROPERTY_BindingBadge" value="67" desc=" 绑定徽章 " />
+            <item name="PROPERTY_Badge" value="68" desc=" 徽章  " />
+
+            <item name="PROPERTY_MakeDmg" value="69" desc=" 造成的伤害  " />
+            <item name="PROPERTY_MakeAtt" value="70" desc=" 造成的物理伤害  " />
+            <item name="PROPERTY_MakeIce" value="71" desc=" 造成的寒冰伤害  " />
+            <item name="PROPERTY_MakeFire" value="72" desc=" 造成的火焰伤害  " />
+            <item name="PROPERTY_MakePoison" value="73" desc=" 造成的毒气伤害  " />
+            <item name="PROPERTY_MakeThunder" value="74" desc=" 造成的雷电伤害  " />
+
+            <item name="PROPERTY_MakeShufu" value="75" desc=" 对处于束缚状态中的怪物造成的伤害  " />
+            <item name="PROPERTY_MakeHunshui" value="76" desc=" 对处于昏睡状态中的怪物造成的伤害  " />
+            <item name="PROPERTY_MakeHunmi" value="77" desc=" 对处于昏迷状态中的怪物造成的伤害  " />
+            <item name="PROPERTY_MakeDef" value="78" desc=" 对处于昏迷状态中的怪物造成的伤害  " />
+
+            <item name="PROPERTY_Max" desc=" 最大值  " />
+        </enum>
+
+        <enum name="ESummonObjectPro" desc="召唤物属性枚举 ">
+            <item name="SUMMONOBJECT_PRO_TargetType" value="0"  />
+            <item name="SUMMONOBJECT_PRO_HitPer" />
+            <item name="SUMMONOBJECT_PRO_CriticalPer"  />
+            <item name="SUMMONOBJECT_PRO_CriticalDmgPer" />
+            <item name="SUMMONOBJECT_PRO_AoeAimNum"  />
+            <item name="SUMMONOBJECT_PRO_Mode" />
+            <item name="SUMMONOBJECT_PRO_PeriodTime"  />
+            <item name="SUMMONOBJECT_PRO_Count"  />
+            <item name="SUMMONOBJECT_PRO_AoeArea" />
+            <item name="SUMMONOBJECT_PRO_AoeAreaType"  />
+            <item name="SUMMONOBJECT_PRO_AoeAreaData" />
+            <item name="SUMMONOBJECT_PRO_IgnoreDef"  />
+            <item name="SUMMONOBJECT_PRO_IgnoreDefendAmount"  />
+            <item name="SUMMONOBJECT_PRO_DamagePer" />
+            <item name="SUMMONOBJECT_PRO_BodyType_Small"  />
+            <item name="SUMMONOBJECT_PRO_BodyType_Middle" />
+            <item name="SUMMONOBJECT_PRO_BodyType_Big"  />
+            <item name="SUMMONOBJECT_PRO_BodyType_Boss"  />
+            <item name="SUMMONOBJECT_PRO_SkillEffect" />
+            <item name="SUMMONOBJECT_PRO_Dmg"  />
+            <item name="SUMMONOBJECT_PRO_AtkPowerPer" />
+            <item name="SUMMONOBJECT_PRO_Skilleffect0"  />
+            <item name="SUMMONOBJECT_PRO_Skilleffect1"  />
+            <item name="SUMMONOBJECT_PRO_Skilleffect2" />
+            <item name="SUMMONOBJECT_PRO_Skilleffect3"  />
+            <item name="SUMMONOBJECT_PRO_Skilleffect4" />
+            <item name="SUMMONOBJECT_PRO_Skilleffect5"  />
+            <item name="SUMMONOBJECT_PRO_Skilleffect6"  />
+            <item name="SUMMONOBJECT_PRO_Skilleffect7"  />
+            <item name="SUMMONOBJECT_PRO_MoveSpeed" />
+            <item name="SUMMONOBJECT_PRO_LifeTime"  />
+        </enum>
+
+        <enum name="EGenderType" desc="性别 ">
+            <item name="GENDER_TYPE_m" value="0" desc="男性 " />
+            <item name="GENDER_TYPE_w" value="1" desc="女性 " />
+            <item name="GENDER_TYPE_max"  desc="无效值 " />
+        </enum>
+
+        <enum name="ESkillShape" desc="技能形态 ">
+            <item name="SKILL_SHAPE_ZHANQIE" value="0" desc="斩切 " />
+            <item name="SKILL_SHAPE_SHOUHU"  desc="守护 " />
+            <item name="SKILL_SHAPE_HUIFU"  desc="恢复 " />
+            <item name="SKILL_SHAPE_POHUAI"  desc="破坏 " />
+            <item name="SKILL_SHAPE_MOFA"  desc="魔法 " />
+            <item name="SKILL_SHAPE_AOSHU"  desc="奥术 " />
+            <item name="SKILL_SHAPE_JIQIAO"  desc="技巧 " />
+            <item name="SKILL_SHAPE_XUNJIE"  desc="迅捷 " />
+            <item name="SKILL_SHAPE_SHENSHENG"  desc="神圣 " />
+            <item name="SKILL_SHAPE_MAX"  desc="最大值 " />
+
+            <item name="SKILL_SHAPE_FLAG_ZHANQIE" value="1 << SKILL_SHAPE_ZHANQIE" desc="斩切 " />
+            <item name="SKILL_SHAPE_FLAG_SHOUHU" value="1 << SKILL_SHAPE_SHOUHU" desc="守护 " />
+            <item name="SKILL_SHAPE_FLAG_HUIFU" value="1 << SKILL_SHAPE_HUIFU" desc="恢复 " />
+            <item name="SKILL_SHAPE_FLAG_POHUAI" value="1 << SKILL_SHAPE_POHUAI" desc="破坏 " />
+            <item name="SKILL_SHAPE_FLAG_MOFA" value="1 << SKILL_SHAPE_MOFA" desc="魔法 " />
+            <item name="SKILL_SHAPE_FLAG_AOSHU" value="1 << SKILL_SHAPE_AOSHU" desc="奥术 " />
+            <item name="SKILL_SHAPE_FLAG_JIQIAO" value="1 << SKILL_SHAPE_JIQIAO" desc="技巧 " />
+            <item name="SKILL_SHAPE_FLAG_XUNJIE" value="1 << SKILL_SHAPE_XUNJIE" desc="迅捷 " />
+            <item name="SKILL_SHAPE_FLAG_SHENSHENG" value="1 << SKILL_SHAPE_SHENSHENG" desc="神圣 " />
+        </enum>
+        <enum name="EItemEnterType" desc="获取物品来源 ">
+            <item name="ITEM_ENTER_TYPE_DEFAULT" value="0" desc="默认值 " />
+            <item name="ITEM_ENTER_TYPE_UNEQUIP" value="1" desc="卸载 " />
+        </enum>
+        <enum name="EDamageProperty" desc="伤害属性 ">
+            <item name="DAMAGE_PROPERTY_PHY" value="0" desc="物理伤害 " />
+            <item name="DAMAGE_PROPERTY_ICE"  desc="冰属性伤害 " />
+            <item name="DAMAGE_PROPERTY_FIRE"  desc="火属性伤害 " />
+            <item name="DAMAGE_PROPERTY_POISON"  desc="毒属性伤害 " />
+            <item name="DAMAGE_PROPERTY_THUNDER"  desc="雷属性伤害 " />
+            <item name="DAMAGE_PROPERTY_NONE"  desc="无属性伤害 " />
+            <item name="DAMAGE_PROPERTY_MAX" desc="最大值 " />
+
+            <item name="DAMAGE_PROPERTY_FLAG_PHY" value="1 << DAMAGE_PROPERTY_PHY" desc="物理伤害 " />
+            <item name="DAMAGE_PROPERTY_FLAG_ICE" value="1 << DAMAGE_PROPERTY_ICE" desc="冰属性伤害 " />
+            <item name="DAMAGE_PROPERTY_FLAG_FIRE" value="1 << DAMAGE_PROPERTY_FIRE" desc="火属性伤害 " />
+            <item name="DAMAGE_PROPERTY_FLAG_POISON" value="1 << DAMAGE_PROPERTY_POISON" desc="毒属性伤害 " />
+            <item name="DAMAGE_PROPERTY_FLAG_THUNDER" value="1 << DAMAGE_PROPERTY_THUNDER" desc="雷属性伤害 " />
+            <item name="DAMAGE_PROPERTY_FLAG_NONE" value="1 << DAMAGE_PROPERTY_NONE" desc="无属性伤害 " />
+        </enum>
+
+        <enum name="ECreatureActionState" desc="生物被附加的状态 ">
+            <item name="CREATURE_ACTION_STATE_STAY" value="0" desc="束缚 不能移动，位移技能的位移无效 " />
+            <item name="CREATURE_ACTION_STATE_HOLD"  desc="昏睡 全禁止，被攻击就醒 " />
+            <item name="CREATURE_ACTION_STATE_STUN"  desc="昏迷 全禁止，被攻击也不醒 " />
+            <item name="CREATURE_ACTION_STATE_LIMIT_SKILL"  desc="禁魔 不能使用技能，包括普攻 " />
+            <item name="CREATURE_ACTION_STATE_UNBEAT"  desc="无敌状态 不受debuff和伤害和控制 " />
+            <item name="CREATURE_ACTION_STATE_KNOCKBACK"  desc="击退状态 全禁止，被攻击也不醒 " />
+            <item name="CREATURE_ACTION_STATE_MAX"  desc="有记数状态最大值 " />
+            <item name="CREATURE_ACTION_STATE_TELEPORT" value="CREATURE_ACTION_STATE_MAX" desc="瞬移状态 " />
+			<item name="CREATURE_ACTION_STATE_IDLE"  desc="静止状态 " />
+
+            <!-- 以下是flag -->
+            <item name="CREATURE_ACTION_STATE_FLAG_STAY" value="1 << CREATURE_ACTION_STATE_STAY" desc="束缚 不能移动，位移技能的位移无效 " />
+            <item name="CREATURE_ACTION_STATE_FLAG_HOLD" value="1 << CREATURE_ACTION_STATE_HOLD" desc="昏睡 全禁止，被攻击就醒 " />
+            <item name="CREATURE_ACTION_STATE_FLAG_STUN" value="1 << CREATURE_ACTION_STATE_STUN" desc="昏迷 全禁止，被攻击也不醒 " />
+            <item name="CREATURE_ACTION_STATE_FLAG_LIMIT_SKILL" value="1 << CREATURE_ACTION_STATE_LIMIT_SKILL" desc="禁魔 不能使用技能，包括普攻 " />
+            <item name="CREATURE_ACTION_STATE_FLAG_UNBEAT" value="1 << CREATURE_ACTION_STATE_UNBEAT" desc="无敌状态 不受debuff和伤害和控制 " />
+
+            <item name="CREATURE_ACTION_STATE_FLAG_TELEPORT" value="1 << CREATURE_ACTION_STATE_TELEPORT" desc="瞬移状态 " />
+			<item name="CREATURE_ACTION_STATE_FLAG_IDLE" value="1 << CREATURE_ACTION_STATE_IDLE" desc="静止状态 " />
+        </enum>
+
+        <enum name="ESkillObjType" desc="技能作用对象的类型 ">
+            <item name="SKILL_OBJ_SELF" value="0" desc="只能对自己使用 " />
+            <item name="SKILL_OBJ_TEAM"  desc="队员全体 " />
+            <item name="SKILL_OBJ_TEAM_EXCLOUD_SELF"  desc="队员,不包括自己 " />
+            <item name="SKILL_OBJ_FRIENDLY_ROLE"  desc="友好玩家,包括自己 " />
+            <item name="SKILL_OBJ_FRIENDLY"  desc="包括和自己没有敌对关系的所有对象,包括npc,自己 " />
+            <item name="SKILL_OBJ_ENEMY"  desc=" 所有敌对对象,怪物,玩家等 " />
+            <item name="SKILL_OBJ_ALL"  desc="所有对象 " />
+            <item name="SKILL_OBJ_ALL_EXCLOUD_SELF"  desc="所有对象,不包括自己 " />
+            <item name="SKILL_OBJ_MAX"  desc="最大值 " />
+        </enum>
+
+        <enum name="EAoeCenter" desc="Aoe中心类型 ">
+            <item name="AOE_CETER_FORMER" value="0" desc="中心不变 " />
+            <item name="AOE_CETER_FRONT"  desc="中心前方 " />
+            <item name="AOE_CETER_BACK"  desc="中心后方 " />
+        </enum>
+
+        <enum name="ESkillAreaType" desc="范围法术区域类型 ">
+            <item name="SKILL_AREA_TYPE_SINGLE" value="0" desc="单体法术 " />
+            <item name="SKILL_AREA_TYPE_ROUND"  desc="圆,附加Data无意义 " />
+            <item name="SKILL_AREA_TYPE_RECT"  desc="正方形,附加Data为正方形的边长的一半,单位毫米 " />
+            <item name="SKILL_AREA_TYPE_CROSS"  desc="十字,附加Data为直线宽度的一半,单位毫米 " />
+            <item name="SKILL_AREA_TYPE_X"  desc="X型,附加Data为直线宽度的一半,单位毫米 " />
+            <item name="SKILL_AREA_TYPE_FACE_ARC"  desc="正面扇型,附加Data为同施法者的朝向的夹角度数,0~180 " />
+            <item name="SKILL_AREA_TYPE_BACK_ARC"  desc="背面扇型,附加Data为同施法者的朝向的反向夹角度数,0~180 " />
+            <item name="SKILL_AREA_TYPE_FACE"  desc="正面直线,附加Data为直线宽度,单位毫米 " />
+            <item name="SKILL_AREA_TYPE_MAP"  desc="全地图,仅限于对玩家的AOE,所以会获取全地图的玩家ID " />
+            <item name="SKILL_AREA_TYPE_RING"  desc="环形 附加Data为内环的半径,单位毫米 " />
+
+            <item name="SKILL_AREA_TYPE_MAX"  desc="最大值，无效值 " />
+        </enum>
+
+        <enum name="EIgnoreDefendFlag" desc="防御忽略类型 ">
+            <item name="IGNORE_DEFEND_FLAG_NONE" value="0" desc="不忽略 " />
+            <item name="IGNORE_DEFEND_FLAG_phy" value="1" desc="忽略物理防御 " />
+            <item name="IGNORE_DEFEND_FLAG_IceDef" value="1 << 1" desc="忽略冰抗 " />
+            <item name="IGNORE_DEFEND_FLAG_FireDef" value="1 << 2" desc="忽略火抗 " />
+            <item name="IGNORE_DEFEND_FLAG_PoisonDef" value="1 << 3" desc="忽略毒抗 " />
+            <item name="IGNORE_DEFEND_FLAG_ThunderDef" value="1 << 4" desc="忽略雷抗 " />
+        </enum>
+
+        <enum name="ESkillEffect" desc="技能效果类型 ">
+            <item name="SKILL_EFFECT_DAMAGE_HP" value="0" desc="伤害HP " />
+            <item name="SKILL_EFFECT_DAMAGE_SP"  desc="伤害SP " />
+            <item name="SKILL_EFFECT_BALEFUL"  desc="有害魔法 在没有HP，SP效果的情况下指定 " />
+
+            <item name="SKILL_EFFECT_CURE_HP"  desc="治疗,恢复HP " />
+            <item name="SKILL_EFFECT_CURE_MP"  desc="治疗,恢复SP " />
+            <item name="SKILL_EFFECT_HELPFUL"  desc="有益魔法 在没有HP，SP效果的情况下指定 " />
+
+            <item name="SKILL_EFFECT_DAMAGE_OR_HEAL"  desc="对友方加血，对敌方减血 " />
+
+            <item name="SKILL_EFFECT_NONE"  desc="无直接效果 " />
+        </enum>
+
+        <enum name="EDamageType" desc="攻击伤害类型 ">
+            <item name="DAMAGE_TYPE_NONE" value="0" desc="无伤害 " />
+            <item name="DAMAGE_TYPE_COMMON"  desc="普通伤害 " />
+            <item name="DAMAGE_TYPE_DEADLINESS"  desc="致命伤害 " />
+        </enum>
+
+        <enum name="EDamageResult" desc="伤害结果类型 ">
+            <item name="DAMAGE_RESULT_ISDAMAGE" value="0" desc="伤害 " />
+            <item name="DAMAGE_RESULT_ISCURE"  desc="治疗 " />
+        </enum>
+
+        <enum name="EDamageBring" desc="伤害产生来源 ">
+            <item name="DAMAGE_BRING_SKILL" value="0" desc="技能攻击 " />
+            <item name="DAMAGE_BRING_BUFF"  desc="buff攻击 " />
+            <item name="DAMAGE_BRING_ITEM"  desc="药品作用 " />
+            <item name="DAMAGE_BRING_TRAP"  desc="机关陷阱作用 " />
+
+            <item name="DAMAGE_BRING_MAX"  desc="最大值 " />
+
+            <item name="DAMAGE_BRING_FLAG_SKILL" value="1 << DAMAGE_BRING_SKILL" desc="技能攻击 " />
+            <item name="DAMAGE_BRING_FLAG_BUFF" value="1 << DAMAGE_BRING_BUFF" desc="buff攻击 " />
+            <item name="DAMAGE_BRING_FLAG_ITEM" value="1 << DAMAGE_BRING_ITEM" desc="药品作用 " />
+            <item name="DAMAGE_BRING_FLAG_TRAP" value="1 << DAMAGE_BRING_TRAP" desc="机关陷阱作用 " />
+
+        </enum>
+
+        <enum name="ESkillTimingConditionType" desc="技能效果生效的时机 " >
+            <item name="SKILL_TIMING_CONDITION_TYPE_START" value="0" desc="表示技能释放即生效 " />
+            <item name="SKILL_TIMING_CONDITION_TYPE_END" desc="表示技能结束时生效 " />
+            <item name="SKILL_TIMING_CONDITION_TYPE_HIT" desc="每次Hit点生效一次 " />
+        </enum>
+
+        <enum name="ESkillEffectHitCondition" desc="技能效果生效条件 " >
+            <item name="SKILL_EFT_CONDITOION_ALWAYS" value="0" desc="无条件生效,一般针对自己,或者一些特殊情况,比如召唤 " />
+            <item name="SKILL_EFT_CONDITOION_HIT"  desc="命中目标后生效,群体技能必须命中一个目标, 命中目标后对目标或者施法者的效果 " />
+            <item name="SKILL_EFT_CONDITOION_DEADLINESS" desc="暴击后对目标或者对施法者的效果 " />
+            <item name="SKILL_EFT_CONDITOION_MISS" desc="未命中后生效,一般针对自己，攻击未命中后对自己或者对施法目标的效果 " />
+        </enum>
+
+        <enum name="ESkillEffectCountCondition" desc="表示是否每命中一个目标就生效一次 " >
+            <item name="SKILL_EFFECT_COUNT_CONDITION_ONCE" value="0" desc="表示仅生效一次 " />
+            <item name="SKILL_EFFECT_COUNT_CONDITION_MORE" desc="表示每命中一个目标生效一次 " />
+        </enum>
+
+        <enum name="ECheckBuffType" desc="检查BUFF类型 ">
+            <item name="CHECK_BUFF_NONE" value="0" desc="不检查 " />
+            <item name="CHECK_BUFF_CLASS"  desc="检查BUFF大类 " />
+            <item name="CHECK_BUFF_SUB_CLASS"  desc="检查BUFF小类 byClass = data / 10000; SubClassID = dwID % 10000" />
+            <item name="CHECK_BUFF_CLASS_ID"  desc="检查相应1级BUFFID " />
+            <item name="CHECK_BUFF_TEMPLATE_ID"  desc="检查相应BUFF模板ID " />
+            <item name="CHECK_BUFF_DAMAGE_PRO"  desc="检查buff的攻击属性 " />
+        </enum>
+
+        <enum name="EBuffClass" desc="buff大类别 ">
+            <item name="BUFF_CLASS_CONTROL" value="0" desc="控制类 " />
+            <item name="BUFF_CLASS_INCREASE"  desc="增益类 " />
+            <item name="BUFF_CLASS_DECREASE"  desc="减益类 " />
+            <item name="BUFF_CLASS_NONE"  desc="其他类 " />
+        </enum>
+
+        <enum name="EControlSubClass" desc="控制类小类别 ">
+            <item name="CONTROL_SUBCLASS_STAY" value="0" desc="束缚 不能移动，位移技能的位移无效 " />
+            <item name="CONTROL_SUBCLASS_HOLD"  desc="昏睡 全禁止，被攻击就醒 " />
+            <item name="CONTROL_SUBCLASS_STUN"  desc="昏迷 全禁止，被攻击也不醒 " />
+            <item name="CONTROL_SUBCLASS_LIMIT_SKILL"  desc="禁魔 不能使用技能，包括普攻 " />
+        </enum>
+
+        <enum name="EIncreaseSubClass" desc="增益类小类别 ">
+            <item name="INCREASE_SUBCLASS_NORMAL" value="0" desc="增加creature某个属性 " />
+            <item name="INCREASE_SUBCLASS_SPEED_UP_ATT"  desc="加速,攻击速度 " />
+            <item name="INCREASE_SUBCLASS_SPEED_UP_MOVE"  desc="加速,移动速度 " />
+        </enum>
+
+        <enum name="EDecreaseSubClass" desc="减益类小类别 ">
+            <item name="DECREASE_SUBCLASS_NORMAL" value="0" desc="降低 creature某个属性 " />
+            <item name="DECREASE_SUBCLASS_SPEED_UP_ATT"  desc="减速,攻击速度 " />
+            <item name="DECREASE_SUBCLASS_SPEED_UP_MOVE"  desc="减速,移动速度 " />
+        </enum>
+
+        <enum name="EBuffFlag" desc="BUFF标志位 ">
+            <item name="BUFF_FLAG_HIDE" value="1 << 0" desc="隐藏类状态 " />
+
+            <item name="BUFF_FLAG_OFFLINE_SAVE" value="1 << 1" desc="下线保留 " />
+            <item name="BUFF_FLAG_OFFLINE_TIME" value="1 << 2" desc="下线后仍然计时 " />
+
+            <item name="BUFF_FLAG_SHARE_MULTI" value="1 << 3" desc="是否可以多个共存 1可以 0不可以 " />
+            <item name="BUFF_FLAG_SWAP_OTHERS" value="1 << 4" desc="是否可以替换别人的 替换同类的别人的buff " />
+
+            <item name="BUFF_FLAG_DEAD_HOLD" value="1 << 5" desc="死亡时保留 " />
+
+            <item name="BUFF_FLAG_REFRESH_TIME" value="1 << 6" desc="同等级替换时是否刷新时间 " />
+
+            <item name="BUFF_FLAG_AURA_EXCLUDE" value="1 << 7" desc="光环作用排除自己 " />
+
+            <item name="BUFF_FLAG_SCENE_CHG_SAVE" value="1 << 8" desc="离开场景是否保留 1保留 " />
+
+            <item name="BUFF_FLAG_TYPE_DEBUFF" value="1 << 9" desc="是否有害状态 debuff " />
+        </enum>
+
+        <enum name="EBuffRemoveFlag" desc="buff移除限制 ">
+            <item name="BUFF_REMOVE_FLAG_EFFECT" value="1 << 0" desc="可以被效果移除 技能物品等 " />
+            <item name="BUFF_REMOVE_FLAG_HAND" value="1 << 1" desc="可以被手动移除 " />
+        </enum>
+
+        <enum name="EBuffEffectType" desc="BUFF效果生效类型 ">
+            <item name="BUFF_EFFECT_NONE" value="0" desc="无效果 " />
+            <item name="BUFF_EFFECT_START"  desc="开始生效 " />
+            <item name="BUFF_EFFECT_PERIODIC"  desc="周期性生效 " />
+            <item name="BUFF_EFFECT_END"  desc="结束时生效 " />
+            <item name="BUFF_EFFECT_SPRING"  desc="触发生效 " />
+            <item name="BUFF_EFFECT_FULL_LAYER"  desc="层数叠满时生效 " />
+            <item name="BUFF_EFFECT_MOD_PRO"  desc="表示该效果修正人物属性 " />
+            <item name="BUFF_EFFECT_MOD_SKILL_INFO_PRO"  desc="表示该效果修正技能info表属性 " />
+            <item name="BUFF_EFFECT_MOD_SKILL_ACTION_PRO"  desc="表示该效果修正技能action表属性 " />
+            <item name="BUFF_EFFECT_MOD_SKILL_EFFECT_PRO"  desc="表示该效果修正SKILLEFFECT表的属性 " />
+            <item name="BUFF_EFFECT_MOD_SUMMONOBJECT_PRO "  desc="表示该效果修正召唤物的属性 " />
+        </enum>
+
+        <enum name="EBuffEndType" desc="buff结束方式 ">
+            <item name="BUFF_END_NONE" value="0" desc="未结束 " />
+            <item name="BUFF_END_TIMEUP"  desc="时间耗尽 " />
+            <item name="BUFF_END_DISPEL"  desc="被驱散 " />
+            <item name="BUFF_END_USEUP"  desc="触发次数耗尽 " />
+            <item name="BUFF_END_DEAD"  desc="死亡消失 " />
+            <item name="BUFF_END_HAND"  desc="手动取消 " />
+            <item name="BUFF_END_LEAVE_SCENE"  desc="离开场景 " />
+            <item name="BUFF_END_LEAVE_GAME"  desc="离开游戏 " />
+            <item name="BUFF_END_UNKNOWN"  desc="未知原因 " />
+        </enum>
+
+        <enum name="EEffectSkillBuffOptType" desc="效果修正技能，修正buff的效果 ">
+            <item name="EFFECT_SKILL_BUFF_OPT_ADDBUFF" value="0" desc="添加一个buff " />
+
+            <item name="EFFECT_SKILL_BUFF_OPT_MOD_SKILL"  desc="修改单一技能 " />
+
+            <item name="EFFECT_SKILL_BUFF_OPT_MOD_BUFF_TEMPLATEID"  desc="修改某个模板id的buff " />
+            <item name="EFFECT_SKILL_BUFF_OPT_MOD_BUFF_CLASS"  desc="修改某类classid的buff " />
+            <item name="EFFECT_SKILL_BUFF_OPT_LEVEL_UP_SKILL"  desc="将某个技能的等级提升一级 配置技能的classid " />
+        </enum>
+
+        <enum name="EImmunityType" desc="免疫能力 todo,继续添加 ">
+            <item name="IMMUNITY_TYPE_STAY" value="0" desc="免疫stay效果 " />
+            <item name="IMMUNITY_TYPE_HOLD"  desc="免疫hold效果 " />
+            <item name="IMMUNITY_TYPE_STUN"  desc="免疫一切stun效果 " />
+            <item name="IMMUNITY_TYPE_LIMIT_SKILL"  desc="免疫一切禁魔效果 " />
+
+            <item name="IMMUNITY_TYPE_SLOW_ATT"  desc="免疫一切slow效果 减少攻击速度 " />
+            <item name="IMMUNITY_TYPE_SLOW_MOVE"  desc="免疫一切slow效果 减少移动速度 " />
+
+            <item name="IMMUNITY_TYPE_CATCH"  desc="免疫一切catch效果 针对效果的  抓取 " />
+            <item name="IMMUNITY_TYPE_ROCK"  desc="免疫一切rock效果  针对效果的  击飞 " />
+
+            <item name="IMMUNITY_TYPE_ATT_PHY"  desc="免疫一切物理攻击和伤害 " />
+            <item name="IMMUNITY_TYPE_ATT_ICE"  desc="免疫一切冰攻击和伤害 " />
+            <item name="IMMUNITY_TYPE_ATT_FIRE"  desc="免疫一切火攻击和伤害 " />
+            <item name="IMMUNITY_TYPE_ATT_POISON"  desc="免疫一切毒攻击和伤害 " />
+            <item name="IMMUNITY_TYPE_ATT_THUNDER"  desc="免疫一切雷攻击和伤害 " />
+
+            <item name="IMMUNITY_TYPE_MAX"  desc="最大值 " />
+
+
+            <item name="IMMUNITY_TYPE_FLAG_STAY" value="1 << IMMUNITY_TYPE_STAY" desc="免疫stay效果 " />
+            <item name="IMMUNITY_TYPE_FLAG_HOLD" value="1 << IMMUNITY_TYPE_HOLD" desc="免疫hold效果 " />
+            <item name="IMMUNITY_TYPE_FLAG_STUN" value="1 << IMMUNITY_TYPE_STUN" desc="免疫一切stun效果 " />
+            <item name="IMMUNITY_TYPE_FLAG_LIMIT_SKILL" value="1 << IMMUNITY_TYPE_LIMIT_SKILL" desc="免疫一切禁魔效果 " />
+
+            <item name="IMMUNITY_TYPE_FLAG_SLOW_ATT" value="1 << IMMUNITY_TYPE_SLOW_ATT" desc="免疫一切slow效果 减少攻击速度 " />
+            <item name="IMMUNITY_TYPE_FLAGSLOW_MOVE" value="1 << IMMUNITY_TYPE_SLOW_MOVE" desc="免疫一切slow效果 减少移动速度 " />
+
+            <item name="IMMUNITY_TYPE_FLAG_CATCH" value="1 << IMMUNITY_TYPE_CATCH" desc="免疫一切catch效果 针对效果的  抓取 " />
+            <item name="IMMUNITY_TYPE_FLAG_ROCK" value="1 << IMMUNITY_TYPE_ROCK" desc="免疫一切rock效果  针对效果的  击飞 " />
+
+            <item name="IMMUNITY_TYPE_FLAG_ATT_PHY" value="1 << IMMUNITY_TYPE_ATT_PHY" desc="免疫一切物理攻击和伤害 " />
+            <item name="IMMUNITY_TYPE_FLAG_ATT_ICE" value="1 << IMMUNITY_TYPE_ATT_ICE" desc="免疫一切冰攻击和伤害 " />
+            <item name="IMMUNITY_TYPE_FLAG_ATT_FIRE" value="1 << IMMUNITY_TYPE_ATT_FIRE" desc="免疫一切火攻击和伤害 " />
+            <item name="IMMUNITY_TYPE_FLAG_ATT_POISON" value="1 << IMMUNITY_TYPE_ATT_POISON" desc="免疫一切毒攻击和伤害 " />
+            <item name="IMMUNITY_TYPE_FLAG_ATT_THUNDER" value="1 << IMMUNITY_TYPE_ATT_THUNDER" desc="免疫一切雷攻击和伤害 " />
+
+        </enum>
+
+        <enum name="EOpreationType" desc="技能，buff等所调用的操作类型 " >
+            <item name="OPREATION_TYPE_NONE" value="0" desc="无效果 " />
+
+            <item name="OPREATION_TYPE_FOREVER" desc="永久类效果 包括增加，减少HP,SP等 " />
+            <!--
+            ///byPara0:增加对象类型(EEffectFlag)    OPREATION_FLAG_MOD_HP\OPREATION_FLAG_MOD_SP
+            ///byPara1:增加,减少(EEffectFlag)       OPREATION_FLAG_ADD\OPREATION_FLAG_REDUCE
+            ///byPara2:伤害类型(EDamageProperty)
+            ///byPara3:参数类型(EEffectFlag)        OPREATION_FLAG_INTEGER\OPREATION_FLAG_PERCENT
+            ///带入参数1:数值(100%为10000)         根据参数类型不同而不同，如果为整数即为具体值，如果为百分比，则填写百分比
+            ///带入参数2:作为 增加的上限\减少的下限（百分比(万分比)） 默认为0，表示无限制
+          -->
+
+          <item name="OPREATION_TYPE_STATE" desc="附加状态，一些控制类的状态，例如昏迷、束缚等 " />
+          <!--
+            ///带入参数1:状态枚举(见ECreatureActionState) 小于CREATURE_ACTION_STATE_MAX
+          -->
+
+          <item name="OPREATION_TYPE_ADD_BUFF" desc="附加BUFF " />
+          <!--
+            ///byPara0:附加BUFF的层数
+            ///带入参数1:附加BUFF的ID
+            ///带入参数2:buff的持续时间，为0表示用buff默认时间 ms
+          -->
+
+          <item name="OPREATION_TYPE_DISPEL" desc="驱散buff（需要判断buff的驱散标志位） " />
+          <!--
+            ///byPara0:驱散类型, 0按大类驱散, 1按小类驱散, 2指定BUFF（classid的）, 3驱散某些属性的buff, 4驱散所有,友方有害状态,敌方有益状态, 5驱散全部,不分敌我
+            ///byPara1:按大类或者小类驱散时的EBuffClass  按属性驱散时:EDamageProperty的Flag部分
+            ///byPara2:按小类驱散时，小类id
+            ///byPara3:驱散Buff的个数,0表示全部驱散
+            ///带入参数1:驱散制定buff时表示对应BUFF classID  其他:驱散的buff的最高等级
+            ///带入参数2:驱散buff的层数  0表示驱散全部层数
+          -->
+
+          <item name="OPREATION_TYPE_DO_BUFF_DAMAGE" desc="进行buff伤害  " />
+          <!--
+            ///带入参数1:调用的buffaction表id
+          -->
+
+          <item name="OPREATION_TYPE_ADD_SKILL_POINT " desc="增加技能点 " />
+          <!--
+            ///byPara0:增加，减少 OPREATION_FLAG_ADD\OPREATION_FLAG_REDUCE
+            ///带入参数1:点数
+          -->
+
+          <item name="OPREATION_TYPE_DO_SKILL_COOLDOWN " desc="使技能冷却 " />
+          <!--
+            ///byPara0:冷却方式  ESkillCooldownType
+            ///带入参数1:0技能的模板id(或者uniqueid,待议)，1技能的形态枚举(ESkillShape)
+          -->
+
+          <item name="OPREATION_TYPE_CLEAR_SKILL_COOLDOWN" desc="消除技能冷却 " />
+          <!--
+            ///byPara0:冷却方式  ESkillCooldownType
+            ///byPara1:0完全消除，1减少一定量
+            ///byPara2:减少的格式 数值或者百分比 OPREATION_FLAG_INTEGER\OPREATION_FLAG_PERCENT
+            ///byPara3:减少的下限 秒 注意:这个单位是秒 不是毫秒
+            ///带入参数1: 0技能的模板id(或者uniqueid,待议)，1技能的形态枚举(ESkillShape)
+            ///带入参数2: 减少的数值(毫秒)或者百分比(万分比)
+          -->
+
+          <item name="OPREATION_TYPE_INTERUPT_SKILL" desc="打断技能释放 " />
+          <!--
+            ///byPara0:0打断所所有技能， 1按属性打断， 2按技能形态打断
+            ///带入参数1:按属性打断时EDamageProperty， 按形态打断时ESkillShape
+          -->
+
+          <item name="OPREATION_TYPE_SUMMON_MONSTER" desc="召唤怪物 " />
+          <!--
+            ///byPara0:存活时间 秒（注意此处为秒，不是毫秒，需要转换）
+            ///带入参数1:怪物模板ID
+            ///带入参数2:召唤数量
+          -->
+
+          <item name="OPREATION_TYPE_TELEPORT" desc="瞬移11 " />
+          <!--
+            ///byPara0: 瞬移方式  ETeleportType
+            ///带入参数1:0击飞时表示 瞬移的距离(mm)， 1拖拽时表示拖拽的速度（mm/s）
+            ///带入参数2:规定的时间(ms) 击飞时有效
+          -->
+
+          <item name="OPREATION_TYPE_DOACTION" desc="直接调用action 12 " />
+          <!--
+            ///byPara0:
+            ///byPara1:
+            ///byPara2:
+            ///byPara3:
+            ///带入参数1: actionid
+            ///带入参数2:
+          -->
+
+          <item name="OPREATION_TYPE_COMBO" desc="修改是否连招 13 " />
+          <!--
+            ///byPara0:
+            ///byPara1:
+            ///byPara2:
+            ///byPara3:
+            ///带入参数1: actionid
+            ///带入参数2: 关闭0/开启1
+          -->
+
+          <item name="OPREATION_TYPE_ATTACKGETHP" desc="吸血 14 " />
+
+          <item name="OPERATION_TYPE_HURTMODIFYBUFF" desc="15表示对拥有某个类型的buff的目标造成的伤害进行万分比修正" />
+
+          <item name="OPERATION_TYPE_HURTMODIFY" desc="16表示对造成或受到的伤害进行万分比的修正" />
+
+		  <item name="OPERATION_TYPE_SUMMON" desc="17" />
+
+		  <item name="OPERATION_TYPE_HIDESHOW" desc="18" />
+
+		  <item name="OPERATION_TYPE_FLASH" desc="19 闪现" />
+
+      </enum>
+
+      <enum name="ETeleportType" desc="瞬移方式 " >
+          <item name="TELEPORT_TYPE_KNOCK" value="0" desc="被击飞 " />
+          <item name="TELEPORT_TYPE_DRAG" value="0" desc="被拖拽 拖拽到施法者附近 " />
+      </enum>
+
+      <enum name="ESkillCooldownType" desc="技能冷却方式 " >
+          <item name="SKILL_COOLDOWN_TYPE_TEMPLATE_ID" value="0" desc="按技能的模板id冷却 " />
+          <item name="SKILL_COOLDOWN_TYPE_SHAPE" desc="按技能形态冷却 " />
+          <item name="SKILL_COOLDOWN_TYPE_ALL" desc="完全冷却 " />
+      </enum>
+
+      <enum name="EOpreationFlag" desc="操作相关的一些枚举 " >
+          <item name="OPREATION_FLAG_MOD_HP" value="0" desc="永久类效果，操作HP " />
+          <item name="OPREATION_FLAG_MOD_SP" value="1" desc="永久类效果，操作SP " />
+
+          <item name="OPREATION_FLAG_ADD" value="0" desc="增加 " />
+          <item name="OPREATION_FLAG_REDUCE" value="1" desc="减少 " />
+          <item name="OPREATION_FLAG_SET" value="2" desc="设置 " />
+
+          <item name="OPREATION_FLAG_INTEGER" value="0" desc="整数 " />
+          <item name="OPREATION_FLAG_PERCENT" value="1" desc="百分比 " />
+
+      </enum>
+
+      <enum name="EDoOperationType" desc="操作处理类型 " >
+          <item name="DO_OPERATION_TYPE_START" value="0" desc="开始时处理 " />
+          <item name="DO_OPERATION_TYPE_ADD" desc="增加层数处理 " />
+          <item name="DO_OPERATION_TYPE_REDUCE" desc="层数减少处理 " />
+          <item name="DO_OPERATION_TYPE_REMOVE" desc="移除时处理 " />
+      </enum>
+
+      <enum name="ESkillInfoPro" desc="SkillInfo表内可能被修正的属性 " >
+          <item name="SKILL_INFO_PRO_Cooldown" value="0" desc="冷却时间 " />
+
+      </enum>
+
+      <enum name="ESkillActionPro" desc="SkillAction表内可能被修正的属性 " >
+          <item name="SKILL_ACTION_PRO_CostSP" value="0" desc=" " />
+          <item name="SKILL_ACTION_PRO_IgnoreAction" desc=" " />
+
+          <item name="SKILL_ACTION_PRO_TargetType" desc=" " />
+          <item name="SKILL_ACTION_PRO_HitPer" desc=" " />
+          <item name="SKILL_ACTION_PRO_CriticalPer" desc=" " />
+          <item name="SKILL_ACTION_PRO_CriticalDmgPer" desc=" " />
+
+          <item name="SKILL_ACTION_PRO_oeAimNum" desc=" " />
+          <item name="SKILL_ACTION_PRO_AoeCenterType" desc=" " />
+          <item name="SKILL_ACTION_PRO_oeCenterData" desc=" " />
+          <item name="SKILL_ACTION_PRO_AoeAreaType" desc=" " />
+          <item name="SKILL_ACTION_PRO_oeAreaData" desc=" " />
+          <item name="SKILL_ACTION_PRO_IgnoreDef" desc=" " />
+          <item name="SKILL_ACTION_PRO_IgnoreDefendAmount" desc=" " />
+          <item name="SKILL_ACTION_PRO_DamagePer" desc=" " />
+
+          <item name="SKILL_ACTION_PRO_MoreDamagePer_BODY_TYPE_small" desc=" " />
+          <item name="SKILL_ACTION_PRO_MoreDamagePer_BODY_TYPE_middle" desc=" " />
+          <item name="SKILL_ACTION_PRO_MoreDamagePer_BODY_TYPE_big" desc=" " />
+          <item name="SKILL_ACTION_PRO_MoreDamagePer_BODY_TYPE_boss" desc=" " />
+
+          <item name="SKILL_ACTION_PRO_SkillEffect" desc=" " />
+
+          <item name="SKILL_ACTION_PRO_DirectDmgMin" desc=" " />
+          <item name="SKILL_ACTION_PRO_DirectDmgMax" desc=" " />
+
+          <item name="SKILL_ACTION_PRO_Dmg" desc="所有段的攻击都被修正 " />
+
+          <item name="SKILL_ACTION_PRO_AtkPowerPer" desc="所有段调用的攻击力都被修正 " />
+
+          <item name="SKILL_ACTION_PRO_skillEffectSelf0" desc="修改技能对自身所调用的的效果0 " />
+          <item name="SKILL_ACTION_PRO_skillEffectSelf1" desc="修改技能对自身所调用的的效果1 " />
+          <item name="SKILL_ACTION_PRO_skillEffectSelf2" desc="修改技能对自身所调用的的效果2 " />
+          <item name="SKILL_ACTION_PRO_skillEffectSelf3" desc="修改技能对自身所调用的的效果3 " />
+          <item name="SKILL_ACTION_PRO_skillEffectSelf4" desc="修改技能对自身所调用的的效果4 " />
+          <item name="SKILL_ACTION_PRO_skillEffectSelf5" desc="修改技能对自身所调用的的效果5 " />
+          <item name="SKILL_ACTION_PRO_skillEffectSelf6" desc="修改技能对自身所调用的的效果6 " />
+          <item name="SKILL_ACTION_PRO_skillEffectSelf7" desc="修改技能对自身所调用的的效果7 " />
+
+          <item name="SKILL_ACTION_PRO_skillEffect0" desc="修改技能调用的的效果0 " />
+          <item name="SKILL_ACTION_PRO_skillEffect1" desc="修改技能调用的的效果1 " />
+          <item name="SKILL_ACTION_PRO_skillEffect2" desc="修改技能调用的的效果2 " />
+          <item name="SKILL_ACTION_PRO_skillEffect3" desc="修改技能调用的的效果3 " />
+          <item name="SKILL_ACTION_PRO_skillEffect4" desc="修改技能调用的的效果4 " />
+          <item name="SKILL_ACTION_PRO_skillEffect5" desc="修改技能调用的的效果5 " />
+          <item name="SKILL_ACTION_PRO_skillEffect6" desc="修改技能调用的的效果6 " />
+          <item name="SKILL_ACTION_PRO_skillEffect7" desc="修改技能调用的的效果7 " />
+          <item name="SKILL_ACTION_PRO_HealRatio" desc="治疗的的万分比调整 " />
+
+      </enum>
+
+      <enum name="ESkillEffectPro" desc="SkillInfo表内可能被修正的属性 " >
+          <item name="SKILL_EFFECT_PRO_HitCondition" value="0" desc="冷却时间 " />
+          <item name="SKILL_EFFECT_PRO_MonsterBodyTypeFlag"  desc=" " />
+
+          <item name="SKILL_EFFECT_PRO_SelfCheckType"  desc=" " />
+          <item name="SKILL_EFFECT_PRO_SelfBuffID"  desc=" " />
+
+          <item name="SKILL_EFFECT_PRO_TgtCheckType"  desc=" " />
+          <item name="SKILL_EFFECT_PRO_TgtBuffID"  desc=" " />
+
+          <item name="SKILL_EFFECT_PRO_Probability"  desc=" " />
+          <item name="SKILL_EFFECT_PRO_Flag"  desc=" " />
+
+          <item name="SKILL_EFFECT_PRO_OperationID"  desc=" " />
+          <item name="SKILL_EFFECT_PRO_OperationData"  desc=" " />
+          <item name="SKILL_EFFECT_PRO_OperationData1"  desc=" " />
+      </enum>
+
+      <enum name="EPetQuality" desc="宠物品质 " >
+          <item name="PET_QUALITY_GRAY" value="0" desc="灰色品质 " />
+          <item name="PET_QUALITY_WHITE" value="1" desc="白色品质 " />
+          <item name="PET_QUALITY_GREEN" value="2" desc="绿色品质 " />
+          <item name="PET_QUALITY_BLUE" value="3" desc="蓝色品质 " />
+          <item name="PET_QUALITY_PURPLE" value="4" desc="紫色品质 " />
+          <item name="PET_QUALITY_GOD" value="5" desc="金色品质 " />
+          <item name="PET_QUALITY_CS" value="6" desc="传说品质 " />
+          <item name="PET_QUALITY_SS" value="7" desc="史诗品质 " />
+          <item name="PET_QUALITY_MAX" desc="最大值 " />
+      </enum>
+
+      <enum name="EPetTeam" desc="宠物队列索引" >
+          <item name="PET_TEAM_MIN" value="0" desc="MIN " />
+          <item name="PET_TEAM1" value="0" desc="team1 " />
+          <item name="PET_TEAM2" desc="team2 " />
+          <item name="PET_TEAM3" desc="team3 " />
+          <item name="PET_TEAM_MAX" desc="MAX " />
+      </enum>
+
+      <enum name="EPetBattlePos" desc="宠物出战位置 " >
+          <item name="PET_BTPOS_TEAM" value="7" desc="一组出战队伍中宠物数量" />
+          <item name="PET_BTPOS_UNKNOWN" value="-1" desc="无效位" />
+          <item name="PET_BTPOS_CAPTAIN" value="0" desc="队长位 " />
+          <item name="PET_BTPOS_JOIN1" desc="参战位1 " />
+          <item name="PET_BTPOS_JOIN2" desc="参战位2 " />
+          <item name="PET_BTPOS_JOIN_MAX" desc="参战位max " />
+          <item name="PET_BTPOS_ASSISTANT1" value="PET_BTPOS_JOIN_MAX" desc="辅助位1 " />
+          <item name="PET_BTPOS_ASSISTANT2" desc="辅助位2 " />
+          <item name="PET_BTPOS_ASSISTANT3" desc="辅助位3 " />
+          <item name="PET_BTPOS_ASSISTANT4" desc="辅助位4 " />
+
+          <item name="PET_BTPOS1_CAPTAIN" desc="队长位 " />
+          <item name="PET_BTPOS1_JOIN1" desc="参战位1 " />
+          <item name="PET_BTPOS1_JOIN2" desc="参战位2 " />
+          <item name="PET_BTPOS1_ASSISTANT1" desc="辅助位1 " />
+          <item name="PET_BTPOS1_ASSISTANT2" desc="辅助位2 " />
+          <item name="PET_BTPOS1_ASSISTANT3" desc="辅助位3 " />
+          <item name="PET_BTPOS1_ASSISTANT4" desc="辅助位4 " />
+
+          <item name="PET_BTPOS2_CAPTAIN" desc="队长位 " />
+          <item name="PET_BTPOS2_JOIN1" desc="参战位1 " />
+          <item name="PET_BTPOS2_JOIN2" desc="参战位2 " />
+          <item name="PET_BTPOS2_ASSISTANT1" desc="辅助位1 " />
+          <item name="PET_BTPOS2_ASSISTANT2" desc="辅助位2 " />
+          <item name="PET_BTPOS2_ASSISTANT3" desc="辅助位3 " />
+          <item name="PET_BTPOS2_ASSISTANT4" desc="辅助位4 " />
+
+          <item name="PET_BTPOS_MAX" desc="最大值 " />
+      </enum>
+
+      <enum name="EPetUp" desc="宠物强化 " >
+          <item name="PET_UP_MIN" value="0" desc="最小强化 " />
+          <item name="PET_UP_0" value="0" desc="强0 " />
+          <item name="PET_UP_1" desc="强1 " />
+          <item name="PET_UP_2" desc="强2 " />
+          <item name="PET_UP_3" desc="强3 " />
+
+          <item name="PET_UP_4" desc="强4 " />
+          <item name="PET_UP_5" desc="强5 " />
+          <item name="PET_UP_6" desc="强6 " />
+          <item name="PET_UP_7" desc="强7 " />
+          <item name="PET_UP_8" desc="强8 " />
+          <item name="PET_UP_9" desc="强9 " />
+
+          <item name="PET_UP_MAX" value="5" desc="最大强化 " />
+      </enum>
+
+      <enum name="ELockType" desc="宠物强化 " >
+          <item name="ROLE_ITEM_LOCK" value="1" desc=" 角色物品 " />
+          <item name="PET_ITEM_LOCK" value="2" desc=" 宠物物品 " />
+          <item name="PET_LOCK" value="3" desc=" 宠物 " />
+      </enum>
+
+      <enum name="EReturnType">
+          <item name="GS_RESULT_YES" value="1" />
+          <item name="GS_RESULT_NO" value="0" />
+
+          <item name="GS_RESULT_SUCCESS" value="1" />
+          <item name="GS_RESULT_FAIL" value="0" />
+      </enum>
+
+      <enum name="ERoleItemEvent">
+          <item name="ROLE_ITEM_EVENT_SELL" value="0" />
+      </enum>
+
+      <enum name="EItemUpEvent">
+          <item name="ITEM_UP_LJ" value="0" />
+          <item name="ITEM_UP_PER" value="1" />
+          <item name="ITEM_UP_EXP" value="2" />
+      </enum>
+
+      <enum name="EPetEvent">
+          <item name="PET_ITEM_EVENT_SELL" value="0" />
+          <item name="PET_EVENT_SELL" value="1" />
+      </enum>
+
+      <enum name="EMonsterAbility">
+          <item name="MONSTER_ABILITY_normal" value="0" desc=" 普通 " />
+          <item name="MONSTER_ABILITY_outstand"  desc=" 精英 " />
+          <item name="MONSTER_ABILITY_copy"  desc=" 副本 " />
+          <item name="MONSTER_ABILITY_boss"  desc=" Boss " />
+          <item name="MONSTER_ABILITY_boss_big"  desc=" 中型Boss " />
+          <item name="MONSTER_ABILITY_boss_large"  desc=" 大型Boss " />
+          <item name="MONSTER_ABILITY_NPC"  desc=" npc " />
+          <item name="MONSTER_ABILITY_max"  desc=" max " />
+
+          <item name="MONSTER_ABILITY_FLAG_normal" value="1 << MONSTER_ABILITY_normal" desc=" 普通 " />
+          <item name="MONSTER_ABILITY_FLAG_outstand" value="1 << MONSTER_ABILITY_outstand" desc=" 精英 " />
+          <item name="MONSTER_ABILITY_FLAG_copy" value="1 << MONSTER_ABILITY_copy" desc=" 副本 " />
+          <item name="MONSTER_ABILITY_FLAG_boss" value="1 << MONSTER_ABILITY_boss" desc=" Boss " />
+          <item name="MONSTER_ABILITY_FLAG_NPC" value="1 << MONSTER_ABILITY_NPC" desc=" npc " />
+
+      </enum>
+
+      <enum name="EMonsterBodyType">
+          <item name="MONSTER_BODY_TYPE_small" value="0" desc=" 小型 " />
+          <item name="MONSTER_BODY_TYPE_middle" desc=" 中型 " />
+          <item name="MONSTER_BODY_TYPE_big" desc=" 大型 " />
+          <item name="MONSTER_BODY_TYPE_boss" desc=" Boss " />
+          <item name="MONSTER_BODY_TYPE_max" desc=" max " />
+
+          <item name="MONSTER_BODY_TYPE_FLAG_small" value="1 << MONSTER_BODY_TYPE_small" desc=" 小型 " />
+          <item name="MONSTER_BODY_TYPE_FLAG_middle" value="1 << MONSTER_BODY_TYPE_middle" desc=" 中型 " />
+          <item name="MONSTER_BODY_TYPE_FLAG_big" value="1 << MONSTER_BODY_TYPE_big" desc=" 大型 " />
+          <item name="MONSTER_BODY_TYPE_FLAG_boss" value="1 << MONSTER_BODY_TYPE_boss"desc=" Boss " />
+      </enum>
+
+      <enum name="EItemPos">
+          <item name="ItemPos_Bag" value="1" />
+          <item name="ItemPos_Equip" value="2" />
+          <item name="ItemPos_Warehouse" value="4" />
+
+          <item name="ItemPos_None" value="0" />
+      </enum>
+
+      <enum name="EItemQuality" desc="物品品质 " >
+          <item name="ITEM_QUALITY_GRAY" value="0" desc="灰色品质 " />
+          <item name="ITEM_QUALITY_WHITE" value="1" desc="白色品质 " />
+          <item name="ITEM_QUALITY_GREEN" value="2" desc="绿色品质 " />
+          <item name="ITEM_QUALITY_BLUE" value="3" desc="蓝色品质 " />
+          <item name="ITEM_QUALITY_PURPLE" value="4" desc="紫色品质 " />
+          <item name="ITEM_QUALITY_GOD" value="5" desc="金色品质 " />
+          <item name="ITEM_QUALITY_CS"  value="6" desc="传说品质 " />
+          <item name="ITEM_QUALITY_SS"  value="7" desc="史诗品质 " />
+
+          <item name="ITEM_QUALITY_MAX" desc="最大值 " />
+      </enum>
+      <enum name="ERoleItemEquipSlot" desc="物品装备位置">
+          <item name="RoleItemEquipSlot_Equip_Min"       value="0" desc="开始" />
+          <item name="RoleItemEquipSlot_Weapon"       value="0" desc="武器" />
+          <item name="RoleItemEquipSlot_Helmet"       value="1" desc="帽子" />
+          <item name="RoleItemEquipSlot_Clothing"     value="2" desc="上衣" />
+          <item name="RoleItemEquipSlot_Gloves"       value="3" desc="手套" />
+          <item name="RoleItemEquipSlot_Trousers"     value="4" desc="下装" />
+          <item name="RoleItemEquipSlot_Mantle"       value="5" desc="披风" />
+          <item name="RoleItemEquipSlot_Ring"         value="6" desc="戒指" />
+          <item name="RoleItemEquipSlot_Adron"        value="7" desc="饰品" />
+          <item name="RoleItemEquipSlot_Necklace"     value="8" desc="项链" />
+          <item name="RoleItemEquipSlot_SecondWeapon" value="9" desc="副手武器" />
+          <item name="RoleItemEquipSlot_Equip_Max" value="10" desc="装备位数量" />
+      </enum>
+
+      <enum name="EPetItemEquipSlot" desc="宠物装备位置">
+          <item name="PetItemEquipSlot_Equip_Min" value="0" desc="开始" />
+          <item name="PetItemEquipSlot_Weapon" value="0" desc="武器" />
+          <item name="PetItemEquipSlot_Armor" value="1" desc="防具" />
+          <item name="PetItemEquipSlot_Adorn" value="2" desc="饰品" />
+          <item name="PetItemEquipSlot_Equip_Max" value="3" desc="最大数量" />
+      </enum>
+
+      <enum name="EItemClass" desc="物品分类">
+          <item name="ItemClass_Role_Equip_Start" value="0" desc="开始" />
+          <item name="ItemClass_Weapon" value="0" desc="武器" />
+          <item name="ItemClass_Armor" value="1" desc="防具" />
+          <item name="ItemClass_Adorn" value="2" desc="首饰" />
+          <item name="ItemClass_Role_Equip_End" desc="结束" />
+
+          <item name="ItemClass_Role_Item" value="51" desc="普通物品" />
+
+          <item name="ItemClass_Pet_Equip" value="100" desc="宠物装备" />
+          <item name="ItemClass_Pet_Item" value="101" desc="宠物物品" />
+          <!-- item name="ItemClass_Medicament" desc="药剂" /-->
+      </enum>
+
+      <enum name="EItemSubClass_Role_Item" desc="角色物品小类">
+          <item name="ItemSubClass_Role_Item" value="0" desc="通用类型" />
+          <item name="ItemSubClass_Role_Item_Hole" value="1" desc="宝石" />
+          <item name="ItemSubClass_Role_Item_Prod" value="2" desc="图纸" />
+      </enum>
+
+      <enum name="EItemSubClass_Pet_Equip" desc="宠物装备分类">
+          <item name="ItemSubClass_Pet_Equip" value="0" desc="通用类型" />
+      </enum>
+
+      <enum name="EItemSubClass_Pet_Item" desc="宠物物品分类">
+          <item name="ItemSubClass_Pet_Item" value="0" desc="通用类型" />
+          <item name="ItemSubClass_Pet_Card" value="1" desc="宠物卡片" />
+          <item name="ItemSubClass_Pet_SubCard" value="2" desc="宠物碎片" />
+      </enum>
+
+      <enum name="EItemSubClass_Weapon" desc="物品分类.武器分小类">
+          <item name="ItemSubClass_Sword" value="0" desc="剑" />
+          <item name="ItemSubClass_Wand" desc="杖" />
+          <item name="ItemSubClass_Bow" desc="弓" />
+          <item name="ItemSubClass_Hammer" desc="锤子" />
+          <item name="ItemSubClass_Shield" desc="战盾" />
+          <item name="ItemSubClass_Hudun" desc="护盾" />
+          <item name="ItemSubClass_Hufu" desc="护符" />
+          <item name="ItemSubClass_Jiandai" desc="箭袋" />
+
+          <item name="ItemSubClassFlag_Sword" value="1 << ItemSubClass_Sword" desc="剑" />
+          <item name="ItemSubClassFlag_Wand" value="1 << ItemSubClass_Wand" desc="杖" />
+          <item name="ItemSubClassFlag_Bow" value="1 << ItemSubClass_Bow" desc="弓" />
+          <item name="ItemSubClassFlag_Hammer" value="1 << ItemSubClass_Hammer" desc="锤子" />
+          <item name="ItemSubClassFlag_Shield" value="1 << ItemSubClass_Shield" desc="盾" />
+          <item name="ItemSubClassFlag_Hudun" value="1 << ItemSubClass_Hudun" desc="护盾" />
+          <item name="ItemSubClassFlag_Hufu" value="1 << ItemSubClass_Hufu" desc="护符" />
+          <item name="ItemSubClassFlag_Jiandai" value="1 << ItemSubClass_Jiandai" desc="箭袋" />
+      </enum>
+
+      <enum name="EItemSubClass_Armor" desc="物品分类.防具分小类">
+          <item name="ItemSubClass_Helmet" value="0" desc="帽子" />
+          <item name="ItemSubClass_Clothing" desc="上衣" />
+          <item name="ItemSubClass_Gloves" desc="手套" />
+          <item name="ItemSubClass_Trousers" desc="下装" />
+          <item name="ItemSubClass_Mantle" desc="披风" />
+      </enum>
+      <enum name="EItemSubClass_Adorn" desc="物品分类.首饰分小类">
+          <item name="ItemSubClass_Ring" value="0" desc="戒指" />
+          <item name="ItemSubClass_Adron" desc="饰品" />
+          <item name="ItemSubClass_Necklace" desc="项链" />
+      </enum>
+
+      <enum name="ELevelCompleteResult" desc="关卡完成评价">
+          <item name="LEVEL_COMPLETE_RESULT_NO" value="0" desc="未完成" />
+          <item name="LEVEL_COMPLETE_RESULT_B"  desc="B级评价" />
+          <item name="LEVEL_COMPLETE_RESULT_A"  desc="A级评价" />
+          <item name="LEVEL_COMPLETE_RESULT_S"  desc="S级评价" />
+          <item name="LEVEL_COMPLETE_RESULT_MAX"  desc="最大值" />
+      </enum>
+
+      <!--enum name="EItemSubClass_Medicament" desc="物品分类.药剂分小类">
+            <item name="ItemSubClass_MedicLiquid" value="0" desc="药水" />
+            <item name="ItemSubClass_Medicament" desc="药剂" />
+        </enum-->
+
+    <enum name="RS_ROLE_PROERTY_TYPE">
+        <item name="RS_ROLE_PROPERTY_NULL" value="0" desc="空" />
+        <item name="RS_ROLE_PROPERTY_BASE" value="1" desc="基础属性" />
+        <item name="RS_ROLE_PROPERTY_PET" value="2" desc="宠物数据" />
+        <item name="RS_ROLE_PROPERTY_EQUIP" value="3" desc="装备数据" />
+        <item name="RS_ROLE_PROPERTY_ONLINE" value="4" desc="在线数据" />
+    </enum>
+
+    <!--深渊状态枚举-->
+    <enum name="RS_ACTIVITY_ABYSS_STATE_TYPE">
+        <item name="RS_ACTIVITY_ABYSS_STATE_NULL" value="0" desc="初始" />
+        <item name="RS_ACTIVITY_ABYSS_STATE_TRIGGER" value="1" desc="触发状态" />
+        <item name="RS_ACTIVITY_ABYSS_STATE_TRIGGER_OVER" value="1" desc="触发为打开而消失状态" />
+        <item name="RS_ACTIVITY_ABYSS_STATE_OPEN" value="2" desc="打开状态" />
+        <item name="RS_ACTIVITY_ABYSS_STATE_KILLED" value="3" desc="被杀死状态" />
+        <item name="RS_ACTIVITY_ABYSS_STATE_RUN" value="4" desc="逃跑状态" />
+    </enum>
+
+    <!--推图模式枚举-->
+    <enum name="LEVEL_BATTLE_TYPE">
+        <item name="LEVEL_BATTLE_TYPE_NORMAL" value="0" desc="正常推图" />
+        <item name="LEVEL_BATTLE_TYPE_ABYSS" value="1" desc="深渊活动" />
+        <item name="LEVEL_BATTLE_TYPE_WORLD_BOSS" value="2" desc="世界boss" />
+        <item name="LEVEL_BATTLE_TYPE_PET_TRAIN" value="3" desc="战魂试炼活动" />
+        <item name="LEVEL_BATTLE_TYPE_MONEY_DUNGEONS" value="4" desc="金钱副本活动" />
+        <item name="LEVEL_BATTLE_TYPE_FIRE_GRAGON" value="5" desc="火龙塔活动" />
+    </enum>
+
+    <enum name="MAIL_TYPE">
+        <item name="mail_type_system" value="0" desc="系统邮件" />
+        <item name="mail_type_user" value="1" desc="非好友玩家邮件" />
+        <item name="mail_type_friend" value="2" desc="好友邮件" />
+    </enum>
+
+        <!--商城购买战魂类型枚举-->
+        <enum name="EBuyPetType">
+          <item name="EBuyPetType_Exchange" value="0" />
+          <item name="EBuyPetType_Cheap" value="1" />
+          <item name="EBuyPetType_Expensive" value="2" />
+          <item name="EBuyPetType_Expensive10" value="3" />
+        </enum>
+        <enum name="EShopPetType" desc="商城宠物库类型">
+          <item name="EShopPetType_Exchange" value="0" desc="商城兑换库"/>
+          <item name="EShopPetType_Cheap" value="1" desc="低档购买库"/>
+          <item name="EShopPetType_Expensive" value="2" desc="高档购买库"/>
+          <item name="EShopPetType_Critical" value="3" desc="高档必中库"/>
+        </enum>
+        
+        <!--购买体力返回值-->
+        <enum name="EBuyEPResult">
+          <item name="EBuyEPResult_Success" value="0" desc="购买体力成功"/>
+          <item name="EBuyEPResult_EPMax" value="1" desc="体力值已满，不能购买"/>
+        </enum>
+        
+        <enum name="EShopLimitType" desc="商城限购类型">
+          <item name="EShopLimitType_None" value="0" desc="不限购"/>
+          <item name="EShopLimitType_Forever" value="1" desc="永久限购"/>
+          <item name="EShopLimitType_Day" value="2" desc="每日限购"/>
+        </enum>
+        
+        <!--商城购买商品返回值-->
+        <enum name="EShopBuyResult">
+          <item name="EShopBuyResult_Success" value="0" desc="购买商品成功"/>
+          <item name="EShopBuyResult_Fail" value="1" desc="购买商品失败,这里不提示失败原因"/>
+          <item name="EShopBuyResult_BagFull" value="2" desc="背包已满"/>
+          <item name="EShopBuyResult_NoCrystal" value="3" desc="神秘水晶不够"/>
+          <item name="EShopBuyResult_NoCash" value="4" desc="徽章不够"/>
+          <item name="EShopBuyResult_NoMoney" value="5" desc="金币不够"/>
+        </enum>
+
+
+        <!--月卡领取奖励结果-->
+        <enum name="EMonthCardAwardResult">
+          <item name="EMonthCardAwardResult_Success" value="0" desc="月卡领取成功"/>
+          <item name="EMonthCardAwardResult_Fail" value="1" desc="月卡领取失败"/>
+          <item name="EMonthCardAwardResult_Expired" value="2" desc="月卡已过期"/>
+        </enum>
+
+        <!--每日任务类型枚举-->
+        <enum name="EDayQuestType">
+            <item name="EDayQuestType_INVALID" value="100" desc="无意义"/>
+            <item name="EDayQuestType_FB1" value="101" desc="普通副本"/>
+            <item name="EDayQuestType_FB2" value="102" desc="精英副本"/>
+            <item name="EDayQuestType_FB3" value="103" desc="专家副本"/>
+            <item name="EDayQuestType_ItemUp" value="104" desc="装备强化"/>
+            <item name="EDayQuestType_GEM" value="105" desc="宝石镶嵌"/>
+            <item name="EDayQuestType_PVP" value="106" desc="竞技场"/>
+            <item name="EDayQuestType_PetUp" value="107" desc="升级宠物"/>
+            <item name="EDayQuestType_AP" value="108" desc="与好友一起战斗"/>
+            <item name="EDayQuestType_MAX" value="109" desc="最大值，无意义"/>
+        </enum>
+
+        <!--激活码领奖结果-->
+        <enum name="EJihuoma">
+            <item name="EJihuomaSuccess" value="1" desc="成功"/>
+            <item name="EJihuomaCodeLenExceed" value="2" desc="长度越界"/>
+            <item name="EJihuomaGDSysError" value="3" desc="GD系统错误"/>
+            <item name="EJihuomaSysError" value="4" desc="系统错误"/>
+            <item name="EJihuomaMsgFieldError" value="5" desc="消息包字段错误"/>
+            <item name="EJihuomaCodeIllegal" value="6" desc="激活码不正确"/>
+            <item name="EJihuomaAlreadyUsed" value="7" desc="激活码已被使用"/>
+            <item name="EJihuomaAddItemFailed" value="8" desc="添加物品失败"/>
+        </enum>
+
+        <!--领取体力结果-->
+        <enum name="EReceiveEPResult">
+            <item name="EReceiveEPResult_Success" value="1" desc="领取成功"/>
+            <item name="EReceiveEPResult_NotInTime" value="2" desc="不在领取时间段"/>
+            <item name="EReceiveEPResult_AlreadyGet" value="3" desc="在领取时间段但是已经领过"/>
+            <item name="EReceiveEPResult_SysError" value="4" desc="系统错误"/>
+        </enum>
+
+
+          <!--军阶颜色枚举-->
+    <enum name="MILITARY_NAME_COLOR_TYPE">
+        <item name="MILITARY_NAME_COLOR_WHITE" value="0" desc="白色" />
+		<item name="MILITARY_NAME_COLOR_GREEN" value="1" desc="绿色" />
+		<item name="MILITARY_NAME_COLOR_BLUE" value="2" desc="蓝色" />
+		<item name="MILITARY_NAME_COLOR_PURPLE" value="3" desc="紫色" />
+		<item name="MILITARY_NAME_COLOR_ORANGE" value="4" desc="橙色" />
+    </enum>
+
+    <!--挑战获取积分枚举-->
+    <enum name="PVP_GET_POINTS_TYPE">
+        <item name="PVP_GET_POINTS_TYPE_NORMAL" value="0" desc="获取一般积分" />
+		<item name="PVP_GET_POINTS_TYPE_LARGE" value="1" desc="获取大量积分" />
+		<item name="PVP_GET_POINTS_TYPE_SUPER" value="2" desc="获取超多积分" />
+    </enum>
+    
+    <!--挑战获取积分枚举-->
+    <enum name="WORLD_BOSS_STATUS_TYPE">
+        <item name="WORLD_BOSS_STATUS_TYPE_NORMAL" value="0" desc="初始" />
+		<item name="WORLD_BOSS_STATUS_TYPE_PREPARE" value="1" desc="准备" />
+		<item name="WORLD_BOSS_STATUS_TYPE_BEGIN" value="2" desc="开始" />
+		<item name="WORLD_BOSS_STATUS_TYPE_RUN" value="3" desc="逃跑" />
+		<item name="WORLD_BOSS_STATUS_TYPE_KILLED" value="4" desc="杀死" />
+		<item name="WORLD_BOSS_STATUS_TYPE_CALC" value="5" desc="结算" />
+		<item name="WORLD_BOSS_STATUS_TYPE_END" value="6" desc="结束" />
+    </enum>
+
+          <!-- 公会职位枚举 -->
+          <enum name="EGuildPosition">
+              <item name="EGuildPosition_President" value="1" desc="会长" />
+              <item name="EGuildPosition_VicePresident" value="2" desc="副会长" />
+              <item name="EGuildPosition_Elite" value="3" desc="精英" />
+              <item name="EGuildPosition_Common" value="4" desc="普通" />
+          </enum>
+          <!-- 公会查询结果枚举 -->
+          <enum name="EGuildListResult">
+              <item name="EGuildListResult_OK" value="1" desc="操作成功" />
+              <item name="EGuildListResult_PageMax" value="2" desc="查询页数过大" />
+          </enum>
+          <!-- 公会入会请求结果枚举 -->
+          <enum name="EGuildEnterResult">
+              <item name="EGuildEnterResult_OK" value="1" desc="操作成功" />
+              <item name="EGuildEnterResult_InGuild" value="2" desc="已经入会" />
+              <item name="EGuildEnterResult_EnterMax" value="3" desc="该公会已经有太多人申请" />
+              <item name="EGuildEnterResult_MemberMax" value="4" desc="该公会已经人满为患" />
+          </enum>
+          <!-- 公会离开公会请求结果枚举 -->
+          <enum name="EGuildLeaveResult">
+              <item name="EGuildLeaveResult_OK" value="1" desc="操作成功" />
+              <item name="EGuildLeaveResult_President" value="2" desc="将会长职位传给其他人后才可脱离公会" />
+              <item name="EGuildLeaveResult_SysError" value="4" desc="系统错误" />
+          </enum>
+          <!-- 创建公会结果枚举 -->
+          <enum name="EGuildCreateResult">
+              <item name="EGuildCreateResult_OK" value="1" desc="操作成功" />
+              <item name="EGuildCreateResult_NameExist" value="2" desc="公会名称已存在" />
+              <item name="EGuildCreateResult_NameShort" value="3" desc="公会名称字数不足" />
+              <item name="EGuildCreateResult_NameLong" value="4" desc="公会名称字数过多" />
+              <item name="EGuildCreateResult_AimShort" value="5" desc="公会宗旨字数不足" />
+              <item name="EGuildCreateResult_AimLong" value="6" desc="公会宗旨字数过多" />
+          </enum>
+          <!-- 公会LOG类型 -->
+          <enum name="EGuildLogType">
+              <item name="EGuildLogType_MemberEnter" value="11" desc="成员加入" />
+              <item name="EGuildLogType_MemberKick" value="12" desc="成员踢出" />
+              <item name="EGuildLogType_PotitionChange" value="13" desc="职位调整" />
+              <item name="EGuildLogType_PresidentChange" value="14" desc="会长转让" />
+              <item name="EGuildLogType_PresidentImpeach" value="15" desc="会长弹劾" />
+              <item name="EGuildLogType_LevelUp" value="20" desc="公会升级" />
+              <item name="EGuildLogType_TechnologyUp" value="30" desc="公会科技升级" />
+              <item name="EGuildLogType_Pray" value="40" desc="公会祈福" />
+              <item name="EGuildLogType_NoticeChange" value="50" desc="公告修改" />
+              <item name="EGuildLogType_AimChange" value="60" desc="宗旨修改" />
+          </enum>
+          <!-- 公会日志结果枚举 -->
+          <enum name="EGuildLogResult">
+              <item name="EGuildLogResult_OK" value="1" desc="操作成功" />
+              <item name="EGuildLogResult_NotMember" value="2" desc="非公会成员" />
+              <item name="EGuildLogResult_SysError" value="3" desc="系统错误" />
+          </enum>
+          <!-- 公会修改公告结果枚举 -->
+          <enum name="EGuildChangeNoticeResult">
+              <item name="EGuildChangeNoticeResult_OK" value="1" desc="操作成功" />
+              <item name="EGuildChangeNoticeResult_NotMember" value="2" desc="非公会成员" />
+              <item name="EGuildChangeNoticeResult_SysError" value="3" desc="系统错误" />
+          </enum>
+          <!-- 公会申请列表操作结果 -->
+          <enum name="EGuildEnterAcceptResult">
+              <item name="EGuildEnterAcceptResult_OK" value="1" desc="操作成功" />
+              <item name="EGuildEnterAcceptResult_NotInList" value="2" desc="不在申请列表" />
+              <item name="EGuildEnterAcceptResult_InGuild" value="3" desc="已在公会(不一定是本公会)" />
+              <item name="EGuildEnterAcceptResult_Canceled" value="4" desc="玩家已取消申请" />
+              <item name="EGuildEnterAcceptResult_SysError" value="5" desc="系统错误" />
+          </enum>
+
+      </enums>
+
+<types>
+
+    <type name="SError">
+        <item name="Type" type="int" desc="错误码类型 " />
+        <item name="Error" type="string" count="MAX_ERROR_STRING" desc="错误信息"/>
+    </type>
+
+    <type name="SPosInfo">
+        <item name="X" type="int" desc="X坐标，单位0.001米 " />
+        <item name="Y" type="int" desc="Y坐标，单位0.001米 " />
+        <item name="Z" type="int" desc="Z坐标，单位0.001米 " />
+        <item name="Orientation" type="int" desc="方向，单位角度" />
+    </type>
+
+    <type name="SRoleDBInfo">
+	    <item name="DBIndex" type="int" desc="数据库索引 " />
+        <item name="HP" type="int" desc="当前血量 " />
+        <item name="SP" type="int" desc="当前技力 " />
+        <item name="EP" type="int" desc="活力值 " />
+        <item name="VipEP" type="int" desc="vip活力值 " />
+        <item name="AP" type="int" desc="活动协助次数 " />
+        <item name="Experience" type="int64" desc="当前经验值 " />
+        <item name="NonMoney" type="dword" desc="当前绑定游戏币（金币） " />
+        <item name="NonCash" type="dword" desc="当前绑定勋章 " />
+        <item name="Cash" type="dword" desc="当前流通勋章 " />
+		<item name="LatestWorldChatTime" type="uint64" desc="最近一次世界聊天的时间 " />
+
+        <item name="XData" type="string" count="MAX_BIGXML_LEN" desc="xml扩展数据" />
+
+        <item name="XData2" type="string" count="MAX_XML_LEN" desc="关卡数据等" />
+        <item name="XData3" type="string" count="MAX_XML_LEN" desc="保留数据" />
+
+        <item name="ActivityInfo" type="string" count="MAX_XML_LEN" desc="活动的xml扩展数据" />
+        <item name="Shop" type="string" count="MAX_XML_LEN" desc="商城的xml扩展数据" />
+		<item name="ClentCfg" type="string" count="512" desc="客户端配置" />
+    </type>
+
+    <!-- 物品信息结构 -->
+    <type name="SItemInfo">
+        <item name="Index"      type="byte" />
+        <!-- 所在包序号,0:任务背包,1:默认物品背包,2-5:扩展背包,10:银行,20:房屋内打开的房屋存储箱 -->
+        <item name="Slot"   type="byte" desc="所在位置" />
+        <item name="ExInfoIndex" type="byte" desc="装备附属性对应位置，数组元素最大个数为没有" />
+        <item name="MakerInfoIndex" type="byte" desc="制作人信息对应位置，数组元素最大个数为没有该属性" />
+        <item name="TimeInfoIndex" type="byte" desc="时间信息对应位置，数组元素最大个数为没有该属性" />
+        <item name="Count" type="word" desc="数量" />
+        <item name="Flag" type="dword" desc="物品标记,见EItemInfoFlag" />
+        <item name="PersonalFlag" type="byte" desc="特殊标记EItemPersonalFlag" />
+        <item name="TemplateId" type="dword" desc="物品模板ID" />
+        <item name="ObjId" type="dword" desc="物品obj id" />
+        <item name="ItemUUId" type="uint64" desc="物品模板ID" />
+    </type>
+
+    <type name="SRollItemData">
+        <item name="Type" type="byte" desc="参见EActCellObtainType" />
+        <item name="ID" type="dword" />
+        <item name="Num" type="word" />
+        <item name="BroadcastFlag" type="int" />
+        <item name="Rare" type="int" />
+    </type>
+
+    <type name="SRollData_Common">
+    </type>
+
+    <type name="SRollData_Money">
+    </type>
+
+    <type name="SRollData_Cell">
+    </type>
+
+    <type name="SRollPoolItem">
+        <item name="Template" type="dword" />
+        <item name="Num" type="int" />
+    </type>
+
+    <type name="SBaseItemInfo" desc="用于传输的物品结构体。仅适用于用templateId可以唯一确定的物品，不能使用于随机属性、强化等物品">
+        <item name="TemplateId" type="dword" />
+        <item name="Num" type="int" />
+    </type>
+
+    <type name="SMultiItems" desc="用于传输的物品结构体，包括物品TemplateID/物品数量">
+        <item name="TypeCount" type="int" desc="物品种类数"/>
+        <item name="Items" type="SBaseItemInfo" count="MAX_ITEM_COUNT"  refer="TypeCount"/>
+    </type>
+
+    <!-- blob 数据类型 -->
+    <type name="SBlob">
+        <item name="Len" type="dword" desc="数据长度" />
+        <item name="Data" type="byte" count="MAX_BLOB_LEN" refer="Len" desc="数据" />
+    </type>
+
+    <!-- blob 数据类型 -->
+    <type name="SBigBlob">
+        <item name="Len" type="dword" desc="数据长度" />
+        <item name="Data" type="byte" count="MAX_BIGBLOB_LEN" refer="Len" desc="数据" />
+    </type>
+
+    <type name="SMediumBlob">
+        <item name="Len" type="dword" desc="数据长度" />
+        <item name="Data" type="byte" count="MAX_MEDIUMBLOB_LEN" refer="Len" desc="数据" />
+    </type>
+
+    <type name="SBigMoreBlob">
+        <item name="Len" type="dword" desc="数据长度" />
+        <item name="Data" type="byte" count="MAX_BIG_MORE_BLOB_LEN" refer="Len" desc="数据" />
+    </type>
+
+    <!-- blob 数据类型 -->
+    <type name="SEXBigBlob">
+        <item name="Len" type="dword" desc="数据长度" />
+        <item name="Data" type="byte" count="MAX_EXEBIGBLOB_LEN" refer="Len" desc="数据" />
+    </type>
+
+    <!-- 选角色人物身上装备信息结构 -->
+    <type name="SEquipInfo">
+        <item name="Slot" type="byte" desc="装备位置" />
+        <item name="TemplateId" type="dword" desc="装备模板ID" />
+        <item name="HuanhuaTemplateId" type="dword" desc="幻化模板ID " />
+        <item name="StarCount" type="byte" desc="当前星级" />
+    </type>
+
+    <type name="SRoleInfo" desc="基本角色信息">
+        <item name="DBRoleId" type="uint64" desc="DB中的角色ID" />
+        <item name="RoleName" type="string" count="ROLE_NAME_LEN" desc="角色名" />
+        <item name="Level" type="int" desc="等级" />
+        <item name="BaseJob" type="byte" desc="基础职业 " />
+        <item name="Job" type="byte" desc="职业" />
+        <item name="Gender" type="byte" desc="性别" />
+        <item name="SkinColor" type="byte" desc="肤色" />
+        <item name="HairStyle" type="byte" desc="发型" />
+		<item name="createtime" type="string" count="64" desc="创建时间" />
+		<item name="LastLoginTime" type="uint64" desc="最近登陆时间 " />
+        <item name="LastLogoutTime" type="uint64" desc="最近登出时间 " />
+        <item name="SceneId" type="dword" desc="角色最后所在场景的模板id" />
+        <item name="InstanceSceneId" type="dword" desc="角色最后所在场景的实例id" />
+        <item name="LatestSceneId" type="dword" desc="角色上一次所在场景的模板id" />
+        <item name="LatestInstanceSceneId" type="dword" desc="角色上一次所在场景的实例id" />
+		<item name="ForbidenTime" type="uint64" desc="禁止登陆到期时间" />
+    </type>
+
+    <type name="SXGEM">
+        <item name="TID" type="int" des="模板ID"/>
+    </type>
+
+    <type name="SXITEM">
+        <item name="UID" type="uint64" des="唯一ID"/>
+        <item name="TID" type="int" des="模板ID"/>
+        <item name="UP" type="int" des="强化等级"/>
+        <item name="CT" type="int" des="数量"/>
+
+        <item name="EXP" type="int" des="当前经验"/>
+        <item name="LK" type="int" des="锁定状态"/>
+
+        <item name="GEMCount" type="word" des="数量"/>
+        <item name="GEM" type="SXGEM" count="MAX_GEM_COUNT" refer="GEMCount" des="宝石"/>
+    </type>
+
+    <type name="SXITEMS">
+        <item name="ItemCount" type="word" des="物品数量"/>
+        <item name="Items" type="SXITEM" count="MAX_ITEM_COUNT" refer="ItemCount" des="模板ID"/>
+    </type>
+
+    <type name="SRoleInfoWithEquip" desc="带装备信息的角色信息">
+        <item name="RoleInfo" type="SRoleInfo" desc="roleinfo" />
+        <item name="Equip" type="SXITEMS" desc="equip" />
+    </type>
+
+    <type name="SRoleInfoWithEquipAll" desc="带装备信息的角色信息">
+        <item name="RoleInfo" type="SRoleInfo" desc="SRoleInfo" />
+        <item name="RoleDBInfo" type="SRoleDBInfo" desc="SRoleDBInfo" />
+    </type>
+
+    <type name="SROLE_SUIT_ITEM" desc="套装物品">
+        <item name="ItemUUID" type="uint64" desc="物品UUID" />
+        <item name="ItemID" type="int" desc="物品模板ID" />
+    </type>
+
+    <type name="SROLE_SUIT" desc="强化某物品回应">
+        <item name="SuitID" type="int" desc="套装ID" />
+        <item name="SuitCount" type="int" desc="套装激活套数" />
+        <item name="SuitItem" type="SROLE_SUIT_ITEM" count="MAX_SUIT_ITEM_COUNT" refer="SuitCount" desc="物品信息" />
+    </type>
+
+    <type name="SHeadRecord" desc=" 装备字头 ">
+        <item name="RandomValue" type="char" desc=" 浮动值 " />
+        <item name="HeadID" type="word" desc=" 字头id " />
+    </type>
+
+    <type name="SRandomEquipHead" desc=" 装备随机字头 "  >
+        <item name="IsIdentifyed" type="byte" desc="是否鉴定过" />
+        <item name="Count" type="byte" desc="字头数量" />
+        <item name="Heads" type="SHeadRecord" count="MAX_EQUIP_HEAD" refer="Count" desc="字头id数组" />
+    </type>
+
+    <!-- 存储装备附加信息结构 -->
+    <type name="SItemEquipExInfo">
+        <item name="Level"  type="byte" desc="等级" />
+        <item name="MaxLevel" type="byte" desc="最大等级" />
+        <item name="MaxHoleNum"  type="byte" desc="最大孔数" />
+        <item name="Hole" type="byte" desc="孔数" />
+        <item name="RandomHead" type="SRandomEquipHead" desc="随机字头" />
+        <item name="Durability" type="dword" desc="耐久" />
+        <item name="MaxDurability" type="dword" desc="耐久度上限" />
+        <item name="GemID" type="dword" count="MAX_ITEM_HOLE_NUM" desc="镶嵌的宝石" />
+        <item name="SmithingRandom" type="char" desc="装备锻造浮动值" />
+        <item name="StarRandom" type="char" desc="装备升星浮动值" />
+        <item name="ReduceEquipNeedLevel" type="byte" desc="降低装备需求等级" />
+        <item name="HunhuaTemplateID" type="dword" desc="幻化模板id" />
+        <item name="HunhuaEndTime" type="dword" desc="幻化结束时间" />
+        <item name="BuffID"  type="dword" desc="BUFF模板ID" />
+        <item name="StarExp" type="dword" desc="星值" />
+    </type>
+
+    <!-- 存储物品制作者信息结构 -->
+    <type name="SItemMakerInfo">
+        <item name="Maker"    type="byte" count="ROLE_NAME_LEN" desc="制造者 " />
+        <item name="Virtue"   type="dword" desc="正值 " />
+        <item name="Evil"       type="dword" desc="邪值 " />
+        <item name="Goodness" type="dword" desc="善值 " />
+        <item name="Badness"  type="dword" desc="恶值 " />
+    </type>
+
+    <!-- 存储物品的时间相关信息 -->
+    <type name="SItemTimeInfo">
+        <item name="UseNum"  type="byte" desc="剩余使用次数 " />
+        <item name="DestroyTime" type="dword" desc="消失剩余时间 " />
+    </type>
+
+    <type name="SNull">
+    </type>
+    <!-- 物品额外信息联合 -->
+    <type name="UItemExInfo" class="union">
+        <item name="Null" type="SNull" id="ITEM_EX_TYPE_NULL" />
+        <item name="EquipExInfo" type="SItemEquipExInfo" id="ITEM_EX_TYPE_EQUIP" />
+    </type>
+
+    <type name="SItemExInfo">
+        <item name="Type" type="byte" />
+        <item name="ExInfo" type="UItemExInfo" select="Type" />
+    </type>
+
+    <type name="SExchangeItem">
+        <item name="Add" type="byte" desc="添加还是删除" />
+        <item name="TemplateId" type="dword" desc="物品模板ID" />
+        <item name="FromIndex"  type="byte" desc="从，序列号" />
+        <item name="FromSlot" type="byte" desc="从，位置" />
+        <item name="ToSlot" type="byte" desc="到,位置" />
+    </type>
+
+    <!-- 一键换装物品信息结构 -->
+    <type name="SItemShortcut">
+        <item name="Slot"    type="byte" desc="所在位置 " />
+        <item name="TemplateId" type="dword" desc="物品模板ID " />
+        <item name="ItemUUId" type="uint64" desc="物品模板ID " />
+    </type>
+
+    <type name="SRoleName">
+        <item name="RoleName" type="string" count="ROLE_NAME_LEN" desc="角色名字" />
+        <item name="RoleID" type="uint64" />
+        <item name="Level" type="dword" desc="角色等级" />
+        <item name="Job" type="dword" desc="角色门派" />
+    </type>
+
+
+    <!-- 服务器信息内容 -->
+    <type name="SServerInfo">
+        <item name="ServerID"   type="dword" />
+        <item name="ListenIP"   type="dword" />
+        <item name="ListenPort" type="word" />
+    </type>
+
+    <!-- 账号月卡信息 -->
+    <type name="MonthCardInfo" desc="月卡信息">
+        <item name="UId" type="int" desc="月卡ID" />
+        <item name="BTm" type="uint64" desc="购买时间" />
+        <item name="Days" type="int" desc="持续时间，一个月卡可以多次购买，时间叠加" />
+        <item name="UTm" type="uint64" desc="上次领取时间，0表未领取"/>
+    </type>
+
+    <!-- LM上的账号信息 -->
+    <type name="SLMAccountInfo" desc="账号的VIP相关信息,目前包括充值、GM等级">
+        <item name="AccountId" type="uint64" desc="账号 即digitid"/>
+        <item name="RMBCount" type="int" desc="账号充值次数(RMB)" />
+        <item name="RMBSum" type="int" desc="账号充值总金额(RMB)" />
+        <item name="Cash" type="dword" desc="徽章数" />
+        <item name="VIPLevel" type="int" desc="账号VIP等级" />
+        <item name="GMLevel" type="byte" desc="账号GM等级" />
+        <item name="MonthCardCount" type="byte" desc="月卡数量" />
+        <item name="MonthCardInfos" type="MonthCardInfo" count="MAX_MONTHCARD_COUNT" refer="MonthCardCount" desc="账号月卡信息" />
+    </type>
+
+    <!-- 游戏服务器信息内容 -->
+    <type name="SGameServerDescInfo">
+        <item name="OptLen"     type="byte" />
+        <item name="Opt"        type="byte" count="255" />
+        <item name="DescLen"    type="word" />
+        <item name="Desc"       type="byte" count="MAX_SERVER_DESC_LEN" refer="DescLen" />
+        <item name="StateLen"    type="word" />
+        <item name="State"       type="byte" count="MAX_SERVER_STATE_LEN" refer="StateLen" />
+    </type>
+    <type name="SGameServerInfo">
+        <item name="Server"     type="SServerInfo" />
+        <item name="PlayerCount" type="word" />
+        <item name="ServerState" type="byte" />
+        <item name="Desc" type="SGameServerDescInfo" />
+        <item name="ServerUniqueId" type="dword" desc="服的唯一id，跨区唯一" />
+    </type>
+
+    <type name="CTDT_CONNECTION_INFO">
+        <item name="IncomingBytesPerMinute" type="dword" />
+        <item name="OutgoingBytesPerMinute" type="dword" />
+    </type>
+
+    <type name="SUUItemInfo" desc="物品信息结构">
+        <item name="Count" type="word" desc=" 数量 " />
+        <item name="TemplateId" type="dword" desc=" 物品模板ID " />
+        <item name="UUID" type="uint64" desc="UUID " />
+    </type>
+
+    <type name="SItemList" desc="物品清单，[DB]要进数据库，请保持子结构SUUItemInfo不含嵌套结构">
+        <item name="Count" type="word" desc="物品数量"/>
+        <item name="ItemList" type="SUUItemInfo" count="MAX_ROLE_ITEM_COUNT" refer="Count"/>
+    </type>
+    <type name="SLevelInfo" desc="关卡数据">
+        <item name="LevelID" type="dword" desc="关卡id" />
+        <item name="Crystal" type="byte" desc="获得的星数" />
+        <item name="UsedTimes" type="word" desc="当日进入次数，次数上限请查阅level.csv表" />
+    </type>
+
+    <type name="SBattleInfo" desc="战役相关数据">
+        <item name="BattleID" type="dword" desc="战役id" />
+        <item name="GetStars" type="word" desc="战役已获取的星数" />
+    </type>
+
+    <type name="SCHAT">
+        <item name="ChatType" type="byte" desc="见EChatType"/>
+        <item name="Who" type="string" count="ROLE_NAME_LEN" />
+        <item name="ToWho" type="string" count="ROLE_NAME_LEN" />
+        <item name="Content" type="string" count="MAX_MSG_CONTENT_LEN"/>
+        <item name="GmLevel" type="byte" desc="GM命令使用者的GM等级 " />
+		<item name="SpeakerVIPLevel" type="byte" desc="发送者的vip等级 " />
+    </type>
+
+    <type name="SFriendEquipInfo">
+        <item name="TemplateID" type="dword" desc="装备模板id"/>
+    </type>
+
+    <type name="SFriendPetInfo">
+        <item name="TemplateID" type="dword" desc="模板id" />
+    </type>
+
+    <type name="SRSNull">
+    </type>
+
+    <type name="SRSRoleBaseData" desc="角色基础属性">
+        <item name="Level" type="dword" />
+        <item name="Attack" type="dword" />
+        <item name="PVPWins" type="int" />
+        <item name="PVPRepute" type="int" />
+    </type>
+
+    <type name="SRSRoleEquipData" desc="角色装备信息">
+        <item name="Count" type="byte" />
+        <item name="EquipInfo" type="SXITEM" count="MAX_EQUIP_ITEM_NUM" refer="Count" />
+    </type>
+
+    <type name="SRSRolePetData" desc="角色宠物信息">
+        <item name="Count" type="byte" />
+        <item name="PetInfo" type="SFriendPetInfo" count="MAX_FRIENDS_PET_COUNT" refer="Count" />
+    </type>
+
+    <type name="SRSRoleOnlineData" desc="角色在线信息">
+        <item name="IsOnline" type="byte" />
+    </type>
+
+    <type name="URSRoleProperty" class="union">
+        <item name="Null" type="SRSNull" id="RS_ROLE_PROPERTY_NULL" />
+        <item name="Base" type="SRSRoleBaseData" id="RS_ROLE_PROPERTY_BASE" />
+        <item name="Equip" type="SRSRoleEquipData" id="RS_ROLE_PROPERTY_EQUIP"/>
+        <item name="Pet" type="SRSRolePetData" id="RS_ROLE_PROPERTY_PET"/>
+        <item name="Online" type="SRSRoleOnlineData" id="RS_ROLE_PROPERTY_ONLINE" />
+    </type>
+
+    <type name="SRSRoleProperty">
+        <item name="Type" type="byte" desc="类型 RS_ROLE_PROERTY_TYPE"/>
+        <item name="Property" type="URSRoleProperty" select="Type" />
+    </type>
+
+
+    <type name="SFriendInfo">
+        <item name="RoleDBID" type="uint64" desc="角色dbid" />
+        <item name="Head" type="dword" desc="头像"/>
+        <item name="Name" type="string" count="ROLE_NAME_LEN" desc="名字" />
+        <item name="SkinColor" type="byte" desc="肤色" />
+        <item name="Sex" type="byte" desc="性别" />
+        <item name="HairStyle" type="byte" desc="发型" />
+        <item name="Level" type="word" desc="等级" />
+        <item name="Job" type="byte" desc="职业" />
+        <item name="Attack" type="dword" desc="战斗力" />
+        <item name="IsOnline" type="byte" desc="是否在线" />
+        <item name="ActionPoint" type="dword" desc="此好友给自己赠送的体力" />
+        <item name="CanDonateActionPoint" type="byte" desc="是否可给此好友赠送体力" />
+        <item name="Equip" type="SRSRoleEquipData" desc="装备信息" />
+        <item name="Pet" type="SRSRolePetData" desc="宠物信息" />
+    </type>
+    <type name="SFriendInviteInfo" desc="邀请者信息" >
+        <item name="Time" type="dword" desc="邀请时间" />
+        <item name="Info" type="SFriendInfo" desc="邀请者信息" />
+    </type>
+
+    <type name="SFriendInviteList" desc="邀请列表" >
+        <item name="InviteCount" type="dword" desc="数量" />
+        <item name="InviteList" type="SFriendInviteInfo" count="MAX_FRIENDS_INVITE_COUNT" refer="InviteCount" desc="邀请列表" />
+    </type>
+
+    <type name="SRoleBaseInfo">
+        <item name="RoleDBID" type="uint64" desc="角色dbid" />
+        <item name="Name" type="string" count="ROLE_NAME_LEN" desc="名字" />
+        <item name="SkinColor" type="byte" desc="肤色" />
+        <item name="Sex" type="byte" desc="性别" />
+        <item name="HairStyle" type="byte" desc="发型" />
+        <item name="Level" type="word" desc="等级" />
+        <item name="Job" type="byte" desc="职业" />
+        <item name="Attack" type="dword" desc="战斗力" />
+        <item name="PVPWins" type="int" des="Pvp胜利次数" />
+        <item name="PVPRepute" type="int" des="声望" />
+        <item name="IsOnline" type="byte" desc="是否在线" />
+        <item name="VIPLevel" type="int" desc="账号VIP等级" />
+    </type>
+
+    <type name="SDBPET">
+        <item name="UID" type="uint64" desc="唯一ID"/>
+        <item name="TID" type="dword" desc="模板ID"/>
+        <item name="LV" type="int" desc="等级"/>
+        <item name="EXP" type="int64" desc="经验"/>
+        <item name="HP" type="int" desc="HP"/>
+        <item name="SP" type="int" desc="SP"/>
+        <item name="UP" type="int" desc="强化等级"/>
+        <item name="LOCK" type="int" desc="是否锁定"/>
+        <item name="EQ" type="SXITEMS" desc="装备"/>
+    </type>
+
+    <type name="SRSBattlePets">
+        <item name="Count" type="byte" desc="数量" />
+        <item name="Pets" type="SDBPET" count="MAX_BATTLE_PET_COUNT" refer="Count" desc="宠物" />
+    </type>
+
+    <type name="SRoleRsServerInfo">
+        <item name="BaseInfo" type="SRoleBaseInfo" desc="基础信息" />
+        <item name="Equip" type="SRSRoleEquipData" desc="装备信息" />
+        <item name="Pet" type="SRSRolePetData" desc="宠物信息" />
+        <item name="BattlePets" type="SRSBattlePets" />
+    </type>
+
+
+
+    <type name="SAssistBattlePersonInfo">
+        <item name="IsFriend" type="byte" desc="是否是好友" />
+        <item name="Info" type="SFriendInfo" desc="助战人信息" />
+    </type>
+
+    <type name="SSeverAssistBattleInfo">
+        <item name="Assistor" type="SAssistBattlePersonInfo" desc="助战人信息"/>
+        <item name="BattlePet" type="SDBPET" desc="战斗宠物" />
+    </type>
+
+    <type name="FRIENDS_LIST_NTF" desc="好友列表通知">
+        <item name="Count" type="dword" desc="数量" />
+        <item name="List" type="SFriendInfo" count="MAX_FRIENDS_COUNT" refer="Count" desc="列表"/>
+        <item name="InviteList" type="SFriendInviteList" desc="邀请列表" />
+    </type>
+    <type name="QUERY_ROLE_REQ" desc="查询指定名字角色">
+        <item name="Page" type="dword" desc="请求的页码"/>
+        <item name="KeyWords" type="string" count="ROLE_NAME_LEN" desc="关键字" />
+    </type>
+
+    <type name="QUERY_ROLE_ACK" desc="查询指定名字角色反馈">
+        <item name="Count" type="dword" desc="条数"/>
+        <item name="Page" type="dword" desc="当前页数"/>
+        <item name="TotalPage" type="dword" desc="总业数"/>
+        <item name="Lists" type="SFriendInfo" count="MAX_FRIENDS_COUNT_PER_PAGE" refer="Count" desc="查询列表" />
+    </type>
+
+    <type name="ADD_FRIEND_REQ" desc="添加好友">
+        <item name="Name" type="string" count="ROLE_NAME_LEN" desc="名字" />
+    </type>
+
+    <type name="ADD_FRIEND_ACK" desc="添加好友反馈">
+        <item name="Result" type="byte" desc="结果" />
+        <item name="Count" type="byte" desc="数量" />
+        <item name="Friends" type="SFriendInfo" count="1" refer="Count" desc="好友数量,用数组是为了避免失败时不用额外发送好友信息" />
+    </type>
+
+    <type name="REMOVE_FRIEND_REQ" desc="删除好友">
+        <item name="RoleDBID" type="uint64" desc="角色dbid" />
+    </type>
+
+    <type name="REMOVE_FRIEND_ACK" desc="删除好友反馈" >
+        <item name="Result" type="byte" desc="结果" />
+        <item name="RoleDBID" type="uint64" desc="角色dbid" />
+    </type>
+
+    <type name="DONATE_ACTION_POINT_REQ" desc="赠送体力">
+        <item name="RoleDBID" type="uint64" desc="角色dbid" />
+    </type>
+
+    <type name="DONATE_ACTION_POINT_ACK" desc="赠送体力反馈" >
+        <item name="RoleDBID" type="uint64" desc="被赠送角色dbid" />
+        <item name="Result" type="byte" desc="结果" />
+    </type>
+
+    <type name="DONATE_ACTION_POINT_OTHER_NTF" desc="赠送体力通知被赠送者" >
+        <item name="RoleDBID" type="uint64" desc="增送者dbid" />
+    </type>
+
+    <type name="RECEIVE_ACTION_POINT_REQ" desc="领取体力">
+        <item name="RoleDBID" type="uint64" desc="被领取好友dbid"/>
+    </type>
+
+    <type name="RECEIVE_ACTION_POINT_ACK" desc="领取体力反馈">
+        <item name="RoleDBID" type="uint64" desc="被领取好友dbid" />
+        <item name="Result" type="byte" desc="结果" />
+    </type>
+    <type name="REQUEST_ADD_FRIEND_NTF" desc="别人请求成为好友通知">
+        <item name="NewInfo" type="SFriendInviteInfo"  desc="好友信息" />
+    </type>
+
+    <type name="RESPONSE_ADD_FRIEND_REQ" desc="回应添加好友请求">
+        <item name="RoleDBID" type="uint64" desc="角色dbid" />
+        <item name="Agree" type="byte" desc="是否同意" />
+    </type>
+
+    <type name="FRIEND_REMOVE_INVITE_NTF" desc="删除邀请列表中的请">
+        <item name="RoleDBID" type="uint64" desc="角色dbid"/>
+    </type>
+
+    <type name="FRIEND_INFO_CHANGE_NTF" desc="好友信息变化通知">
+        <item name="Info" type="SRSRoleProperty" />
+        <item name="RoleDBID" type="uint64" desc="角色dbid" />
+    </type>
+    <type name="FRIEND_ASSIST_LIST_REQ" desc="好友助战列表请求">
+    </type>
+
+    <type name="SELECT_FRIEND_ASSIST_REQ" desc="选择助战好友请求">
+        <item name="RoleDBID" type="uint64" desc="角色dbid" />
+    </type>
+
+    <type name="SELECT_FRIEND_ASSIST_ACK" desc="选择助战好友反馈">
+        <item name="RoleDBID" type="uint64" desc="角色dbid" />
+        <item name="Result" type="byte" desc="结果" />
+    </type>
+
+    <type name="SAbyssRsServerInfo">
+        <item name="ActDBID" type="uint64" desc="活动dbid" />
+        <item name="ActTmpId" type="dword" desc="活动配置模板的index" />
+        <item name="Blood" type="int" desc="怪物血量"/>
+        <item name="Roleid" type="uint64" desc="拥有者的角色id"/>
+        <item name="Rolename" type="string" count="ROLE_NAME_LEN" des="角色name"/>
+        <item name="Atkcount" type="int" desc="攻击者数量"/>
+        <item name="Atklist" type="uint64" count="MAX_FRIEND_COUNT" desc="攻击深渊的角色id列表"/>
+        <item name="Status" type="int" desc="状态 0-初始 1-触发 2-打开 3-被杀死 4-逃跑"/>
+        <item name="Tritime" type="uint64" desc="触发时间"/>
+        <item name="Opentime" type="uint64" desc="打开时间"/>
+        <item name="Killtime" type="uint64" desc="杀死时间"/>
+        <item name="EntranceExistTime" type="uint64" desc="触发的入口存在的时间"/>
+        <item name="AbyssExistTime" type="uint64" desc="打开的入口存在时间"/>
+    </type>
+
+    <type name="ABYSS_TRIGGER_REQ" desc="触发深渊请求">
+        <item name="AbyssDBID" type="uint64" />
+        <item name="AbyTemplateID" type="dword" desc="配置的深渊id模板"/>
+        <item name="AbyName" type="string" count="MAX_ABYSS_NAME_STRING_COUNT" des="深渊名字"/>
+        <item name="MonsterID" type="dword" desc="怪物id"/>
+        <item name="TotalBlood" type="dword" desc="怪物总血量"/>
+        <item name="TriggerTime" type="uint64" desc="触发时间"/>
+        <item name="EntranceExistTime" type="uint64" desc="触发的入口存在的时间"/>
+        <item name="AbyssExistTime" type="uint64" desc="打开的入口存在时间"/>
+        <item name="Rolename" type="string" count="ROLE_NAME_LEN" des="角色name"/>
+        <item name="Job" type="byte" desc="职业" />
+    </type>
+    <type name="ABYSS_TRIGGER_ACK" desc="触发深渊反馈">
+        <item name="IfTrigger" type="byte" desc="是否触发 1表示触发 其他不触发"/>
+        <item name="AbyssInfo" type="SAbyssRsServerInfo" desc="深渊信息"/>
+    </type>
+    <type name="ABYSS_OPEN_REQ" desc="打开深渊请求">
+        <item name="AbyssDBID" type="uint64" />
+        <item name="OpenTime" type="uint64" />
+    </type>
+    <type name="ABYSS_OPEN_ACK" desc="打开深渊反馈">
+        <item name="AbyssInfo" type="SAbyssRsServerInfo" des="深渊信息"/>
+    </type>
+    <type name="ABYSS_OPEN_NTF" desc="通知朋友有打开的深渊">
+        <item name="AbyssCount" type="int" />
+        <item name="AbyssInfo" type="SAbyssRsServerInfo" count="MAX_ABYSS_OPEN_COUNT" refer="AbyssCount" des="深渊信息"/>
+    </type>
+    <type name="GET_ABYSS_TRIGGER_LIST_REQ" desc="获取触发的深渊列表请求">
+        <item name="RoleDBID" type="uint64" />
+    </type>
+    <type name="GET_ABYSS_TRIGGER_LIST_ACK" desc="获取触发的深渊列表的反馈">
+        <item name="AbyssCount" type="int" />
+        <item name="AbyssInfo" type="SAbyssRsServerInfo" count="MAX_ABYSS_OPEN_COUNT" refer="AbyssCount" des="深渊信息"/>
+    </type>
+    <type name="GET_ABYSS_OPEN_LIST_REQ" desc="获取打开的深渊列表的请求">
+        <item name="RoleDBID" type="uint64" />
+    </type>
+    <type name="GET_ABYSS_OPEN_LIST_ACK" desc="获取打开的深渊列表的反馈">
+        <item name="AbyssCount" type="int" />
+        <item name="AbyssInfo" type="SAbyssRsServerInfo" count="MAX_ABYSS_OPEN_COUNT" refer="AbyssCount" des="深渊信息"/>
+    </type>
+
+    <type name="ABYSS_OPEN_RECORD">
+        <item name="Abydbid" type="uint64" desc="深渊dbid"/>
+        <item name="AbyTmpid" type="dword" des="模板id"/>
+        <item name="Opentime" type="uint64" des="打开时间"/>
+        <item name="Roleid" type="uint64" des="角色id"/>
+        <item name="Rolename" type="string" count="ROLE_NAME_LEN" des="角色name"/>
+    </type>
+    <type name="GET_ABYSS_OPEN_REC_REQ" desc="获取打开记录请求">
+        <item name="RoleDBID" type="uint64" />
+    </type>
+    <type name="GET_ABYSS_OPEN_REC_ACK" desc="获取打开记录反馈">
+        <item name="Count" type="int" desc="数量"/>
+        <item name="Records" type="ABYSS_OPEN_RECORD" count="MAX_XABYSS_RECORD_COUNT" refer="Count"  des="打开记录列表"/>
+    </type>
+    
+    <type name="ATK_INFO" desc="攻击深渊的角色"> 
+		<item name="Roleid" type="uint64" desc="攻击者id"/>
+        <item name="Job" type="byte" desc="职业" />
+	</type>
+	<type name="ATK_INFO_LIST" desc="攻击深渊的角色列表"> 
+		<item name="Atkcount" type="int" desc="攻击者数量"/>
+        <item name="Atklist" type="ATK_INFO" count="MAX_FRIEND_COUNT" refer="Atkcount" desc="攻击深渊的角色列表"/>
+	</type>
+	<type name="ABYSS_SEND_REWARD_MAIL" desc="深渊信息"> 
+		<item name="TmpID" type="dword" />
+		<item name="Roleid" type="uint64" desc="拥有者的角色id"/>
+        <item name="Rolename" type="string" count="ROLE_NAME_LEN" des="角色name"/>
+        <item name="Job" type="byte" desc="职业" />
+		<item name="Status" type="int" desc="状态 0-初始 1-触发 2-打开 3-被杀死 4-逃跑"/>
+		<item name="AtkInfoList" type="ATK_INFO_LIST" desc="攻击者"/>
+	</type>
+
+    <type name="SMailDetail">
+        <item name="Type" type="byte" desc="邮件类型" />
+        <item name="UniqueID" type="uint64" desc="邮件唯一id" />
+        <item name="Money" type="int" desc="金钱" />
+        <item name="SendTime" type="dword" desc="发送时间" />
+        <item name="ReadTime" type="dword" desc="阅读时间" />
+        <item name="Sender" type="string" count="ROLE_NAME_LEN" desc="发件人姓名" />
+        <item name="Receiver" type="string" count="ROLE_NAME_LEN" desc="收件人姓名" />
+        <item name="Title" type="string" count="MAX_MAIL_TITLE_LEN" desc="标题" />
+        <item name="Content" type="string" count="MAX_MAIL_CONTENT_LEN" desc="内容" />
+        <item name="ItemCount" type="byte" desc="物品数量" />
+        <item name="Items" type="SXITEM" count="MAX_MAIL_ITEM_COUNT" refer="ItemCount" />
+    </type>
+
+    <type name="MAIL_LIST">
+        <item name="Count" type="word" desc="邮件数量" />
+        <item name="Mails" type="SMailDetail" count="MAX_MAIL_COUNT" refer="Count" />
+    </type>
+
+    <type name="SEND_MAIL">
+        <item name="Money" type="int" desc="金钱" />
+        <item name="Receiver" type="string" count="ROLE_NAME_LEN" desc="收件人姓名" />
+        <item name="Title" type="string" count="MAX_MAIL_TITLE_LEN"  desc="标题" />
+        <item name="Content" type="string" count="MAX_MAIL_CONTENT_LEN" desc="内容" />
+        <item name="ItemCount" type="byte" desc="物品数量" />
+        <item name="Items" type="uint64" count="MAX_MAIL_ITEM_COUNT" refer="ItemCount" />
+    </type>
+
+    <type name="MAIL_ID_LIST">
+        <item name="Count" type="word" />
+        <item name="MailIDs" type="uint64" count="MAX_MAIL_COUNT" refer="Count" />
+    </type>
+
+
+	<type name="SPVPRoleAllData">
+		<item name="Roleid"     type="uint64" desc="角色id"/>
+		<item name="Digitid"     type="uint64" desc="账号数字id"/>
+		<item name="RoleName" type="string" count="ROLE_NAME_LEN" desc="角色名字" />
+		<item name="RoleLevel"     type="int" desc="角色等级"/>
+		<item name="MiLevel"     type="int" desc="军阶等级"/>
+		<item name="Repute" type="int" desc="声望" />
+		<item name="Points" type="int" desc="积分" />
+		<item name="Ranks" type="int" desc="排名"/>
+		<item name="BaseJob" type="byte" desc="基础门派 " />
+        <item name="Sex" type="byte" desc="对象性别 " />
+        <item name="HairStyle" type="byte" desc="发型" />
+        <item name="HairColor" type="byte" desc="颜色" />
+        <item name="Attack" type="int" desc="战斗力"/>
+	</type> 
+    <type name="PVP_MATCH">
+		<item name="Roleid" type="uint64" desc="角色id"/>
+	    <item name="RoleName" type="string" count="ROLE_NAME_LEN" desc="角色名字" />
+	    <item name="RoleLevel" type="int" desc="角色等级" />
+	    <item name="MilitaryLevel" type="int" desc="军阶等级" />
+	    <item name="Points" type="int" desc="角色当前积分" />
+	    <item name="BaseJob" type="byte" desc="基础门派 " />
+        <item name="Sex" type="byte" desc="对象性别 " />
+        <item name="HairStyle" type="byte" desc="发型" />
+        <item name="HairColor" type="byte" desc="颜色" />
+    </type>
+    <type name="PVP_MATCH_LIST" desc="获取pvp对手回应 ">
+		<item name="Count" type="word" />
+	    <item name="PVPMatchList" type="PVP_MATCH" count="MAX_PVP_MATCH_COUNT" refer="Count" />
+	</type>
+	
+	<type name="PVP_RANK">
+		<item name="Roleid" type="uint64" desc="角色id"/>
+	    <item name="RoleName" type="string" count="ROLE_NAME_LEN" desc="角色名字" />
+	    <item name="RoleLevel" type="int" desc="角色等级" />
+	    <item name="MilitaryLevel" type="int" desc="军阶等级" />
+	    <item name="Points" type="int" desc="角色当前积分" />
+	    <item name="Rank" type="int" desc="角色排名"/>
+	    <item name="BaseJob" type="byte" desc="基础门派 " />
+        <item name="Sex" type="byte" desc="对象性别 " />
+        <item name="HairStyle" type="byte" desc="发型" />
+        <item name="HairColor" type="byte" desc="颜色" />
+    </type>
+	<type name="PVP_RANK_LIST" desc="获取pvp排行榜 ">
+		<item name="Count" type="word" />
+	    <item name="PVPRankList" type="PVP_RANK" count="MAX_PVP_RANK_COUNT" refer="Count" />
+	</type>
+	
+	<!--robot-->
+	<type name="SRobotPet">
+		<item name="TemplateId" type="int" des="模板ID"/>
+	</type>
+	<type name="SRobotPets">
+		<item name="PetCount" type="word" desc="拥有宠物个数 " />
+        <item name="PetsInfo" type="SRobotPet" count="PET_BTPOS_TEAM" refer="PetCount" />
+        <item name="PetLevel" type="int" des="等级"/>
+        <item name="PetUp" type="int" des="强化等级"/>
+	</type>
+
+	<type name="SRobosEquip">
+		<item name="TemplateId" type="int" des="模板ID"/>
+	</type>
+	<type name="SRobosEquips">
+		<item name="EquipCount" type="byte" />
+        <item name="EquipInfo" type="SRobosEquip" count="MAX_EQUIP_ITEM_NUM" refer="EquipCount" />
+	</type>
+	
+	<type name="SRobotBuff">
+		<item name="TemplateId" type="int" des="buff模板ID"/>
+	</type>
+	<type name="SRobotBuffs">
+		<item name="BuffCount" type="byte" />
+        <item name="BuffInfo" type="SRobotBuff" count="MAX_PVP_ROBOT_BUFF_COUNT" refer="BuffCount" />
+	</type>
+	
+	<type name="SPVPRobot">
+		<item name="UID" type="uint64" des="唯一id"/>
+		<item name="DGID" type="uint64" des="账号数字id"/>
+		<item name="Name" type="string" count="ROLE_NAME_LEN" des="名字"/>
+		<item name="Level" type="int" def="1" des="角色等级"/>
+		<item name="Job" type="byte" des="职业"/>
+		<item name="Quality" type="int" des="品质系数"/>
+		<item name="Repute" type="int" des="声望"/>
+		<item name="Militery" type="int" def="1" des="军阶等级"/>
+		<item name="Points" type="int" def="1000" des="积分"/>			
+		<item name="Sex" type="byte" des="性别"/>
+		<item name="HairStyle" type="byte" desc="发型" />
+		<item name="HairColor" type="byte" desc="颜色" />
+		<item name="Equips" type="SRobosEquips" />
+		<item name="Pets" type="SRobotPets" />
+		<item name="Buffs" type="SRobotBuffs" />
+	</type>
+	
+	<type name="SSeverPVPBattleInfo">
+		<item name="PVPProperty" type="SPVPRoleAllData" desc="PVP信息"/>
+        <item name="RoleAllInfo" type="string" count="MAX_PVP_ROLE_INFO_STRING_COUNT" desc="人物所有信息，包括装备、宠物、技能、属性等"/>
+        <item name="PVPRobot" type="SPVPRobot" desc="机器人"/>
+    </type>
+      
+    <type name="WBAtkInfo">
+		<item name="Id" type="uint64" des="攻击者角色id"/>
+		<item name="Nm" type="string" count="ROLE_NAME_LEN" des="攻击者角色名字"/>
+		<item name="Dmg" type="int" des="伤害量"/>
+		<item name="Buf" type="int" des="buf次数"/>
+		<item name="BufId" type="int" des="buf id"/>
+		<item name="Rank" type="int" des="万分比"/>
+	</type>
+	<type name="WBBossBuff">
+		<item name="Percent" type="int" des="加成万分比"/>
+		<item name="BuffID" type="int" des="buff id"/>
+	</type>
+    <type name="SWorldBossInfo">
+        <item name="WBDBID" type="uint64" desc="世界boss的dbid" />
+        <item name="WBTmpId" type="dword" desc="世界boss配置模板的index" />
+        <item name="TotalNum" type="int" desc="参与总人数"/>
+        <item name="Blood" type="int" desc="怪物血量"/>
+        <item name="BossBuff" type="WBBossBuff" desc="怪物属性加成"/>
+        <item name="Atkcount" type="int" desc="攻击者数量"/>
+        <item name="Atklist" type="WBAtkInfo" count="MAX_WB_RANK_COUNT" ref="Atkcount" desc="攻击角色列表"/>
+        <item name="AtkInfo" type="WBAtkInfo" desc="个人攻击信息"/>
+        <item name="Status" type="int" desc="状态 0-初始 1-准备 2-打开 3-结算 4-杀死 5-逃跑"/>
+        <item name="StartTime" type="uint64" desc="打开时间"/>
+        <item name="EndTime" type="uint64" desc="结束时间"/>
+        <item name="Killtime" type="uint64" desc="杀死时间"/>
+        <item name="ReliveTime" type="uint64" desc="死亡冷却时间"/>
+        <item name="NextTime" type="uint64" desc="下一场开始的标准时间"/>
+        <item name="Time" type="int" desc="角色还可以打世界boss的次数" />
+    </type>
+
+    <type name="SRankRoleReq">
+        <item name="RoleDBID" type="uint64" desc="" />
+        <item name="RankType" type="int" desc="参见ERankType" />
+        <item name="Page" type="int" desc="第一页=0 依此类推 每页最多MAX_RANK_PAGE_COUNT" />
+    </type>
+
+    <type name="SRankRole">
+        <item name="RoleInfo" type="SRoleRsServerInfo" desc="" />
+    </type>
+
+    <type name="SRankRoleAck">
+        <item name="Req" type="SRankRoleReq" desc="" />
+        <item name="TotalCount" type="int" desc="总的人数" />
+        <item name="SelfRank" type="int" desc="自己的排名=-1代表不在MAX_RANK_ROLE_COUNT内" />
+        <item name="RankCount" type="int" desc="指定Page有多少名玩家" />
+        <item name="Rank" type="SRankRole" count="MAX_RANK_PAGE_COUNT" refer="RankCount" desc="" />
+    </type>
+    
+    <!-- 公会相关 -->
+    <type name="SGuildListReq" desc="公会列表请求，非入会玩家 ">
+        <item name="Page" type="dword" desc="第几页"/>
+    </type>
+    <type name="SGuildListInfo" desc="公会列表信息 ">
+        <item name="GuildId" type="int" desc="公会ID"/>
+        <item name="GuildName" type="string" count="MAX_GUILD_NAME_LEN" des="公会名称"/>
+        <item name="GuildLv" type="int" desc="公会等级"/>
+        <item name="PresidentName" type="string" count="ROLE_NAME_LEN" des="会长名字"/>
+        <item name="MemberCount" type="int" desc="公会人数"/>
+        <item name="MemberMax" type="int" desc="公会最大人数"/>
+    </type>
+    <type name="SGuildListAck" desc="公会列表回应，非入会玩家 ">
+        <item name="Result" type="byte" desc="操作结果 参考EGuildListResult"/>
+        <item name="Count" type="byte" desc="信息数量" />
+        <item name="Info" type="SGuildListInfo" refer="Count" count="MAX_GUILD_LIST_PER_PAGE" desc="公会信息" />
+    </type>
+    <type name="SGuildEnterReq" desc="公会入会申请 ">
+        <item name="GuildId" type="int" desc="公会ID"/>
+    </type>
+    <type name="SGuildEnterAck" desc="公会入会申请返回 ">
+        <item name="Result" type="byte" desc="操作结果 参考EGuildEnterResult"/>
+        <item name="GuildId" type="int" desc="公会ID"/>
+    </type>
+    <type name="SGuildLeaveAck" desc="离开公会返回 ">
+        <item name="Result" type="byte" desc="操作结果 参考EGuildLeaveResult"/>
+    </type>
+    <type name="SGuildCreateReq" desc="创建公会 ">
+        <item name="GuildName" type="string" count="MAX_GUILD_NAME_LEN" des="公会名称"/>
+        <item name="GuildAim" type="string" count="MAX_GUILD_AIM_LEN" des="公会宗旨"/>
+        <item name="CostType" type="byte" desc="花费类型(1金币2徽章)"/>
+    </type>
+    <type name="SGuildCreateAck" desc="创建公会结果 ">
+        <item name="Result" type="byte" desc="操作结果 参考EGuildCreateResult"/>
+    </type>
+    <type name="SGuildBaseInfo" desc="公会基本信息 ">
+        <item name="GuildId" type="int" desc="公会ID"/>
+        <item name="GuildName" type="string" count="MAX_GUILD_NAME_LEN" des="公会名称"/>
+        <item name="GuildNotice" type="string" count="MAX_GUILD_NOTICE_LEN" des="公会公告"/>
+        <item name="MemberCount" type="int" desc="公会人数"/>
+        <item name="MemberMax" type="int" desc="公会最大人数"/>
+        <item name="MyContribution" type="int" desc="我的贡献"/>
+        <item name="MyContributionMax" type="int" desc="我的贡献最大值"/>
+    </type>
+    <type name="SGuildLog_MemberEnter" desc="公会LOG.成员加入 ">
+        <item name="Time" type="dword" des="操作时间"/>
+        <item name="MemberName" type="string" count="ROLE_NAME_LEN" des="成员名字"/>
+    </type>
+    <type name="SGuildLog_MemberKick" desc="公会LOG.成员踢出 ">
+        <item name="Time" type="dword" des="操作时间"/>
+        <item name="MemberName" type="string" count="ROLE_NAME_LEN" des="成员名字"/>
+        <item name="KickName" type="string" count="ROLE_NAME_LEN" des="被踢成员名字"/>
+    </type>
+    <type name="SGuildLog_PotitionChange" desc="公会LOG.职位调整 ">
+        <item name="Time" type="dword" des="操作时间"/>
+        <item name="MemberName" type="string" count="ROLE_NAME_LEN" des="成员名字"/>
+        <item name="PositionChangeName" type="string" count="ROLE_NAME_LEN" des="被调整成员名字"/>
+        <item name="NewPosition" type="byte" desc="调整后职位 参考EGuildPosition"/>
+    </type>
+    <type name="SGuildLog_PresidentChange" desc="公会LOG.会长转让 ">
+        <item name="Time" type="dword" des="操作时间"/>
+        <item name="FromName" type="string" count="ROLE_NAME_LEN" des="原会长名字"/>
+        <item name="ToName" type="string" count="ROLE_NAME_LEN" des="新名字"/>
+    </type>
+    <type name="SGuildLog_PresidentImpeach" desc="公会LOG.会长弹劾 ">
+        <item name="Time" type="dword" des="操作时间"/>
+        <item name="FromName" type="string" count="ROLE_NAME_LEN" des="原会长名字"/>
+        <item name="ToName" type="string" count="ROLE_NAME_LEN" des="新名字"/>
+    </type>
+    <type name="SGuildLog_LevelUp" desc="公会LOG.公会升级 ">
+        <item name="Time" type="dword" des="操作时间"/>
+        <item name="FromLevel" type="int" des="原等级"/>
+        <item name="ToLevel" type="int" des="新等级"/>
+    </type>
+    <type name="SGuildLog_TechnologyUp" desc="公会LOG.公会科技升级 ">
+        <item name="Time" type="dword" des="操作时间"/>
+        <item name="TechnologyType" type="byte" desc="科技类型，目前包括经验提升、商品开发"/>
+        <item name="OpName" type="string" count="ROLE_NAME_LEN" des="操作者名字"/>
+        <item name="FromLevel" type="int" des="原等级"/>
+        <item name="ToLevel" type="int" des="新等级"/>
+    </type>
+    <type name="SGuildLog_Pray" desc="公会LOG.公会祈福 ">
+        <item name="Time" type="dword" des="操作时间"/>
+        <item name="PrayType" type="byte" desc="祈福类型，1普通2高级3神圣"/>
+        <item name="OpName" type="string" count="ROLE_NAME_LEN" des="操作者名字"/>
+        <item name="Money" type="int" des="增加金币数"/>
+    </type>
+    <type name="SGuildLog_NoticeChange" desc="公会LOG.公告修改 ">
+        <item name="Time" type="dword" des="操作时间"/>
+        <item name="OpName" type="string" count="ROLE_NAME_LEN" des="操作者名字"/>
+    </type>
+    <type name="SGuildLog_AimChange" desc="公会LOG.宗旨修改 ">
+        <item name="Time" type="dword" des="操作时间"/>
+        <item name="OpName" type="string" count="ROLE_NAME_LEN" des="操作者名字"/>
+    </type>
+    <type name="SGuildLogAck" desc="公会日志结果 ">
+        <item name="Result" type="byte" desc="操作结果 参考EGuildLogResult"/>
+        <item name="Count11" type="byte" desc="信息数量" />
+        <item name="MemberEnter" type="SGuildLog_MemberEnter" refer="Count11" count="MAX_GUILD_LOG_COUNT" desc="成员加入" />
+        <item name="Count12" type="byte" desc="信息数量" />
+        <item name="MemberKick" type="SGuildLog_MemberKick" refer="Count12" count="MAX_GUILD_LOG_COUNT" desc="成员踢出" />
+        <item name="Count13" type="byte" desc="信息数量" />
+        <item name="PotitionChange" type="SGuildLog_PotitionChange" refer="Count13" count="MAX_GUILD_LOG_COUNT" desc="职位调整" />
+        <item name="Count14" type="byte" desc="信息数量" />
+        <item name="PresidentChange" type="SGuildLog_PresidentChange" refer="Count14" count="MAX_GUILD_LOG_COUNT" desc="会长转让" />
+        <item name="Count15" type="byte" desc="信息数量" />
+        <item name="PresidentImpeach" type="SGuildLog_PresidentImpeach" refer="Count15" count="MAX_GUILD_LOG_COUNT" desc="会长弹劾" />
+        <item name="Count20" type="byte" desc="信息数量" />
+        <item name="LevelUp" type="SGuildLog_LevelUp" refer="Count20" count="MAX_GUILD_LOG_COUNT" desc="公会升级" />
+        <item name="Count30" type="byte" desc="信息数量" />
+        <item name="TechnologyUp" type="SGuildLog_TechnologyUp" refer="Count30" count="MAX_GUILD_LOG_COUNT" desc="公会科技升级" />
+        <item name="Count40" type="byte" desc="信息数量" />
+        <item name="Pray" type="SGuildLog_Pray" refer="Count40" count="MAX_GUILD_LOG_COUNT" desc="公会祈福" />
+        <item name="Count50" type="byte" desc="信息数量" />
+        <item name="NoticeChange" type="SGuildLog_NoticeChange" refer="Count50" count="MAX_GUILD_LOG_COUNT" desc="公告修改" />
+        <item name="Count60" type="byte" desc="信息数量" />
+        <item name="AimChange" type="SGuildLog_AimChange" refer="Count60" count="MAX_GUILD_LOG_COUNT" desc="宗旨修改" />
+    </type>
+    <type name="SGuildChangeNoticeReq" desc="公会修改公告请求 ">
+        <item name="NewNotice" type="string" count="MAX_GUILD_NOTICE_LEN" des="新公告"/>
+    </type>
+    <type name="SGuildChangeNoticeAck" desc="公会修改公告结果 ">
+        <item name="Result" type="byte" desc="操作结果 参考EGuildChangeNoticeResult"/>
+    </type>
+    <type name="SGuildMemberListInfo" desc="公会成员列表信息 ">
+        <item name="Name" type="string" count="ROLE_NAME_LEN" des="名字"/>
+        <item name="Level" type="int" desc="等级 " />
+        <item name="Attack" type="int" desc="战力"/>
+        <item name="Position" type="byte" desc="职位 参考EGuildPosition"/>
+        <item name="Contribution" type="int" desc="贡献"/>
+        <item name="OfflineTime" type="uint64" desc="离线时间"/>
+    </type>
+    <type name="SGuildDetailAck" desc="公会详细信息返回 ">
+        <item name="GuildName" type="string" count="MAX_GUILD_NAME_LEN" des="公会名称"/>
+        <item name="GuildId" type="int" desc="公会ID"/>
+        <item name="GuildLevel" type="int" desc="公会等级"/>
+        <item name="MemberCount" type="int" desc="公会人数"/>
+        <item name="MemberMax" type="int" desc="公会最大人数"/>
+        <item name="GuildAttack" type="int" desc="公会总战力"/>
+        <item name="Attack" type="int" desc="公会活跃度"/>
+        <item name="Reputation" type="int" des="公会威望"/>
+        <item name="Money" type="int" des="公会资金"/>
+        <item name="GuildAim" type="string" count="MAX_GUILD_AIM_LEN" des="公会宗旨"/>
+        <item name="Count" type="byte" desc="信息数量" />
+        <item name="MemberList" type="SGuildMemberListInfo" refer="Count" count="MAX_GUILD_MEMBER_COUNT" desc="成员列表" />
+    </type>
+    <type name="SGuildEnterInfo" desc="公会申请列表信息 ">
+        <item name="Name" type="string" count="ROLE_NAME_LEN" des="操作者名字"/>
+        <item name="Level" type="int" desc="等级 " />
+        <item name="Attack" type="int" desc="战力"/>
+        <item name="BaseJob" type="byte" desc="基础门派 " />
+        <item name="Job" type="byte" desc="当前门派 " />
+    </type>
+    <type name="SGuildEnterListAck" desc="公会申请列表返回 ">
+        <item name="Count" type="byte" desc="信息数量" />
+        <item name="EnterList" type="SGuildEnterInfo" refer="Count" count="MAX_GUILD_ENTER_COUNT" desc="申请列表" />
+    </type>
+    <type name="SGuildEnterAcceptReq" desc="公会申请.同意/拒绝 ">
+        <item name="Accept" type="byte" desc="1同意2拒绝 其他无意义" />
+        <item name="Name" type="string" count="ROLE_NAME_LEN" des="名字"/>
+    </type>
+    <type name="SGuildEnterAcceptAck" desc="公会申请.同意/拒绝 返回 ">
+        <item name="Result" type="byte" desc="操作结果 参考EGuildEnterAcceptResult"/>
+        <item name="Name" type="string" count="ROLE_NAME_LEN" des="名字"/>
+    </type>
+    <type name="SGuildEnterClearAck" desc="公会申请.清空 返回 ">
+        <item name="Result" type="byte" desc="操作结果 参考EGuildEnterAcceptResult"/>
+    </type>
+
+
+
+</types>
+
+<messages>
+</messages>
+</coder>

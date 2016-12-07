@@ -1,0 +1,52 @@
+<coder name="DMDSERROR" package="" version="1_0">
+    <defines>
+    </defines>
+    <errors>
+        <error name="ERR_OK"                                id="0" info="成功" des="操作成功错误码" />
+        <error name="ERR_NG"                                id="1" info="失败" des="常规失败错误码" />
+        <error name="ERR_SYSTEM"                            id="2" info="系统" des="系统" />
+        <error name="ERR_SYSTEM_SENDER"                     id="3" info="蕾安娜" des="蕾安娜" />
+        <error name="ERR_INVALID_ID"                        id="5" info="角色不存在" des="角色不存在" />
+        <error name="ERR_FRIEND_EXIST"                      id="10" info="好友已存在" des="好友已存在" />
+        <error name="ERR_FRIEND_NOT_EXIST"                  id="11" info="好友不存在" des="好友不存在"/>
+        <error name="ERR_FRIEND_COUNT_EXCEED"               id="12" info="您不能再添加更多好友了" des="您不能再添加更多好友了"/>
+        <error name="ERR_FRIEND_ALLOCATE_FAIL"              id="13" info="分配好友内存失败" des="分配好友内存失败"/>
+        <error name="ERR_FRIEND_ACTION_COUNT_LESS"          id="14" info="次数已经用完" des="次数已经用完"/>
+        <error name="ERR_FRIEND_NO_AP_CAN_BE_RECEIVED"      id="15" info="没有体力可领" des="没有体力可领"/>
+        <error name="ERR_FRIEND_AP_HAS_BEEN_DONATED"        id="16" info="今天已经向该好友赠送过体力了" des="今天已经向该好友赠送过体力了"/>
+        <error name="ERR_FRIEND_ADD_SELF"                   id="17" info="不能添加自己为好友" des="不能添加自己为好友" />
+        <error name="ERR_FRIEND_OTHER_REFUSEED"             id="18" info="对方拒绝了你的请求" des="对方拒绝了你的请求" />
+        <error name="ERR_FRIEND_INVITE_EXIST"               id="19" info="邀请信息已经存在" />
+        <error name="ERR_FRIEND_INVITE_NOT_EXIST"           id="20" info="邀请信息不存在" />
+        <error name="ERR_FRIEND_ADD_OLD_TIME_LIMIT"         id="21" info="24小时内不能加以删除好友" des="24小时内不能加以删除好友"/>
+        <error name="ERR_FRIEND_ASSIST_IN_CD"               id="22" info="已经助战的好友12小时内不能再助战" des="已经助战的好友12小时内不能再助战" />
+        <error name="ERR_LEVEL_BATTLE_BOX_HAS_GOT"          id="10001" info="宝箱已打开" des="已经打开过该宝箱" />
+
+	<error name="ERR_ABYSS_RUN_MAIL_TITLE"              id="20001" info="深渊BOSS %s 已逃跑！" des="深渊boss逃跑邮件标题" />
+	<error name="ERR_ABYSS_RUN_MAIL_CONTENT"            id="20002" info="很遗憾，你发现的深渊boss %s 已经逃跑，请再接再厉！" des="深渊boss逃跑邮件正文" />
+	<error name="ERR_ABYSS_ASSIST_KILL_MAIL_TITLE"      id="20003" info="协助击杀！%s" des="协助击杀深渊BOSS邮件标题" />
+	<error name="ERR_ABYSS_ASSIST_KILL_MAIL_CONTENT"    id="20004" info="恭喜你！你在协助击杀深渊boss %s 的战斗中表现英勇，获得了丰厚的奖励！" des="协助击杀深渊BOSS内容"/>
+	<error name="ERR_ABYSS_OWNER_KILL_MAIL_TITLE"       id="20005" info="深渊终结者！%s" des="击杀深渊BOSS，拥有者奖励邮件标题" />
+	<error name="ERR_ABYSS_OWNER_KILL_MAIL_CONTENT"     id="20006" info="恭喜你！你发现的深渊boss %s 已被击杀，获得了丰厚的奖励！" des="击杀深渊BOSS，拥有者奖励邮件内容"/>
+	<error name="ERR_PVP_RANK_MAIL_TITLE"               id="20007" info="竞技排名奖励邮件[第%d名]" des="竞技场排名奖励邮件标题" />
+	<error name="ERR_PVP_RANK_MAIL_CONTENT"             id="20008" info="恭喜你！排名奖励发送啦！！你的排名是第%d名" des="竞技场排名奖励邮件正文" />
+	<error name="ERR_ABYSS_EP_NOT_ENOUGH"               id="20009" info="你的体力不足，无法进入" des="体力不足" />
+	<error name="ERR_ABYSS_AP_NOT_ENOUGH"               id="20010" info="你的协助点数不足，无法进入" des="协助点数不足" />
+	<error name="ERR_ABYSS_FRIEND_ONE_TIME"             id="20011" info="无法进入，好友深渊只能进入1次" des="无法进入，好友深渊只能进入1次" />
+	<error name="ERR_ABYSS_ENTER_ERROR"                 id="20012" info="进入深渊失败" des="进入深渊失败" />
+	<error name="ERR_WB_RANK_MAIL_TITLE"                id="20013" info="世界BOSS排名奖励邮件[第%d名]" des="世界BOSS排名奖励邮件标题" />
+	<error name="ERR_WB_RANK_MAIL_CONTENT"              id="20014" info="恭喜你！世界BOSS排名奖励发送啦！！你的排名是第%d名" des="世界BOSS排名奖励邮件正文" />
+	<error name="ERR_JIHUOMA_SENDMAIL_TITLE"              id="20015" info="恭喜您成功领取激活码！！" des="领取激活码成功邮件标题" />
+	<error name="ERR_JIHUOMA_SENDMAIL_CONTENT"              id="20016" info="恭喜您！激活码领取成功了！！奖励物品随本邮件发放，请注意查收！" des="领取激活码成功邮件正文" />
+	<error name="ERR_PAY_SUCCESS"              id="20017" info="恭喜您！充值成功！！" des="充值成功提示" />
+    
+    </errors>
+    <types>
+    </types>
+
+    <messages>
+    </messages>
+
+    <datas>
+    </datas>
+</coder>

@@ -1,0 +1,4 @@
+<config>
+<load file="S:\U3D\dczg\dczg\share\protocol\headerproto.xml"/>
+<output dir="S:\U3D\dczg\dczg\share\protocol\client"/>
+</config>

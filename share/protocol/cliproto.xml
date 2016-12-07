@@ -1,0 +1,2133 @@
+<?xml version="1.0" encoding="gb2312"?>
+<coder name="CliProto" version="1">
+    <includes>
+        <include file="headerproto.xml" />
+    </includes>
+
+    <defines>
+
+        <!-- Login Server和Client(SDLogin)之间的通信协议 -->
+        <define name="LG_SUCCESS"          value="0" />
+        <define name="LG_FAIL"             value="1" />
+        <define name="LG_INTER"            value="2" />
+        <define name="MAX_GATHER_ITEM_COUNT"            value="500" />
+
+        <define name="LG_USERNAME_LEN"     value="64"/>
+        <define name="LG_DIGITID_LEN"      value="21"/>
+        <define name="LG_SESSIONID_LEN"    value="8"/>
+        <define name="LG_SIG_LEN"          value="32"/>
+        <define name="LG_TYPE_LEN"         value="21"/>
+        <define name="LG_MAX_GAMESERVER"   value="255"/>
+        <define name="LG_CLIENTKEY_LEN"    value="8"/>
+        <define name="LG_INFO_LEN"         value="255" desc="END: Login Server和Client(SDLogin)之间的通信协议 " />
+
+
+        <define name="CGPROTO_BEGIN"            value="1" />
+        <define name="CSPROTO_BEGIN"            value="2000" />
+        <define name="MAX_DYNCODE_LEN"          value="20480" />
+        <define name="GS_STATE_ONLINE"          value="1" />
+        <define name="GS_STATE_OFFLINE"         value="0" />
+        <define name="GS_LOGOUT_EXIT"           value="1" />
+        <define name="GS_LOGOUT_QUIT"           value="2" />
+        <define name="GS_LOGOUT_SWITCH_SCENE"   value="3" />
+        <define name="GC_MAX_GATESERVER"        value="255" />
+        <define name="MAX_PATH_LEN"             value="260" />
+        <define name="MAX_MONSTER_IN_LEVEL"     value="100" />
+        <define name="MAX_MONSTER_DROP"         value="5" desc="单个怪物掉落物品数量上限"/>
+        <define name="MAX_LEVEL_DROP"           value="50" desc="一局游戏掉落物品数量上限"/>
+        <define name="MAX_LEVEL_SKILL"          value="100" desc="一局游戏使用技能的种类数量上限"/>
+
+        <define name="MAX_ERROR_STRING_LEN"     value="1024" />
+        <define name="GS_MAX_SYNC_ROLE_COUNT"   value="100" desc="一个消息包最多包含的角色信息数" />
+        <define name="MAX_INITIAL_BUFF_COUNT"   value="16" desc="一个关卡初始buff数量"/>
+    </defines>
+
+    <enums>
+        <enum name="EMoveSyncType">
+            <item name="MOVE_SYNC_TYPE_Normal" value="0" desc="普通同步模式 " />
+            <item name="MOVE_SYNC_TYPE_NoOther" desc="完全不同步他人移动信息" />
+            <item name="MOVE_SYNC_TYPE_ReducedOther" desc="只同步好友队友等有关联的他人移动信息" />
+        </enum>
+    </enums>
+
+    <types>
+        <!--  ===============================================================  -->
+        <!--Client和LoginServer之间的协议-->
+        <!--  ===============================================================  -->
+        <type name="LGPKG_LOGIN_REQ">
+            <item name="Type" type="string" count="LG_TYPE_LEN" desc="目前只支持gplus和pt登陆方式"/>
+            <item name="TokenLen" type="dword" />
+            <item name="Token" type="byte" count="LG_INFO_LEN" refer="TokenLen" desc="G+认证方式填g+的返回串， pt认证方式填dfw12345;12345"/>
+            <item name="ServerGroup" type="dword" desc="选择的是哪个组，提供组号"/>
+            <item name="ResourceLevel" type="dword" desc="选择的资源包类型，平台+资源包等级，0 android， 1 ios， 2 win8"/>
+        </type>
+
+        <type name="LGPKG_ACT_REQ">
+            <item name="SubReq" type="int"/>
+            <item name="InfoLen" type="int" />
+            <item name="Info" type="byte" count="LG_INFO_LEN"  refer="InfoLen"/>
+        </type>
+        <type name="SCDNInfo">
+            <item name="Path" type="string" count="MAX_PATH_LEN" />
+        </type>
+        <type name="SBundleInfoList">
+            <item name="Path" type="string" count="MAX_PATH_LEN" />
+            <item name="CDNCount" type="dword" />
+            <item name="CDN" type="SCDNInfo" refer="CDNCount" count="8" desc="可选择的cdn基地址，用于拼接bundle相对路径得到下载地址"/>
+        </type>
+        <type name="LGDT_LOGIN_SUCCESS">
+            <item name="Username" type="string" count="LG_USERNAME_LEN"/>
+            <item name="DigitID" type="string" count="LG_DIGITID_LEN"/>
+            <item name="SessionID" type="byte" count="LG_SESSIONID_LEN"/>
+            <item name="Sig" type="byte" count="LG_SIG_LEN"/>
+            <item name="InfoLen" type="int" />
+            <item name="Info" type="byte" count="LG_INFO_LEN"  refer="InfoLen"/>
+            <item name="GateInfo" type="SServerInfo" desc="服务器地址"/>
+            <item name="BundleInfo" type="SBundleInfoList" desc="更新包数据"/>
+        </type>
+
+        <type name="LGDT_LOGIN_FAIL">
+            <item name="ErrCode" type="int"/>
+            <item name="SubErrCode" type="int"/>
+            <item name="MaintainInfo" type="string" count="LG_INFO_LEN" desc="维护公告"/>
+        </type>
+
+        <type name="LGDT_LOGIN_INTERMEDIATE">
+            <item name="SubAck" type="int"/>
+            <item name="InfoLen" type="int" />
+            <item name="Info" type="byte" count="LG_INFO_LEN"  refer="InfoLen"/>
+        </type>
+
+        <type name="LGDT_ACT_REPLY" class="union">
+            <item name="Succ" type="LGDT_LOGIN_SUCCESS" id="LG_SUCCESS" />
+            <item name="Fail" type="LGDT_LOGIN_FAIL" id="LG_FAIL" />
+            <item name="Inter" type="LGDT_LOGIN_INTERMEDIATE" id="LG_INTER" />
+        </type>
+
+        <type name="LGPKG_LOGIN_ACK">
+            <item name="AckType" type="byte"/>
+            <item name="Reply" type="LGDT_ACT_REPLY" select="AckType"/>
+        </type>
+
+        <type name="LGPKG_GAMESERVER_LIST_REQ">
+            <item name="Flags" type="byte"/>
+            <item name="Sig" type="byte" count="LG_SIG_LEN"/>
+        </type>
+        <type name="LGPKG_GAMESERVER_LIST_ACK">
+            <item name="Count" type="word"/>
+            <item name="List" type="SGameServerInfo" count="LG_MAX_GAMESERVER" refer="Count"/>
+        </type>
+
+
+        <!--  ===============================================================  -->
+        <!--Client和Gate Server之间的协议-->
+        <!--  ===============================================================  -->
+
+        <type name="GC_ERROR">
+            <item name="ErrCode" type="int" desc="错误号"/>
+        </type>
+        <type name="GC_ERRORSTRING">
+            <item name="ErrCode" type="string" count="MAX_ERROR_STRING_LEN" desc="错误文本"/>
+        </type>
+
+		<type name="CG_HEART_BEAT">
+        </type>
+		<type name="GC_HEART_BEAT">
+        </type>
+
+		<type name="GC_PUBLIC_STRING" desc="系统公告">
+            <item name="Info" type="string" count="512" desc="公告内容"/>
+        </type>
+
+        <type name="CG_LOGIN" desc="客户端登录Gate Server请求  ">
+            <item name="PTID" type="string" count="PTID_LEN" desc="客户端的账号"/>
+            <item name="LoginDataLen" type="int" desc="登录数据长度"/>
+            <item name="LoginData" type="byte" count="64" refer="LoginDataLen" desc="登录数据，从SDLoginClient组件中获取的数据"/>
+            <item name="ProtoVersion" type="string" count="33" desc="协议md5" />
+            <item name="MainVersion" type="int" desc="主版本号" />
+            <item name="SubVersion" type="int" desc="次版本号" />
+            <item name="BuildVersion" type="int" desc="编译版本号" />
+            <item name="ResourceVersion" type="int" desc="资源版本号" />
+        </type>
+
+        <type name="GC_LOGIN" desc="客户端登录Gate Server的响应 ">
+            <item name="ErrCode" type="int" desc="错误号"/>
+            <item name="ErrMsg" type="string" count="255" desc="错误描述文字"/>
+            <item name="EncryptType"  type="byte" desc="加密类型:0不加密, 1动态加密" />
+            <item name="Len"     type="int" desc="DynCode的长度"/>
+            <item name="DynCode" type="byte" count="MAX_DYNCODE_LEN" refer="Len" desc="DynCode "/>
+            <item name="QueueToken" type="dword" desc="QueueToken排队流水号，0表示不用排队。若需要排队，则可以期待定期收到排队状态更新消息"/>
+            <item name="LastEnterQueueToken" type="dword" desc="该服务器组最近一个进入游戏的玩家的排队流水号"/>
+        </type>
+
+        <type name="CG_LOGOUT" desc="客户端退出游戏的请求 ">
+            <item name="Type" type="byte" desc="退出类型(GS_LOGOUT_EXIT:大退, GS_LOGOUT_QUIT:小退)"/>
+        </type>
+
+        <type name="GC_LOGOUT" desc="客户端退出Gate Server的响应">
+            <item name="ErrCode" type="int" desc="错误号"/>
+            <item name="Type" type="byte" desc="退出类型(GS_LOGOUT_EXIT:大退, GS_LOGOUT_QUIT:小退) "/>
+        </type>
+
+        <type name="GC_QUEUE_INFO" desc="排队信息 ">
+            <item name="LastPassToken" type="dword" desc="前面还有多少人" />
+            <item name="Priority" type="int" desc="排队优先级, 0:vip队列, 1:普通队列" />
+        </type>
+
+        <type name="GC_ROLELIST" desc="返回角色列表 ">
+            <item name="Count" type="byte" desc="角色个数"/>
+            <item name="LastSelect" type="byte" desc="上次选择角色的序号"/>
+            <item name="RoleInfoList" type="SRoleInfoWithEquip" count="ACTIVE_ROLE_NUM" refer="Count" desc="角色信息" />
+        </type>
+
+        <type name="CG_CREATEROLE" desc="请求创建角色 ">
+            <item name="RoleInfo" type="SRoleInfo" desc="角色信息" />
+            <item name="ServerUniqueID" type="dword" desc="创建角色所在的服务器，来自服务器列表，是所选服对应的ServerUniqueID" />
+        </type>
+
+        <type name="GC_CREATEROLE" desc="回应创建角色 ">
+            <item name="ErrCode" type="int" desc="错误号 0表示正常"/>
+            <item name="RoleInfo" type="SRoleInfo" desc="角色信息"/>
+            <item name="ErrString" type="string" count="MAX_ERROR_STRING_LEN" desc="错误文本"/>
+        </type>
+
+        <type name="CG_DELROLE" desc="请求删除角色 ">
+            <item name="RoleDBID" type="uint64" />
+        </type>
+
+        <type name="GC_DELROLE" desc="回应删除角色 ">
+            <item name="ErrCode" type="int" desc="错误号"/>
+        </type>
+
+        <type name="CG_SELECTROLE" desc="选取角色 ">
+            <item name="RoleDBID" type="uint64" />
+        </type>
+
+        <type name="GC_SELECTROLE" desc="回应选取角色 ">
+            <item name="ErrCode" type="int" desc="错误号 "/>
+            <item name="ErrString" type="string" count="MAX_ERROR_STRING_LEN" desc="错误文本 "/>
+        </type>
+
+        <type name="GC_GPK_CLT_DYN_CODE">
+            <item name="Count" type="dword" />
+            <item name="Code" type="byte" count="12288" refer="Count" />
+        </type>
+
+        <type name="CG_GPK_CLT_NEGLECT">
+            <item name="Nothing" type="byte" count="196" />
+        </type>
+
+        <type name="GC_GPK_CAL_ORIGIN" desc="客户端对下面的内容进行转换，结果通过CG_GPK_CAL_RESULT返回服务器，服务器调用同一函数验证">
+            <item name="Original" type="byte" count="24" />
+        </type>
+
+        <type name="CG_GPK_CAL_RESULT">
+            <item name="Result" type="byte" count="24" />
+        </type>
+
+        <!-- =============================================================== -->
+        <!--           Gate Server和Game Server之间的协议                    -->
+        <!-- =============================================================== -->
+        <type name="GSPKG_SERVERINFO_RPT" desc="Gate向Gameserver报告自己的身份">
+            <item name="ServerID" type="dword" desc="ServerID"/>
+        </type>
+
+        <type name="GSPKG_SERVER_GROUP_DESC_RPT">
+            <item name="GroupName" type="string" count="MAX_SERVER_DESC_LEN" />
+        </type>
+
+        <type name="GSPKG_PLAYER_GPK_RPT">
+
+        </type>
+
+        <type name="GSPKG_ENTERGAME_REQ" desc="GateServer 向GS转发登录GS请求">
+            <item name="PTID" type="string" count="PTID_LEN" desc="PT帐号名 " />
+            <item name="DigitID" type="uint64" />
+            <item name="AccountName" type="string" count="ROLE_NAME_LEN" />
+            <item name="RoleId" type="uint64" desc="角色名 " />
+            <item name="Flags" type="dword" desc="标志 " />
+            <item name="GmLevel" type="byte" desc="GmLevel " />
+            <item name="SessionID" type="word" desc="SESSIONID " />
+            <item name="SceneId" type="dword" desc="场景ID " />
+            <item name="EnterType" type="byte" desc="进入场景的方式 0上线，1切换场景 " />
+            <item name="GateSvrID" type="dword" />
+			<item name="AccountInfo" type="SLMAccountInfo" />
+        </type>
+
+        <type name="GSPKG_ENTERGAME_ACK" desc="登录GS回应 ">
+            <item name="ErrCode" type="int" desc="错误码 " />
+            <item name="Flags" type="dword" desc="标志 " />
+        </type>
+
+        <type name="GSPKG_LEAVEGAME_REQ" desc="退出GS请求 ">
+            <item name="Type" type="byte" desc="退出类型 (GS_LOGOUT_EXIT:大退, GS_LOGOUT_QUIT:小退) " />
+        </type>
+
+        <type name="GSPKG_LEAVEGAME_ACK" desc="退出GS回应 ">
+            <item name="ErrCode" type="int" desc="错误码 " />
+            <item name="Type" type="byte" desc="退出类型 " />
+        </type>
+
+		<type name="GSPKG_SWITCHSCENE_REQ" desc="跳转场景请求 ">
+            <item name="SceneTemplateID" type="dword" desc="场景模板id " />
+			<item name="SceneID" type="dword" desc="场景实例id，用于跳线, 如果不指定实例id 赋值-1 " />
+        </type>
+
+		<type name="GSPKG_SWITCHSCENE_ACK" desc="跳转场景请求回应 ">
+		    <item name="ErrCode" type="int" desc="错误码 " />
+            <item name="SceneTemplateID" type="dword" desc="场景模板id " />
+			<item name="SceneID" type="dword" desc="场景实例id，用于跳线, 如果不指定实例id 赋值-1 " />
+        </type>
+
+        <type name="GSPKG_KICKOUT_NTF" desc="踢人通知 ">
+            <item name="ErrCode" type="int" desc="错误码 " />
+            <item name="ErrString" type="string" count="255" desc="错误信息 " />
+        </type>
+
+        <type name="GSPKG_MSG_BROADCAST" desc="GS到GT之间的广播消息 ">
+            <item name="IDCount" type="word" />
+            <item name="ID" type="word" count="TS_BROADCAST_ID_COUNT" refer="IDCount" />
+            <item name="MsgBufLen" type="word" />
+            <item name="MsgBuf" type="byte" count="TS_BROADCAST_MSG_SIZE" refer="MsgBufLen" />
+        </type>
+
+        <type name="GSPKG_LOAD_GSDATA_NTF">
+            <item name="Count" type="int" />
+            <item name="XmlData" type="byte" count="MAX_XMLDATA_COUNT" refer="Count" />
+        </type>
+
+        <type name="GSPKG_UPDATEGMLEVEL_NTF">
+            <item name="DigitID" type="uint64" />
+            <item name="GMLevel" type="byte" />
+        </type>
+        <!--  ===============================================================  -->
+        <!--            Client和Game Server之间的协议                          -->
+        <!--  ===============================================================  -->
+        <type name="SC_ERROR_NTF" desc="错误码" >
+            <item name="Data" type="SError" desc="错误信息"/>
+        </type>
+
+        <type name="SC_LEVEL_INFO" desc="推图关卡状态" >
+            <item name="Count" type="dword" desc="关卡id 不在关卡里面的表示没有获得过星"/>
+            <item name="Info" type="SLevelInfo" count="MAX_LEVEL_COUNT" refer="Count" desc="关卡id"/>
+
+            <item name="BattleCount" type="dword" desc="战役数量"/>
+            <item name="BtInfo" type="SBattleInfo" count="MAX_BATTLE_COUNT" refer="BattleCount" desc="战役信息，没有在列表里表示没有获得星"/>
+
+            <item name="BoxCount" type="dword" desc="宝箱数量"/>
+            <item name="GotBattleBox" type="dword" count="MAX_BATTLE_BOX_COUNT" refer="BoxCount" desc="已经获得的宝箱id" />
+        </type>
+        <type name="CS_LEVEL_REQ" desc="申请进入推图" >
+			<item name="LevelBattleType" type="byte" desc="推图关卡类型 LEVEL_BATTLE_TYPE枚举"/>
+            <item name="LevelID" type="dword" desc="关卡id"/>
+            <item name="BuffID" type="dword" desc="选择使用的buff" />
+            <item name="AbyssDBID" type="uint64" desc="深渊dbid" />
+            <item name="FriendPetID" type="dword" desc="好友助战宠物ID,没有时默认发-1" />
+			<item name="QuickEnd" type="byte" desc="是否扫荡模式 0非扫荡，1扫荡" />
+        </type>
+
+        <type name="CS_GET_BATTLE_BOX_REQ" desc="领取战役宝箱星值奖励" >
+            <item name="BattleboxID" type="dword" desc="宝箱id"/>
+        </type>
+
+        <type name="SC_GET_BATTLE_BOX_ACK" desc="领取战役宝箱星值奖励的反馈" >
+            <item name="BattleboxID" type="dword" desc="宝箱id"/>
+            <item name="Result" type="byte" desc="为GS_RESULT_YES表示领取成功"/>
+        </type>
+
+        <type name="SC_BATTLE_GOT_STAR_NTF" desc="更新战役的星数" >
+            <item name="BattleID" type="dword" desc="战役id"/>
+            <item name="GotStar" type="dword" desc="获得的星数"/>
+        </type>
+
+        <type name="SDropInfo">
+            <item name="TemplateID" type="dword" desc="物品id" />
+            <item name="Count" type="int" desc="掉落数量" />
+        </type>
+
+        <type name="SDropInfoList">
+            <item name="Count" type="word"/>
+            <item name="List" type="SDropInfo" count="MAX_ITEM_COUNT" refer="Count" />
+        </type>
+
+        <type name="SDropInfos">
+            <item name="Count" type="word"/>
+            <item name="List" type="SDropInfo" count="MAX_MONSTER_DROP" refer="Count" />
+            <item name="Money" type="dword" desc="掉落游戏币数量"/>
+        </type>
+        <type name="SMonsterInfo">
+            <item name="Index" type="dword" desc="场景内怪的索引号" />
+            <!-- 出生方式静态配置 item name="AppearType" type="dword" desc="出生方式" / -->
+            <!-- 位置信息静态配置 item name="Position" type="SPosInfo" desc="出生位置" / -->
+            <item name="Drop" type="SDropInfos" desc="怪物掉落物品列表" />
+        </type>
+        <type name="SMonsterInfos">
+            <item name="Count" type="word" />
+            <item name="List" type="SMonsterInfo" count="MAX_MONSTER_IN_LEVEL" refer="Count" />
+        </type>
+        <type name="SC_LEVEL_ACK" desc="推图数据" >
+			<item name="LevelBattleType" type="byte" desc="推图关卡类型 LEVEL_BATTLE_TYPE枚举"/>
+            <item name="Result" type="dword" desc="0 表示顺利开始推图，请使用下列数据初始化。非0表示推图申请未能执行，有错误，理由查表" />
+            <item name="AbyssLevelID" type="dword" desc="深渊关卡id"/>
+            <item name="Monster" type="SMonsterInfos" />
+            <item name="FreeReliveCount" type="word" desc="关卡免费复活数量" />
+            <item name="RelivePrice" type="dword" desc="复活代价，徽章" />
+            <item name="InitialBuffCount" type="word" desc="选择的buff数量" />
+            <item name="InitialBuffID" type="dword" count="MAX_INITIAL_BUFF_COUNT" desc="选择的buff，扣费" />
+			<item name="QuickEnd" type="byte" desc="是否扫荡模式 0非扫荡，1扫荡" />
+        </type>
+
+        <type name="SSkillCount" desc="技能数" >
+            <item name="SkillID" type="dword" desc="技能id"/>
+            <item name="Count" type="word" desc="使用次数，统计时请注意，超过UInt16.Max的时候请保留UInt16.Max"/>
+        </type>
+        <type name="CS_LEVEL_RESULT_NTF" desc="关卡结果汇报" >
+			<item name="LevelBattleType" type="byte" desc="推图关卡类型 LEVEL_BATTLE_TYPE枚举"/>
+            <item name="Result" type="dword" desc="0表示通关，非0表示尚未通关：1表示中途退出"/>
+            <item name="Money" type="dword" desc="拾取的游戏币总数"/>
+            <item name="ItemCount" type="word" desc="拾取的物品总数"/>
+            <item name="Item" type="SDropInfo" count="MAX_LEVEL_DROP" refer="ItemCount" desc="拾取的物品列表"/>
+            <item name="ReliveCount" type="word" desc="使用复活次数"/>
+            <item name="KillCount" type="word" desc="杀怪数量"/>
+            <item name="Kills" type="dword" count="MAX_MONSTER_IN_LEVEL" refer="KillCount" desc="杀怪ID"/>
+            <item name="MaxCombo" type="dword" desc="最大连击数"/>
+            <item name="Critical" type="dword" desc="致命一击数"/>
+            <item name="SkillCount" type="word" desc="使用的技能种类数"/>
+            <item name="Skills" type="SSkillCount" count="100" refer="SkillCount" desc="使用的技能列表"/>
+            <item name="CompleteResult" type="byte" desc="完成评价 ELevelCompleteResult"/>
+            <item name="ActivityAbyssTotalDamage" type="int" desc="打出的伤害总数"/>
+            <item name="CompleteSec" type="int" desc="完成的秒数"/>
+            <item name="PetChangeTimes" type="int" desc="宠物切换次数"/>
+        </type>
+
+        <type name="SLevelSelectCardInfo" desc="关卡翻牌信息">
+          <item name="IndexID" type="byte" desc="唯一标识"/>
+          <item name="ItemID" type="dword" desc="奖励物品模板ID 为1表示是金钱 2是绑定徽章，3是徽章"/>
+          <item name="Count" type="dword"  desc="数量"/>
+        </type>
+
+        <type name="SC_TREASURE_CHEST_NTF" desc="已获得奖励及宝箱信息">
+		  <item name="LevelID" type="dword" desc="关卡id"/>
+		  <item name="CurGetStar" type="byte" desc="本次获得的星数"/>
+		  <item name="QuickEnd" type="byte" desc="是否扫荡模式 0非扫荡，1扫荡" />
+          <item name="Items" type="SXITEMS" desc="物品列表" />
+          <item name="Money" type="dword" desc="本关卡确认获得了的金钱数量" />
+          <item name="Experience" type="dword" desc="本关卡确认获得了的经验数量" />
+
+          <item name="PetAboutCount" type="word" desc="确认获得的宠物和宠物物品" />
+          <item name="PetAbout" type="dword" count="MAX_PET_COUNT" refer="PetAboutCount" desc="宠物和宠物物品的模板id" />
+
+          <item name="GetCount" type="byte" desc="获得的数量"/>
+          <item name="CardInfos" type="SLevelSelectCardInfo" count="MAX_LEVEL_SELECT_CARD_COUNT" refer="GetCount" desc="获得的宝箱"/>
+          <item name="TempCount" type="byte" desc="假数据数量"/>
+          <item name="TempCardInfos" type="SLevelSelectCardInfo" count="MAX_LEVEL_SELECT_CARD_COUNT" refer="TempCount" desc="假数据"/>
+        </type>
+
+        <type name="CS_OPEN_TREASURE_CHEST_REQ" desc="玩家开宝箱" >
+            <item name="ItemIndexID" type="byte" desc="物品唯一标识"/>
+        </type>
+
+        <type name="SC_OPEN_TREASURE_CHEST_ACK" desc="开宝箱结果">
+            <item name="ItemIndexID" type="byte" desc="物品唯一标识"/>
+            <item name="Result" type="byte" desc="为GS_RESULT_YES表示领取成功"/>
+        </type>
+
+        <!-- 场景类协议 -->
+        <type name="SC_SELF_LOADSCENE" desc="GS通知Load场景">
+            <item name="SceneId" type="dword" desc="场景ID" />
+            <item name="EnterPos" type="SPosInfo" desc="场景位置 " />
+            <item name="Time" type="dword" desc="服务器时间" />
+            <item name="SceneType" type="dword" desc="地图类型" />
+        </type>
+
+        <type name="CS_ENTERSCENE" desc="客户端Load场景完成">
+            <item name="Error" type="dword" desc="错误码" />
+            <item name="SceneId" type="dword" desc="场景ID"/>
+        </type>
+
+        <type name="SC_SELF_ENTERSCENE" desc="进入场景回应">
+            <item name="Flag" type="byte" desc="进场景标志位"/>
+            <item name="Error" type="byte" desc="错误码"/>
+            <item name="ServerTime" type="uint64" desc="服务器当前时间戳,ms "/>
+        </type>
+
+        <type name="SC_SELF_DATA_END" desc="个人所必须的所有数据通知完毕">
+        </type>
+
+        <type name="SC_SELF_APPEAR" desc="角色进入游戏第一条消息，客户端开始加载地图信息 ">
+            <item name="EnterPos" type="SPosInfo" desc="场景位置 " />
+        </type>
+
+        <type name="SC_SELF_VOLATILE_PRO" desc="角色常规易变信息 ">
+            <item name="Level" type="int" desc="当前等级 " />
+            <item name="NonMoney" type="dword" desc="绑定游戏币（金币） " />
+            <item name="NonCash" type="dword" desc="绑定勋章 " />
+            <item name="Cash" type="dword" desc="流通勋章 " />
+            <item name="EP" type="int" desc="当前活力值 " />
+            <item name="Experience" type="int64" desc="当前等级累计经验 " />
+            <item name="AP" type="int" desc="当前协助点数 " />
+        </type>
+
+		<type name="SC_CLIENT_CONFIG_NTF" desc="客户端配置 ">
+            <item name="ConfigInfo" type="string" count="512" desc="配置信息" />
+        </type>
+
+		<type name="CS_CLIENT_CONFIG_UPDATE" desc="客户端配置更新 ">
+            <item name="ConfigInfo" type="string" count="512" desc="配置信息" />
+        </type>
+
+        <type name="SC_SELF_BASE_PRO" desc="角色基础属性信息 ">
+            <item name="ObjID" type="uint64" desc="出现对象ID 临时id " />
+            <item name="DBID" type="uint64" desc="唯一id " />
+			<item name="RoleIndex" type="int" desc="本服唯一id " />
+            <item name="Name" type="string" count="ROLE_NAME_LEN" desc="对象名字 " />
+
+            <item name="Level" type="int" desc="当前等级 " />
+            <item name="BaseJob" type="byte" desc="基础门派 " />
+            <item name="Job" type="byte" desc="当前门派 " />
+            <item name="Sex" type="byte" desc="对象性别 " />
+            <item name="Experience" type="int64" desc="当前等级累计经验 " />
+
+            <item name="NonMoney" type="dword" desc="绑定游戏币（金币） " />
+            <item name="NonCash" type="dword" desc="绑定勋章 " />
+            <item name="Cash" type="dword" desc="流通勋章 " />
+
+            <item name="HP" type="int" desc="当前血量 " />
+            <item name="SP" type="int" desc="当前技力 " />
+            <item name="EP" type="int" desc="当前活力值 " />
+
+            <item name="MoveSpeed" type="int" desc="基础移动速度 1秒移动多少mm " />
+            <item name="AttSpeed" type="int" desc="攻击速度 " />
+
+            <item name="Str" type="int" desc="当前力量 " />
+            <item name="Int" type="int" desc="当前智力 " />
+            <item name="Dex" type="int" desc="当前敏捷 " />
+            <item name="Sta" type="int" desc="当前体力 " />
+            <item name="Fai" type="int" desc="当前信念 " />
+
+            <item name="MaxHP" type="int" desc="血量上限 " />
+            <item name="MaxSP" type="int" desc="技力上限 " />
+
+            <item name="HPTick" type="int" desc="每轮回复血量 " />
+            <item name="SPTick" type="int" desc="每轮回复技力量 " />
+            <item name="AtkDmgMin" type="int" desc="当前伤害下限 " />
+            <item name="AtkDmgMax" type="int" desc="当前伤害上限 " />
+
+            <item name="Def" type="int" desc="当前防御 " />
+
+            <item name="IceAtt" type="int" desc="冰属性攻击 " />
+            <item name="FireAtt" type="int" desc="火属性攻击 " />
+            <item name="PoisonAtt" type="int" desc="毒属性攻击 " />
+            <item name="ThunderAtt" type="int" desc="雷属性攻击 " />
+
+            <item name="IceDef" type="int" desc="冰属性抵抗 " />
+            <item name="FireDef" type="int" desc="火属性抵抗 " />
+            <item name="PoisonDef" type="int" desc="毒属性抵抗 " />
+            <item name="ThunderDef" type="int" desc="雷属性抵抗 " />
+
+            <item name="Pierce" type="int" desc="穿透点数 " />
+            <item name="Hit" type="int" desc="命中点数 " />
+            <item name="Dodge" type="int" desc="闪避点数 " />
+            <item name="Cri" type="int" desc="致命一击点数 " />
+            <item name="Flex" type="int" desc="韧性点数 " />
+
+            <item name="CriDmg" type="int" desc="致命一击伤害系数 15000 = 1.5 " />
+            <item name="CriDmgDef" type="int" desc="致命一击防御系数修正 正负 万分比 " />
+
+            <item name="BodySize" type="int" desc="体型半径 mm " />
+            <item name="AttSize" type="int" desc="攻击半径 mm " />
+
+            <item name="AttSpeedModPer" type="int" desc="攻击加速百分比 " />
+            <item name="MoveSpeedModPer" type="int" desc="移动加速百分比 " />
+
+            <item name="PiercePer" type="int" desc="穿透百分比修正 正负 万分比 " />
+            <item name="HitPer" type="int" desc="命中率修正  正负  万分比 " />
+            <item name="DodgePer" type="int" desc="闪避率修正 正负  万分比 " />
+            <item name="CriPer" type="int" desc="致命一击率修正 正负 万分比 " />
+            <item name="FlexPer" type="int" desc="韧性率修正  正负 万分比 " />
+
+            <item name="MaxEP" type="int" desc="最大活力值 " />
+
+            <item name="AP" type="int" desc="协助点数 " />
+            <item name="MaxAP" type="int" desc="最大协助点数 " />
+            
+            <item name="ExpPer" type="int" desc="经验值 正负 万分比 " />
+            <item name="MoneyPer" type="int" desc="金钱 正负 万分比 " />
+        </type>
+
+        <!-- ======================================== -->
+        <!--             宠物协议               -->
+        <!-- ======================================= -->
+
+        <type name="SPetInfo" desc="宠物信息结构 ">
+            <item name="DBID" type="uint64" desc="唯一id " />
+            <item name="BattlePos" type="int" desc="出战位置 见EPetBattlePos，PET_BTPOS_UNKNOWN为不出战 " />
+            <item name="TemplateID" type="dword" desc="模板id " />
+            <item name="Level" type="int" desc="当前等级 " />
+            <item name="Experience" type="int64" desc="当前累计经验 " />
+            <item name="Up" type="int" desc="当前强化等级 " />
+            <item name="Lock" type="int" desc="锁定状态 " />
+            <item name="HP" type="int" desc="当前血量 " />
+            <item name="SP" type="int" desc="当前技力 " />
+
+            <item name="Str" type="int" des="当前力量" />
+            <item name="Int" type="int" des="当前智力" />
+            <item name="Dex" type="int" des="当前敏捷" />
+            <item name="Sta" type="int" des="当前体力" />
+            <item name="Fai" type="int" des="当前信念" />
+
+            <item name="MaxHP" type="int" des="血量上限" />
+            <item name="MaxSP" type="int" des="技力上限" />
+
+            <item name="HPTick" type="int" des="每轮回复血量" />
+            <item name="SPTick" type="int" des="每轮回复技力量" />
+            <item name="AtkDmgMin" type="int" des="当前伤害下限" />
+            <item name="AtkDmgMax" type="int" des="当前伤害上限" />
+
+            <item name="Def" type="int" des="当前防御" />
+
+            <item name="IceAtt" type="int" des="冰属性攻击" />
+            <item name="FireAtt" type="int" des="火属性攻击" />
+            <item name="PoisonAtt" type="int" des="毒属性攻击" />
+            <item name="ThunderAtt" type="int" des="雷属性攻击" />
+
+            <item name="IceDef" type="int" des="冰属性抵抗" />
+            <item name="FireDef" type="int" des="火属性抵抗" />
+            <item name="PoisonDef" type="int" des="毒属性抵抗" />
+            <item name="ThunderDef" type="int" des="雷属性抵抗" />
+
+            <item name="Pierce" type="int" des="穿透点数" />
+            <item name="Hit" type="int" des="命中点数" />
+            <item name="Dodge" type="int" des="闪避点数" />
+            <item name="Cri" type="int" des="致命一击点数" />
+            <item name="Flex" type="int" des="韧性点数" />
+
+            <item name="CriDmg" type="int" des="致命一击伤害系数 15000 = 1.5" />
+            <item name="CriDmgDef" type="int" des="致命一击防御系数修正 正负 万分比" />
+
+            <item name="BodySize" type="int" des="体型半径 mm" />
+            <item name="AttSize" type="int" des="攻击半径 mm" />
+
+            <item name="AttSpeedModPer" type="int" des="攻击加速百分比" />
+            <item name="MoveSpeedModPer" type="int" des="移动加速百分比" />
+
+            <item name="PiercePer" type="int" des="穿透百分比修正 正负 万分比" />
+            <item name="HitPer" type="int" des="命中率修正  正负  万分比" />
+            <item name="DodgePer" type="int" des="闪避率修正 正负  万分比" />
+            <item name="CriPer" type="int" des="致命一击率修正 正负 万分比" />
+            <item name="FlexPer" type="int" des="韧性率修正  正负 万分比" />
+            <item name="AttSpeed" type="int" des="攻击速度" />
+            <item name="MoveSpeed" type="int" des="基础移动速度 1秒移动多少mm" />
+
+            <item name="Equip" type="SXITEMS" des=" 装备信息 " />
+        </type>
+
+        <type name="PET_RECORD" desc="宠物属性更新，需要修改策略 ">
+            <item name="TID" type="int" />
+        </type>
+
+        <type name="SC_PETS_RECORD_NTF" desc="角色宠物列表 ">
+            <item name="PetRecordCount" type="word" desc="拥有宠物个数 " />
+            <item name="Record" type="PET_RECORD" count="MAX_PET_RECORD_COUNT" refer="PetRecordCount" />
+        </type>
+
+        <type name="SC_USER_PETS_NTF" desc="角色宠物列表 ">
+            <item name="MaxPetCount" type="int" desc="最多拥有宠物个数 " />
+            <item name="PetCount" type="word" desc="拥有宠物个数 " />
+            <item name="PetsInfo" type="SPetInfo" count="MAX_PET_COUNT" refer="PetCount" />
+        </type>
+
+        <type name="SC_USER_JOIN_PETS" desc="角色宠物列表 ">
+            <item name="PetCount" type="word" desc="拥有宠物个数 " />
+            <item name="PetsInfo" type="SPetInfo" count="PET_BTPOS_TEAM" refer="PetCount" />
+        </type>
+
+        <type name="SC_PET_INFO_NTF" desc="宠物属性更新，需要修改策略 ">
+            <item name="PetInfo" type="SPetInfo" />
+        </type>
+
+        <type name="SC_PET_SINGLE_ENTER_NTF" desc="宠物属性更新，需要修改策略 ">
+            <item name="PetInfo" type="SPetInfo" />
+        </type>
+
+        <type name="SC_PET_SINGLE_LEAVE_NTF" desc="宠物属性更新，需要修改策略 ">
+            <item name="DBID" type="uint64" />
+        </type>
+
+        <type name="SC_GATHER_ITEM" desc=" ">
+            <item name="ID" type="int" />
+            <item name="CT" type="int" />
+        </type>
+
+        <type name="SC_GATHER_INFO_NTF" desc="收集品列表 ">
+            <item name="Count" type="int" />
+            <item name="Gathers" type="SC_GATHER_ITEM" count="MAX_GATHER_ITEM_COUNT" refer="Count"/>
+        </type>
+
+        <type name="SC_GATHER_SINGLE_ENTER_NTF" desc="收集品单条更新或者增加 ">
+            <item name="ID" type="int" />
+            <item name="CT" type="int" />
+        </type>
+
+        <type name="SC_GATHER_SINGLE_LEAVE_NTF" desc="收集品销毁 ">
+            <item name="ID" type="int" />
+        </type>
+
+        <type name="CS_GATHER_ITEM_MERGE_REQ" desc="物品合成 ">
+            <item name="TID" type="int" />
+        </type>
+        <type name="SC_GATHER_ITEM_MERGE_ACK" desc="物品合成回应 ">
+            <item name="TID" type="int" />
+        </type>
+
+        <type name="CS_ROLE_PROD_REQ" desc="物品制作 ">
+            <item name="DBID" type="uint64" />
+
+            <item name="Count" type="int" />
+            <item name="OtherDBID" type="uint64" count="MAX_PROD_ITEM_COUNT" refer="Count" />
+        </type>
+        <type name="SC_ROLE_PROD_ACK" desc="物品制作回应 ">
+            <item name="Items" type="SXITEMS" />
+        </type>
+
+
+
+        <type name="CS_PET_GET_EXP_RPT" desc="宠物经验获取 ">
+            <item name="OwnerDBID" type="uint64" />
+            <item name="OtherCount" type="int" />
+            <item name="OtherDBID" type="uint64" count="MAX_PET_COUNT" refer="OtherCount" />
+        </type>
+
+        <type name="SC_PET_GET_EXP_ACK" desc="宠物经验获取 ">
+            <item name="OwnerDBID" type="uint64" />
+        </type>
+
+        <type name="SC_PET_LEVEL_NTF" desc="宠物升级 ">
+            <item name="DBID" type="uint64" />
+            <item name="Level" type="int" />
+        </type>
+
+        <type name="CS_PET_UP_REQ" desc="宠物强化 ">
+            <item name="OwnerDBID" type="uint64" />
+            <item name="OtherDBID" type="uint64" />
+        </type>
+
+        <type name="SC_PET_UP_ACK" desc="宠物强化 ">
+            <item name="DBID" type="uint64" />
+            <item name="Up" type="int" />
+            <item name="Ok" type="byte" />
+        </type>
+
+        <type name="CS_SET_BATTLE_PET_REQ" desc="设置出战宠物 ">
+            <item name="BattlePos" type="int" desc="出战位置 见EPetBattlePos" />
+            <item name="DBID" type="uint64" desc="唯一id  " />
+            <item name="Ok" type="byte" desc="出战1 取消出战0  " />
+        </type>
+
+        <type name="SC_SET_BATTLE_PET_NTF" desc="通知宠物出战 ">
+            <item name="BattlePos" type="int" desc="出战位置 见EPetBattlePos PET_BTPOS_UNKNOWN为不出战 " />
+            <item name="DBID" type="uint64" desc="唯一id 为INVALID_64BIT_VALUE表示取消该位置的出战宠物 " />
+        </type>
+
+
+        <type name="CS_PET_MERGE_REQ" desc="宠物融合 ">
+            <item name="OwnerDBID" type="uint64" />
+            <item name="OtherDBID" type="uint64" />
+        </type>
+
+        <type name="SC_PET_ADD_NTF" desc="获得宠物 ">
+            <item name="TemplateID" type="int" />
+        </type>
+
+        <!-- ======================================== -->
+        <!--             宠物协议结束               -->
+        <!-- ======================================= -->
+
+        <!-- ======================================== -->
+        <!--             移动协议               -->
+        <!-- ======================================= -->
+
+        <type name="SOtherInfo" desc="场景内其他角色信息">
+            <item name="ObjID" type="uint64" desc="出现对象ID 临时id " />
+            <item name="RoleInfo" type="SRoleInfoWithEquip" desc="角色信息" />
+        </type>
+
+        <type name="SOtherInfoWithPos" desc="场景内其他角色信息">
+            <item name="RoleInfo" type="SOtherInfo" desc="角色信息" />
+            <item name="Pos" type="SPosInfo" desc="场景位置 " />
+        </type>
+        <type name="SC_OTHER_APPEAR" desc="场景内出现其他角色">
+            <item name="Count" type="word" desc="数量" />
+            <item name="RoleInfo" type="SOtherInfoWithPos" count="GS_MAX_SYNC_ROLE_COUNT" refer="Count" desc="角色信息" />
+        </type>
+        <type name="SC_OTHER_UPDATE" desc="更新场景内角色的avatar等信息">
+            <item name="Count" type="word" desc="数量" />
+            <item name="RoleInfo" type="SOtherInfo" count="GS_MAX_SYNC_ROLE_COUNT" refer="Count" desc="角色信息" />
+        </type>
+        <type name="SC_OTHER_DISAPPEAR" desc="场景内其他角色消失">
+            <item name="Count" type="word" desc="数量" />
+            <item name="ObjID" type="uint64" count="GS_MAX_SYNC_ROLE_COUNT" refer="Count" desc="出现对象ID 临时id " />
+        </type>
+        <type name="CS_MOVE_SYNC_MODE" desc="更改移动同步模式">
+            <item name="Mode" type="int" desc="见：EMoveSyncType"/>
+        </type>
+        <type name="CS_MOVE_BEGIN" desc="开始移动">
+            <item name="Time" type="uint64" desc="当前场景的同步时间,单位ms"/>
+            <item name="Position" type="SPosInfo" desc="当前位置 "/>
+        </type>
+        <type name="CS_MOVE_STOP" desc="停止移动">
+            <item name="Time" type="uint64" desc="当前场景的同步时间,单位ms"/>
+            <item name="Position" type="SPosInfo" desc="停止位置"/>
+        </type>
+
+        <type name="SMoveObj">
+            <item name="ObjectID" type="uint64" desc="场景内对象的唯一id"/>
+            <item name="Time" type="uint64" desc="当前场景的同步时间,单位ms"/>
+            <item name="Position" type="SPosInfo" desc="当前位置"/>
+        </type>
+        <type name="SC_MOVE_BEGIN" desc="开始移动">
+            <item name="Count" type="word" desc="对象数量" />
+            <item name="Objs" type="SMoveObj" count="GS_MAX_SYNC_ROLE_COUNT" refer="Count" desc="其他移动信息"/>
+        </type>
+        <type name="SC_MOVE_STOP" desc="停止移动">
+            <item name="Count" type="word" desc="对象数量" />
+            <item name="Objs" type="SMoveObj" count="GS_MAX_SYNC_ROLE_COUNT" refer="Count" desc="其他移动信息"/>
+        </type>
+
+
+        <!-- ======================================== -->
+        <!--             技能协议               -->
+        <!-- ======================================= -->
+
+        <type name="SSkillInfo" desc="技能信息结构 ">
+            <item name="SkillID"       type="dword" desc="技能ID " />
+            <item name="CooldownTime"  type="dword" desc="剩余冷却时间 " />
+        </type>
+
+        <type name="SC_USER_SKILLS_NTF" desc="角色技能列表 ">
+            <item name="SkillPoint"   type="dword" desc="当前技能点 " />
+            <item name="TotalSkillTreePoint"   type="dword" desc="总的已花费的技能点 " />
+            <item name="Count" type="byte" desc="数量 " />
+            <item name="SkillsInfo" type="SSkillInfo" count="MAX_TRANS_SKILL_NUM" refer="Count" />
+        </type>
+
+        <type name="CS_LEARN_SKILL" desc="学习技能请求 ">
+            <item name="SkillID"   type="dword" desc="技能ID " />
+        </type>
+
+        <type name="SC_SKILL_INFO_NTF" desc="技能信息，有则更新，无则添加 ">
+            <item name="Info"      type="SSkillInfo" desc="技能信息 " />
+        </type>
+
+        <type name="SC_REMOVE_SKILL_NTF" desc="删除技能 ">
+            <item name="SkillID"      type="dword" desc="删除的技能id，为全F表示删除全部技能 " />
+        </type>
+
+        <type name="SC_SKILL_POINT_NTF" desc="技能点通知 ">
+            <item name="SkillPoint"   type="dword" desc="当前技能点 " />
+            <item name="TotalSkillTreePoint"   type="dword" desc="总的已花费的技能点 " />
+        </type>
+
+		<type name="CS_SKILL_RESET_ALL_REQ" desc="重置技能 ">
+        </type>
+
+        <!-- ======================================== -->
+        <!--             技能协议结束                 -->
+        <!-- ======================================= -->
+
+
+        <!-- ======================================== -->
+        <!--             物品协议               -->
+        <!-- ======================================= -->
+        <type name="SC_SELF_ITEM_NTF" desc="自己装备列表">
+            <item name="Pos" type="byte" desc="见 EItemPos"/>
+            <item name="ItemList" type="SItemList"/>
+            <!-- item name="Refresh" type="byte" desc="是否先清除？0表示不清除，请将这批物品与已有物品累积。非0表示清除，先将该位置已有物品全清除"/ -->
+        </type>
+
+        <type name="CS_MOVE_ITEM_REQ" desc="请求转移物品">
+            <item name="FromPos" type="byte" desc="见 EItemPos"/>
+            <item name="ToPos" type="byte" desc="见 EItemPos"/>
+            <item name="UUID" type="uint64" />
+            <item name="AnotherUUID" type="uint64" desc="-1表示非交换操作， 非-1表示交换操作"/>
+        </type>
+        <type name="SC_MOVE_ITEM_ACK" desc="转移物品反馈">
+            <item name="Info" type="CS_MOVE_ITEM_REQ" />
+        </type>
+        <!-- ======================================== -->
+        <!--             物品协议 start                 -->
+        <!-- ======================================= -->
+        <type name="SC_ROLE_BAG_NTF" desc="角色背包同步">
+            <item name="MaxRoleBagCount" type="int" />
+            <item name="Items" type="SXITEMS" />
+        </type>
+
+        <type name="SC_ROLE_LIMIT_NTF" desc="角色上限同步">
+            <item name="MaxRoleBagCount" type="int" />
+            <item name="MaxPetBagCount" type="int" />
+            <item name="MaxPetCount" type="int" />
+        </type>
+
+        <type name="SC_ROLE_EQUIP_NTF" desc="角色装备同步">
+            <item name="Items" type="SXITEMS" />
+        </type>
+
+        <type name="SC_ROLE_BAG_SINGLE_LEAVE_NTF" desc="角色背包物品销毁">
+            <item name="ItemUUID" type="uint64" />
+        </type>
+
+        <type name="SC_ROLE_BAG_SINGLE_ENTER_NTF" desc="角色背包物品出现或刷新">
+            <item name="Item" type="SXITEM" />
+            <item name="EnterType" type="int"  desc="参见EItemEnterType"/>
+        </type>
+
+        <type name="SC_ROLE_EQUIP_SINGLE_LEAVE_NTF" desc="角色装备物品销毁">
+            <item name="ItemUUID" type="uint64" />
+        </type>
+
+        <type name="SC_ROLE_EQUIP_SINGLE_ENTER_NTF" desc="角色装备物品出现或刷新">
+            <item name="Item" type="SXITEM" />
+        </type>
+
+        <type name="CS_ROLE_EQUIP_REQ" desc="请求装备物品">
+            <item name="ItemUUID" type="uint64" />
+            <item name="IsEquip" type="byte" desc="1代表装备 0代表卸载" />
+        </type>
+
+        <type name="CS_ROLE_EVENT_REQ" desc="请求处理某物品">
+            <item name="EventType" type="byte" desc="参见ERoleItemEvent" />
+            <item name="ItemUUID" type="uint64" />
+        </type>
+
+        <type name="CS_ROLE_ITEMUP_RPT" desc="请求强化某物品">
+            <item name="UpType" type="byte" desc="参见EItemUpEvent" />
+            <item name="ItemUUID" type="uint64" />
+            <item name="Count" type="byte" />
+            <item name="OtherItemUUID" type="uint64" count="MAX_ITEM_UP_USE_COUNT" refer="Count" />
+        </type>
+
+        <type name="SC_ROLE_ITEMUP_ACK" desc="请求强化某物品">
+            <item name="UpType" type="byte" desc="参见EItemUpEvent" />
+            <item name="ItemUUID" type="uint64" />
+        </type>
+
+        <type name="SC_ROLE_ITEMUP_NTF" desc="强化某物品回应">
+            <item name="ItemUUID" type="uint64" desc="物品UUID" />
+            <item name="Up" type="int" desc="砸多少" />
+            <item name="CurUp" type="int" desc="当前Up如果=-1说明爆了" />
+            <item name="OK" type="byte" desc="成功失败"  />
+        </type>
+
+        <type name="SC_ROLE_SUIT_NTF" desc="强化某物品回应">
+            <item name="Count" type="int" desc="套装数量" />
+            <item name="Suit" type="SROLE_SUIT" count="MAX_ITEM_COUNT" refer="Count" desc="套装物品" />
+        </type>
+
+        <type name="SROLE_HOLE_ON" desc="镶嵌宝石">
+            <item name="HoleIndex" type="byte" desc="宝石镶嵌位下标索引" />
+            <item name="ItemUUID" type="uint64" />
+            <item name="OtherUUID" type="uint64" />
+        </type>
+
+        <type name="CS_ROLE_HOLE_ON_REQ" desc="请求镶嵌宝石">
+            <item name="Hole" type="SROLE_HOLE_ON" />
+        </type>
+
+        <type name="SC_ROLE_HOLE_ON_ACK" desc="镶嵌宝石回应">
+            <item name="Error" type="int" />
+            <item name="Hole" type="SROLE_HOLE_ON" />
+        </type>
+
+        <type name="SROLE_HOLE_OFF" desc="拆卸宝石">
+            <item name="HoleIndex" type="byte" desc="宝石镶嵌位下标索引" />
+            <item name="ItemUUID" type="uint64" />
+        </type>
+
+        <type name="CS_ROLE_HOLE_OFF_REQ" desc="拆除宝石">
+            <item name="Hole" type="SROLE_HOLE_OFF" />
+        </type>
+
+        <type name="SC_ROLE_HOLE_OFF_ACK" desc="拆除宝石回应">
+            <item name="Error" type="int" />
+            <item name="Hole" type="SROLE_HOLE_OFF" />
+        </type>
+
+        <type name="SROLE_HOLE_REFRESH" desc="置换宝石">
+            <item name="ItemUUID" type="uint64" />
+            <item name="Item2UUID" type="uint64" />
+        </type>
+
+        <type name="CS_ROLE_HOLE_REFRESH_REQ" desc="置换宝石">
+            <item name="Hole" type="SROLE_HOLE_REFRESH" />
+        </type>
+
+        <type name="SC_ROLE_HOLE_REFRESH_ACK" desc="置换宝石回应">
+            <item name="Error" type="int" />
+            <item name="Drops" type="SDropInfoList" />
+            <item name="Hole" type="SROLE_HOLE_REFRESH" />
+        </type>
+
+        <type name="SROLE_HOLE_MERGE" desc="合成宝石">
+            <item name="ItemUUID" type="uint64" />
+            <item name="Item2UUID" type="uint64" />
+            <item name="Item3UUID" type="uint64" />
+
+        </type>
+
+        <type name="CS_ROLE_HOLE_MERGE_REQ" desc="合成宝石">
+            <item name="Hole" type="SROLE_HOLE_MERGE" />
+        </type>
+
+        <type name="SC_ROLE_HOLE_MERGE_ACK" desc="合成宝石回应">
+            <item name="Error" type="int" />
+            <item name="Drops" type="SDropInfoList" />
+            <item name="Hole" type="SROLE_HOLE_MERGE" />
+        </type>
+
+        <type name="SROLE_HOLE_MERGE2" desc="合成宝石">
+            <item name="ItemUUID" type="uint64" />
+            <item name="Count" type="int" />
+        </type>
+
+        <type name="CS_ROLE_HOLE_MERGE2_REQ" desc="合成宝石">
+            <item name="Hole" type="SROLE_HOLE_MERGE2" />
+        </type>
+
+        <type name="SC_ROLE_HOLE_MERGE2_ACK" desc="合成宝石回应">
+            <item name="Error" type="int" />
+            <item name="Drops" type="SDropInfoList" />
+            <item name="Hole" type="SROLE_HOLE_MERGE2" />
+        </type>
+
+
+        <type name="CS_LOCK_RPT" desc="合成宝石回应">
+            <item name="LockType" type="int" desc="参见ELockType" />
+            <item name="Lock" type="int" />
+            <item name="UUID" type="uint64" desc="唯一ID" />
+        </type>
+
+        <type name="CS_ROLE_USEITEM_REQ" desc="使用角色背包物品">
+            <item name="UUID" type="uint64" desc="唯一ID" />
+        </type>
+
+        <type name="SC_ROLE_USEITEM_START_ACK" desc="使用角色背包物品回应">
+            <item name="Error" type="int" />
+        </type>
+        <type name="SC_ROLE_USEITEM_END_ACK" desc="使用角色背包物品回应">
+            <item name="Error" type="int" />
+        </type>
+
+        <type name="CS_PET_USEITEM_REQ" desc="使用宠物背包物品">
+            <item name="UUID" type="uint64" desc="唯一ID" />
+        </type>
+        <type name="SC_PET_USEITEM_ACK" desc="使用宠物背包物品回应">
+        </type>
+
+        <!-- ======================================== -->
+        <!--             物品协议 end                 -->
+        <!-- ======================================== -->
+
+        <type name="SC_PET_BAG_NTF" desc="宠物背包同步">
+            <item name="MaxPetBagCount" type="int" />
+            <item name="Items" type="SXITEMS" />
+        </type>
+
+        <type name="SC_PET_BAG_SINGLE_LEAVE_NTF" desc="宠物背包物品销毁">
+            <item name="ItemUUID" type="uint64" />
+        </type>
+
+        <type name="SC_PET_BAG_SINGLE_ENTER_NTF" desc="宠物背包物品出现">
+            <item name="Item" type="SXITEM" />
+        </type>
+
+        <type name="CS_PET_EQUIP_REQ" desc="请求装备物品">
+            <item name="ItemUUID" type="uint64" />
+            <item name="PetUUID" type="uint64" />
+            <item name="IsEquip" type="byte" desc="1代表装备 0代表卸载" />
+        </type>
+
+        <type name="CS_PET_EVENT_REQ" desc="请求处理某物品">
+            <item name="EventType" type="byte" desc="参见EPetEvent" />
+            <item name="UUID" type="uint64" />
+        </type>
+        <type name="SC_PET_EVENT_ACK" desc="请求处理某物品">
+            <item name="EventType" type="byte" desc="参见EPetEvent" />
+        </type>
+        <type name="CS_PET_TEAM_RPT" desc="切换队伍">
+            <item name="Team" type="int" desc="参见EPetTeam" />
+        </type>
+        <type name="SC_PET_TEAM_NTF" desc="切换队伍">
+            <item name="Team" type="int" desc="参见EPetTeam" />
+            <item name="PetUUID" type="uint64" count="PET_BTPOS_MAX" desc="物品UUID" />
+        </type>
+
+        <!-- ======================================== -->
+        <!--             物品协议结束                 -->
+        <!-- ======================================= -->
+
+        <!-- ======================================== -->
+        <!--             关系协议                     -->
+        <!-- ======================================== -->
+
+        <type name="CS_CHAT">
+            <item name="Chat" type="SCHAT" desc="chat数据"/>
+        </type>
+
+		<type name="SC_CHAT">
+            <item name="Chat" type="SCHAT" desc="chat数据"/>
+        </type>
+
+		<type name="SC_CHAT_ACK">
+            <item name="Error" type="byte" desc="错误id, 当有错误发生时才返回ack 1冷却时间限制，2等级限制" />
+            <item name="CooldownTime" type="dword" desc="世界聊天剩余冷却时间 毫秒" />
+        </type>
+		
+
+        <!-- ======================================== -->
+        <!--             关系协议结束                 -->
+        <!-- ======================================== -->
+
+        <!-- =============================================================== -->
+        <!--           好友协议                          -->
+        <!-- =============================================================== -->
+        <type name="CS_FRIENDS_LIST_REQ" desc="到刷新时间时，客户端请求一次此消息，回SC_FRIENDS_LIST_NTF和SC_FRIEND_EPINFO_NTF">
+        </type>
+        <type name="SC_FRIENDS_LIST_NTF" desc="好友列表通知">
+            <item name="Info" type="FRIENDS_LIST_NTF" />
+        </type>
+        <type name="SC_FRIEND_EPINFO_NTF" desc="好友体力领取次数、体力赠送次数信息通知，上线通知，VIP改变时通知一次，其他情况客户端算">
+            <item name="EPSent" type="int" desc="EP已赠送次数" />
+            <item name="EPSendMax" type="int" desc="EP赠送最大值" />
+            <item name="EPRecv" type="int" desc="EP已接收次数" />
+            <item name="EPRecvMax" type="int" desc="EP收次数最大值" />
+        </type>
+
+        <type name="CS_QUERY_ROLE_REQ" desc="查询指定名字角色">
+            <item name="Info" type="QUERY_ROLE_REQ" />
+        </type>
+
+        <type name="SC_QUERY_ROLE_ACK" desc="查询指定名字角色反馈">
+            <item name="Info" type="QUERY_ROLE_ACK" />
+        </type>
+
+        <type name="CS_ADD_FRIEND_REQ" desc="添加好友">
+            <item name="Info" type="ADD_FRIEND_REQ" />
+        </type>
+
+        <type name="SC_ADD_FRIEND_ACK" desc="添加好友反馈">
+            <item name="Info" type="ADD_FRIEND_ACK" />
+        </type>
+
+        <type name="CS_REMOVE_FRIEND_REQ" desc="删除好友">
+            <item name="Info" type="REMOVE_FRIEND_REQ" />
+        </type>
+
+        <type name="SC_REMOVE_FRIEND_ACK" desc="删除好友反馈" >
+            <item name="Info" type="REMOVE_FRIEND_ACK" />
+        </type>
+
+        <type name="CS_DONATE_ACTION_POINT_REQ" desc="赠送体力">
+            <item name="Info" type="DONATE_ACTION_POINT_REQ" />
+        </type>
+
+        <type name="SC_DONATE_ACTION_POINT_ACK" desc="赠送体力反馈" >
+            <item name="Info" type="DONATE_ACTION_POINT_ACK" />
+        </type>
+
+        <type name="SC_DONATE_ACTION_POINT_OTHER_NTF" desc="赠送体力通知被赠送者" >
+            <item name="Info" type="DONATE_ACTION_POINT_OTHER_NTF" />
+        </type>
+
+        <type name="CS_RECEIVE_ACTION_POINT_REQ" desc="领取体力">
+            <item name="Info" type="RECEIVE_ACTION_POINT_REQ" />
+        </type>
+
+        <type name="SC_RECEIVE_ACTION_POINT_ACK" desc="领取体力反馈">
+            <item name="Info" type="RECEIVE_ACTION_POINT_ACK" />
+        </type>
+
+        <type name="CS_RESPONSE_ADD_FRIEND_REQ" desc="回应添加好友请求">
+            <item name="Info" type="RESPONSE_ADD_FRIEND_REQ" />
+        </type>
+
+        <type name="SC_REQUEST_ADD_FRIEND_NTF" desc="别人请求成为好友通知">
+            <item name="Info" type="REQUEST_ADD_FRIEND_NTF" />
+        </type>
+
+        <type name="SC_FRIEND_INFO_CHANGE_NTF" desc="好友信息变化通知">
+            <item name="Info" type="FRIEND_INFO_CHANGE_NTF" />
+        </type>
+
+        <type name="SC_FRIEND_REMOVE_INVITE_NTF" desc="删除邀请列表中的请求">
+            <item name="Info" type="FRIEND_REMOVE_INVITE_NTF" />
+        </type>
+
+        <type name="CS_FRIEND_ASSIST_LIST_REQ" desc="好友助战列表请求">
+            <item name="Info" type="FRIEND_ASSIST_LIST_REQ" />
+        </type>
+
+        <type name="SAssistBattleInfo">
+            <item name="Assistor" type="SAssistBattlePersonInfo" desc="助战人信息"/>
+            <item name="BattlePet" type="SPetInfo" desc="战斗宠物" />
+        </type>
+
+        <type name="SC_FRIEND_ASSIST_LIST_ACK" desc="好友助战列表请求">
+            <item name="Count" type="byte" desc="数量" />
+            <item name="Assistors" type="SAssistBattleInfo" count="MAX_FRIENDASSIST_COUNT" refer="Count"/>
+        </type>
+
+
+        <type name="CS_SELECT_FRIEND_ASSIST_REQ" desc="选择助战好友请求">
+            <item name="Info" type="SELECT_FRIEND_ASSIST_REQ" />
+        </type>
+
+        <type name="SC_SELECT_FRIEND_ASSIST_ACK" desc="选择助战好友反馈">
+            <item name="Info" type="SELECT_FRIEND_ASSIST_ACK" />
+        </type>
+
+        <!-- =============================================================== -->
+        <!--           好友协议                          -->
+        <!-- =============================================================== -->
+
+        <!-- =============================================================== -->
+        <!--           活动协议                          -->
+        <!-- =============================================================== -->
+        <type name="SC_ABYSS_TRIGGER_ACK" desc="触发深渊反馈">
+          <item name="Info" type="ABYSS_TRIGGER_ACK" />
+        </type>
+        <type name="CS_ABYSS_OPEN_REQ" desc="打开请求">
+          <item name="Info" type="ABYSS_OPEN_REQ" />
+        </type>
+        <type name="SC_ABYSS_OPEN_ACK" desc="打开深渊反馈">
+          <item name="Info" type="ABYSS_OPEN_ACK" />
+        </type>
+        <type name="SC_ABYSS_OPEN_NTF" desc="打开深渊通知">
+          <item name="Info" type="ABYSS_OPEN_ACK" />
+        </type>
+        <type name="CS_GET_ABYSS_TRIGGER_LIST_REQ" desc="获取触发列表请求">
+          <item name="Info" type="GET_ABYSS_TRIGGER_LIST_REQ" />
+        </type>
+        <type name="SC_GET_ABYSS_TRIGGER_LIST_ACK" desc="获取触发列表反馈">
+          <item name="Info" type="GET_ABYSS_TRIGGER_LIST_ACK" />
+        </type>
+        <type name="CS_GET_ABYSS_OPEN_LIST_REQ" desc="获取打开列表请求">
+          <item name="Info" type="GET_ABYSS_OPEN_LIST_REQ" />
+        </type>
+        <type name="SC_GET_ABYSS_OPEN_LIST_ACK" desc="获取打开列表反馈">
+          <item name="Info" type="GET_ABYSS_OPEN_LIST_ACK" />
+        </type>
+        <type name="CS_GET_ABYSS_OPEN_REC_REQ" desc="获取打开记录请求">
+		  <item name="Info" type="GET_ABYSS_OPEN_REC_REQ" />
+		</type>
+		<type name="SC_GET_ABYSS_OPEN_REC_ACK" desc="获取打开记录反馈">
+		  <item name="Info" type="GET_ABYSS_OPEN_REC_ACK" />
+		</type>
+        
+        <type name="SC_ENTER_ABYSS_ACK" desc="进入深渊活动场景表反馈">
+			<item name="Result" type="dword" desc="GS_RESULT_SUCCESS，GS_RESULT_FAIL"/>
+            <item name="Info" type="GET_ABYSS_OPEN_LIST_ACK" />
+        </type>
+        
+        <type name="SC_ABYSS_RUN_NTF" desc="深渊活动boss逃跑通知">
+			<item name="ActivityAbyssDBID" type="uint64" desc="深渊活动的DBID"/>
+        </type>
+
+	<type name="SC_MAIL_LIST_NTF" desc="邮件通知">
+		<item name="List" type="MAIL_LIST" desc="邮件列表" />
+	</type>
+
+	<type name="CS_SEND_MAIL_REQ" desc="发送邮件请求">
+		<item name="MailInfo" type="SEND_MAIL" />
+	</type>
+
+	<type name="SC_SEND_MAIL_ACK" desc="发送邮件回应" >
+		<item name="Result" type="byte" />
+	</type>
+
+	<type name="CS_GET_ITEM_FROM_MAIL_REQ" desc="提取邮件物品">
+		<item name="MailID" type="uint64"/>
+	</type>
+
+	<type name="CS_GET_MONEY_FROM_MAIL_REQ" desc="提取邮件金钱">
+		<item name="MailID" type="uint64" />
+	</type>
+
+	<type name="CS_READ_MAIL_REQ" desc="邮件阅读请求" >
+		<item name="MailID" type="uint64" />
+	</type>
+
+	<type name="SC_READ_MAIL_ACK" desc="邮件阅读回应">
+		<item name="MailID" type="uint64" />
+		<item name="ReadTime" type="dword" />
+     	</type> 
+
+	<type name="CS_DELETE_MAIL_REQ" desc="删除邮件请求">
+		<item name="Mails" type="MAIL_ID_LIST" />
+	</type>
+
+	<type name="SC_DELETE_MAIL_ACK" desc="删除邮件回应">
+		<item name="Mails" type="MAIL_ID_LIST" />
+	</type>
+
+	<type name="SC_UPDATE_MAIL_NTF" desc="更新邮件通知">
+	        <item name="List" type="MAIL_LIST" desc="邮件列表" />
+	</type>
+
+        <!-- =============================================================== -->
+        <!--           活动协议 结束                          -->
+        <!-- =============================================================== -->
+
+        <!-- =============================================================== -->
+        <!--           商城协议 开始                                         -->
+        <!-- =============================================================== -->
+        <!-- 体力 -->
+        <type name="SC_SHOP_ACTION_POINT_BOUGHT_NTF" desc="体力购买次数通知客户端">
+            <item name="BoughtCount" type="dword" desc="已经购买次数" />
+        </type>
+        <type name="CS_SHOP_BUY_ACTION_POINT_REQ" desc="购买体力">
+        </type>
+        <type name="SC_SHOP_BUY_ACTION_POINT_ACK" desc="购买体力结果">
+            <item name="Result" type="dword" />
+        </type>
+        <!-- 战魂 -->
+        <type name="SC_SHOP_BUY_PET_INFO_CHEAP_NTF" desc="购买低档战魂信息通知">
+            <item name="RemainTimeCheap" type="uint64" desc="低档免费剩余时间(单位毫秒)" />
+        </type>
+        <type name="SC_SHOP_BUY_PET_INFO_EXPENSIVE_NTF" desc="购买高档战魂信息通知">
+            <item name="RemainCount" type="byte" desc="一定得紫色战魂剩余次数"/>
+            <item name="RemainTimeExpensive" type="uint64" desc="高档免费剩余时间(单位毫秒)" />
+        </type>
+        <type name="CS_SHOP_BUY_PET_REQ" desc="购买战魂">
+            <item name="BuyType" type="byte"  desc="见 EBuyPetType"/>
+        </type>
+        <type name="SC_SHOP_BUY_PET_ACK" desc="购买战魂结果">
+            <item name="Type" type="byte" desc="购买类型"/>
+            <item name="Result" type="byte" />
+            <item name="Count" type="byte" desc="结果数量" />
+            <item name="TemplateID" type="dword" count="MAX_SHOP_BUY_PET_RESULT_COUNT" refer="Count" desc="模板id " />
+        </type>
+        <!-- 物品 -->
+        <type name="CS_SHOP_GET_GOODSLIST_REQ" desc="获取商城物品列表">
+        </type>
+        <type name="SGoodsInfo" desc="商城物品信息">
+            <item name="GoodsId" type="dword" desc="商城道具ID"/>
+            <item name="Num" type="dword" desc="数量"/>
+        </type>
+        <type name="SC_SHOP_GET_GOODSLIST_ACK" desc="返回商城物品列表">
+            <item name="Count" type="byte" desc="数量" />
+            <item name="GOODSINFOS" type="SGoodsInfo" count="MAX_SHOP_GOODS_COUNT" refer="Count"/>
+        </type>
+        <type name="CS_SHOP_BUY_GOODS_REQ" desc="商城购买物品">
+            <item name="GoodsId" type="dword" desc="购买商城道具ID"/>
+            <item name="GoodsCount" type="int" desc="购买数量"/>
+        </type>
+        <type name="SC_SHOP_BUY_GOODS_ACK" desc="商城购买物品结果">
+            <item name="Result" type="byte" />
+            <item name="ItemCount" type="int" desc="获得物品数量"/>
+            <item name="TemplateID" type="SGoodsInfo" refer="ItemCount" count="MAX_SHOP_BUY_ITEM_COUNT"  desc="获得物品模板ID"/>
+        </type>
+        <!-- 神秘商店相关 -->
+        <type name="CS_SHOP_SECRET_GOODS_REQ" desc="神秘商店物品列表请求">
+        </type>
+        <type name="SSecretItemInfo" desc="商城.神秘商店物品信息">
+            <item name="UID" type="int" desc="对应的兑换唯一ID"/>
+            <item name="Bought" type="byte" desc="是否已经购买过了，0没买1买了"/>
+        </type>
+        <type name="SC_SHOP_SECRET_GOODS_ACK" desc="神秘商店物品列表返回">
+            <item name="RefreshRemainTimeMS" type="uint64" desc="刷新剩余时间(单位毫秒)" />
+            <item name="FreeRefreshRemainCount" type="int" desc="免费刷新剩余次数"/>
+            <item name="ItemCount" type="int" desc="神秘商店物品数量"/>
+            <item name="SecretItems" type="SSecretItemInfo" refer="ItemCount" count="MAX_SHOP_SECRET_ITEM_COUNT"  desc="神秘商店物品"/>
+        </type>
+        <type name="CS_SHOP_SECRET_BUY_REQ" desc="神秘商店购买物品请求">
+            <item name="UID" type="int" desc="对应的兑换唯一ID"/>
+        </type>
+        <type name="SC_SHOP_SECRET_BUY_ACK" desc="神秘商店购买物品返回">
+            <item name="Result" type="byte" desc="结果 EShopBuyResult 枚举"/>
+            <item name="UID" type="int" desc="对应的兑换唯一ID"/>
+        </type>
+        <type name="CS_SHOP_SECRET_REFRESH_REQ" desc="神秘商店刷新请求，如果成功直接返回SC_SHOP_SECRET_GOODS_ACK列表信息，失败不返回">
+        </type>
+        <!-- =============================================================== -->
+        <!--           商城协议 结束                                         -->
+        <!-- =============================================================== -->
+
+        <!-- =============================================================== -->
+        <!--           VIP协议 开始                                         -->
+        <!-- =============================================================== -->
+        <type name="SC_VIP_INFO_NTF" desc="VIP信息通知">
+            <item name="VIPLevel" type="dword" desc="VIP等级" />
+            <item name="GMLevel" type="byte" desc="账号GM等级" />
+        </type>
+        <type name="SC_VIP_RMBINFO_NTF" desc="VIP.RMB充值信息通知">
+            <item name="RMBCount" type="int" desc="充值次数" />
+            <item name="RMBSum" type="int" desc="充值RMB总额" />
+        </type>
+        <type name="SC_VIP_MONTHCARD_NTF" desc="VIP.月卡信息通知">
+            <item name="MonthCardCount" type="byte" desc="月卡数量" />
+            <item name="MonthCardInfos" type="MonthCardInfo" count="MAX_MONTHCARD_COUNT" refer="MonthCardCount" desc="账号月卡信息" />
+        </type>
+        <type name="CS_VIP_MONTHCARD_GETITEM_REQ" desc="VIP.月卡领取奖励请求">
+            <item name="UId" type="int" desc="领取的月卡ID" />
+        </type>
+        <type name="SC_VIP_MONTHCARD_GETITEM_ACK" desc="VIP.月卡领取奖励回应">
+            <item name="Result" type="byte" desc="结果 EMonthCardAwardResult 枚举"/>
+            <item name="UId" type="int" desc="领取的月卡ID" />
+        </type>
+        <!-- =============================================================== -->
+        <!--           VIP协议 结束                                         -->
+        <!-- =============================================================== -->
+
+        <!-- =============================================================== -->
+    <!--           PVP协议 开始                                         -->
+    <!-- =============================================================== -->
+   
+    <type name="CS_SELF_PVP_PRO_REQ" desc="角色PVP信息 ">
+	</type>
+	<type name="SC_SELF_PVP_PRO_ACK" desc="角色PVP信息 ">
+		<item name="MilitaryLevel" type="int" desc="军阶等级 " />
+		<item name="Repute" type="dword" desc="声望 " />
+		<item name="Points" type="dword" desc="积分 " />
+		<item name="Times" type="dword" des="挑战次数"/>
+		<item name="Wins" type="dword" des="胜场"/>
+		<item name="Loses" type="dword" des="败场"/>
+		<item name="Ranks" type="dword" des="排名"/>
+		<item name="MiFlag" type="byte" des="军阶奖励领取标志"/>
+		<item name="DayRepute" type="dword" des="今天获取的声望"/>
+		<item name="DayReFlag" type="uint64" des="领取声望标志"/>
+		<item name="BuyTimesLeft" type="int" des="当天可以购买的挑战次数"/>
+	</type>
+	<type name="CS_GET_PVP_MATCH_REQ" desc="获取pvp对手请求 ">
+	</type>
+	<type name="SC_GET_PVP_MATCH_ACK" desc="获取pvp对手回应 ">
+		<item name="PVPMatchList" type="PVP_MATCH_LIST" des="PVPMatch列表"/>
+	</type>
+	<type name="CS_ENTER_PVP_REQ" desc="挑战请求 ">
+		<item name="RoleID" type="uint64" desc="挑战的角色id" />
+	</type>
+	<type name="SC_ENTER_PVP_ACK" desc="挑战反馈 ">
+		<item name="Result" type="dword" desc="0表示成功，非0表示失败"/>
+		<item name="BasePro" type="SC_SELF_BASE_PRO" desc="基本属性"/>
+		<item name="Pet" type="SC_USER_JOIN_PETS" desc="宠物"/>
+		<item name="Skill" type="SC_USER_SKILLS_NTF" desc="技能"/>
+		<item name="Equip" type="SC_ROLE_EQUIP_NTF" desc="装备"/>
+		<item name="RobotBuff" type="SRobotBuffs" desc="buffs"/>
+	</type>
+	
+	<type name="CS_PVP_RETULT_REQ" desc="PVP结算请求 ">
+		<item name="Result" type="dword" desc="0表示挑战成功，非0表示挑战失败：1表示中途退出"/>
+		<item name="Timeout" type="int" desc="是否时间耗尽结束 否-0  是-1"/>
+	</type>
+	<type name="SC_PVP_RETULT_ACK" desc="PVP结算反馈 ">
+		<item name="Result" type="dword" desc="0表示成功，非0表示失败"/>
+		<item name="Pro" type="SC_SELF_PVP_PRO_ACK" desc="结算后PVP信息"/>
+		<item name="Points" type="int" desc="积分"/>
+		<item name="Repute" type="int" desc="声望"/>
+	</type>
+	
+	<type name="CS_GET_PVP_MILITARY_REWARD_REQ" desc="获取军阶奖励请求 ">
+		
+	</type>
+	<type name="SC_GET_PVP_MILITARY_REWARD_ACK" desc="获取军阶奖励反馈 ">
+		<item name="Result" type="dword" desc="0表示成功，非0表示失败"/>
+		<item name="MiFlag" type="byte" des="军阶奖励领取标志"/>
+	</type>
+	<type name="CS_GET_PVP_REPUTE_REWARD_REQ" desc="获取声望奖励请求 ">
+		<item name="RewardId" type="dword" desc="领取声望奖励id 1-领取20点 2-40点 3-60点 4-80点 5-100点"/>
+	</type>
+	<type name="SC_GET_PVP_REPUTE_REWARD_ACK" desc="获取声望奖励反馈 ">
+		<item name="Result" type="dword" desc="0表示成功，非0表示失败"/>
+		<item name="DayRepute" type="dword" des="今天获取的声望"/>
+		<item name="DayReFlag" type="uint64" des="领取声望标志"/>
+	</type>
+    <type name="CS_GET_RANK_LIST_REQ" desc="获取排行榜请求 ">
+	</type>
+	<type name="SC_GET_RANK_LIST_ACK" desc="获取排行榜反馈 ">
+		<item name="RankList" type="PVP_RANK_LIST" desc="排行榜"/>
+	</type>
+	<type name="CS_PVP_BUY_CHALLENGE_TIMES_REQ" desc="买挑战次数请求 ">
+		<item name="BuyTimes" type="int" des="要购买的次数"/>
+	</type>
+	<type name="SC_PVP_BUY_CHALLENGE_TIMES_ACK" desc="买挑战次数反馈 ">
+		<item name="Result" type="dword" desc="非0表示购买的挑战次数"/>
+		<item name="BuyTimesLeft" type="int" des="当天可以购买的挑战次数"/>
+	</type>
+	<type name="SC_PVP_TIME_NTF" desc="通知pvp时间 ">
+		<item name="Time" type="uint64" desc="到PVP开始的毫秒数"/>
+	</type>
+	<type name="CS_GET_PVP_ROLE_INFO_REQ" desc="获取PVP角色信息请求 ">
+		<item name="RoleID" type="uint64" desc="挑战的角色id" />
+	</type>
+	<type name="SC_GET_PVP_ROLE_INFO_ACK" desc="获取PVP角色信息反馈 ">
+		<item name="Result" type="dword" desc="0表示人，1表示机器人，其他失败"/>
+		<item name="Attack" type="int" desc="战斗力"/>
+		<item name="Equip" type="SC_ROLE_EQUIP_NTF" desc="装备"/>
+		<item name="Pet" type="SC_USER_JOIN_PETS" desc="宠物"/>
+		<item name="Skill" type="SC_USER_SKILLS_NTF" desc="技能"/>
+	</type>
+
+    <!-- =============================================================== -->
+    <!--           PVP协议 结束                                        -->
+    <!-- =============================================================== -->
+
+        <!-- =============================================================== -->
+        <!--           领奖协议 开始                                         -->
+        <!-- =============================================================== -->
+        <!-- 签到相关 -->
+        <type name="SC_GIFT_SIGN_NTF" desc="每日签到信息通知，上线发一次，签到时发一次，刷新时发一次">
+            <item name="CanSign" type="byte" desc="是否可以签到 0不可以 1可以" />
+            <item name="SignCount" type="dword" desc="当月签到次数" />
+        </type>
+        <type name="SC_GIFT_SIGN_VIP_NTF" desc="每日签到VIP补领情况通知">
+            <item name="Count" type="dword" desc="VIP补领次数" />
+            <item name="Day" type="dword" refer="Count" count="MAX_GIFT_VIP_COUNT"  desc="VIP补领已补领次数" />
+        </type>
+        <type name="CS_GIFT_SIGN" desc="签到，会直接触发领奖，VIP会直接领奖两次">
+        </type>
+        <type name="CS_GIFT_SIGN_VIP" desc="VIP补领奖励">
+            <item name="SignDate" type="dword" desc="补领当月的第几次，发次数" />
+        </type>
+        <!-- 成长相关 -->
+        <type name="SC_GIFT_LEVEL_NTF" desc="成长已领奖信息通知">
+            <item name="Count" type="dword" desc="已领次数" />
+            <item name="Level" type="dword" refer="Count" count="MAX_GIFT_LEVEL_COUNT"  desc="已领取等级" />
+        </type>
+        <type name="CS_GIFT_LEVEL" desc="成长领奖">
+            <item name="Level" type="int" desc="奖励的等级" />
+        </type>
+        <!-- 每日任务 -->
+        <type name="SDayQuestInfo" desc="每日任务完成信息">
+            <item name="QuestId" type="dword" desc="每日任务类型ID" />
+            <item name="FinishProgress" type="dword" desc="已完成次数" />
+            <item name="ScoreReceived" type="byte" desc="积分已领取0未领取1领取" />
+        </type>
+        <type name="SC_GIFT_DAY_NTF" desc="每日任务完成信息，上线发一次，刷新时发一次" >
+            <item name="Count" type="dword" desc="信息数量" />
+            <item name="Info" type ="SDayQuestInfo" refer="Count" count="MAX_DAY_QUEST_COUNT" desc="完成信息"/>
+        </type>
+        <type name="SC_GIFT_DAY_UPD" desc="每日任务完成信息增量更新" >
+            <item name="Info" type ="SDayQuestInfo" desc="完成信息"/>
+        </type>
+        <type name="CS_GIFT_DAY_SCORE_REQ" desc="每日任务领取积分，回 SC_GIFT_DAY_NTF 消息">
+            <item name="QuestId" type="dword" desc="每日任务类型ID" />
+        </type>
+        <type name="CS_GIFT_DAY_BOX_REQ" desc="每日任务领取宝箱" >
+            <item name="BoxID" type="dword" desc="宝箱id" />
+        </type>
+        <type name="SC_GIFT_DAY_BOX_NTF" desc="每日任务已领取宝箱列表" >
+            <item name="Count" type="byte" desc="信息数量" />
+            <item name="BoxID" type="dword" refer="Count" count="MAX_DAY_QUEST_BOX_COUNT" desc="宝箱id" />
+        </type>
+        <!-- 激活码领奖 -->
+        <type name="CS_GIFT_JIHUOMA_REQ" desc="激活码领奖请求" >
+            <item name="JiHuoMa" type="string" count="MAX_JIHUOMA_LEN" desc="激活码" />
+        </type>
+        <type name="SC_GIFT_JIHUOMA_ACK" desc="激活码领奖回应" >
+            <item name="Ret" type="byte" desc="结果 参见枚举 EJihuoma " />
+            <item name="Items" type="SMultiItems" desc="获得物品" />
+        </type>
+        <!-- 定时领取体力 -->
+        <type name="CS_GIFT_EP_INFO_REQ" desc="获取体力领取信息，每次打开面板时请求一次，刷新时间点到时请求一次" >
+        </type>
+        <type name="SC_GIFT_EP_INFO_ACK" desc="体力领取信息,所有已领取信息的 DayFoodID " >
+            <item name="Count" type="byte" desc="信息数量" />
+            <item name="DayFoodID" type="int" refer="Count" count="MAX_FOODS_COUNT" desc="已领取美食的id" />
+        </type>
+        <type name="CS_GIFT_RECEIVE_EP_REQ" desc="领取体力请求" >
+            <item name="DayFoodID" type="int" desc="领取美食的id" />
+        </type>
+        <type name="SC_GIFT_RECEIVE_EP_ACK" desc="领取体力回应" >
+            <item name="Result" type="byte" desc="结果 见枚举 EReceiveEPResult " />
+            <item name="DayFoodID" type="int" desc="领取的美食ID，只有在Result成功时有意义 " />
+        </type>
+
+        <!-- =============================================================== -->
+        <!--           领奖协议 结束                                         -->
+        <!-- =============================================================== -->
+        
+		<!-- =============================================================== -->
+		<!--           世界boss协议 开始                                        -->
+		<!-- =============================================================== -->
+		<type name="CS_WB_INFO_REFRESH_REQ" desc="世界boss信息刷新请求" >
+        </type>
+        <type name="SC_WB_INFO_REFRESH_ACK" desc="世界boss信息刷新反馈" >
+			<item name="Info" type="SWorldBossInfo" desc="信息" />
+        </type>
+        <type name="CS_WB_ADD_BUF_REQ" desc="世界boss鼓舞buff请求" >
+			<item name="Type" type="int" desc="鼓舞类别（0-金币、1-徽章）" />
+        </type>
+        <type name="SC_WB_ADD_BUF_ACK" desc="世界boss鼓舞buff反馈" >
+			<item name="Result" type="int" desc="结果信息 0-成功" />
+        </type>
+        <type name="CS_WB_RELIVE_REQ" desc="世界boss立即复活请求" >
+        </type>
+        <type name="SC_WB_RELIVE_ACK" desc="世界boss立即复活反馈" >
+			<item name="Result" type="int" desc="结果信息 0-成功" />
+        </type>
+        <type name="SC_WB_KILLED_NTF" desc="世界boss被杀通知" >
+        </type>
+        <type name="SC_WB_RUN_NTF" desc="世界boss逃跑通知" >
+        </type>
+        <type name="CS_WB_ENTER_REQ" desc="进入世界boss请求" >
+        </type>
+        <type name="SC_WB_ENTER_ACK" desc="进入世界boss反馈" >
+			<item name="Result" type="int" desc="结果信息 0-成功" />
+			<item name="Info" type="SWorldBossInfo" desc="信息" />
+        </type>
+        <type name="CS_WB_RESULT_REQ" desc="进入世界boss请求" >
+			<item name="Result" type="int" desc="结果信息 0-成功" />
+			<item name="Damage" type="int" />
+        </type>
+        <type name="SC_WB_RESULT_ACK" desc="进入世界boss反馈" >
+			<item name="Result" type="int" desc="结果信息 0-成功" />
+			<item name="Info" type="SWorldBossInfo" desc="信息" />
+        </type>
+		<!-- =============================================================== -->
+		<!--           世界boss协议 结束                                        -->
+		<!-- =============================================================== -->
+        <!-- =============================================================== -->
+        <!--              排行榜相关协议(3800-3899)                             -->
+        <!-- =============================================================== -->
+        <type name="CS_ROLE_RANK_REQ" desc="申请排名信息" >
+            <item name="Req" type="SRankRoleReq" desc="" />
+        </type>
+        <type name="SC_ROLE_RANK_ACK" desc="申请排名信息回应" >
+            <item name="Ack" type="SRankRoleAck" desc="" />
+        </type>
+        
+        <!-- =============================================================== -->
+        <!--              战魂试炼相关协议(3900-3999)                             -->
+        <!-- =============================================================== -->
+        <type name="CS_GET_PT_BASEINFO_REQ" desc="获取战魂试炼基本信息请求" >
+        </type>
+        <type name="SC_GET_PT_BASEINFO_ACK" desc="获取战魂试炼基本信息回应" >
+            <item name="Times" type="int" desc="剩余挑战次数" />
+            <item name="Buys" type="int" desc="剩余购买次数" />
+            <item name="Pass" type="int" desc="已过难度 1-难度1 2-难度2 3-难度3" />
+        </type>
+        <type name="CS_BUY_PT_TIMES_REQ" desc="买挑战次数请求 ">
+			<item name="BuyTimes" type="int" des="要购买的次数"/>
+		</type>
+		<type name="SC_BUY_PT_TIMES_ACK" desc="买挑战次数反馈 ">
+			<item name="Result" type="dword" desc="非0表示购买的挑战次数"/>
+			<item name="BuyTimesLeft" type="int" des="当天可以购买的挑战次数"/>
+		</type>
+		
+		<!-- =============================================================== -->
+        <!--              金钱副本相关协议(4000-4099)                             -->
+        <!-- =============================================================== -->
+        <type name="CS_GET_MD_BASEINFO_REQ" desc="获取金钱副本基本信息请求" >
+        </type>
+        <type name="SC_GET_MD_BASEINFO_ACK" desc="获取金钱副本基本信息回应" >
+            <item name="Times" type="int" desc="剩余挑战次数" />
+            <item name="Buys" type="int" desc="剩余购买次数" />
+            <item name="Pass" type="int" desc="已过难度 1-难度1 2-难度2 3-难度3" />
+        </type>
+        <type name="CS_BUY_MD_TIMES_REQ" desc="买挑战次数请求 ">
+			<item name="BuyTimes" type="int" des="要购买的次数"/>
+		</type>
+		<type name="SC_BUY_MD_TIMES_ACK" desc="买挑战次数反馈 ">
+			<item name="Result" type="dword" desc="非0表示购买的挑战次数"/>
+			<item name="BuyTimesLeft" type="int" des="当天可以购买的挑战次数"/>
+		</type>
+		
+		<!-- =============================================================== -->
+        <!--              火龙塔相关协议(4100-4199)                             -->
+        <!-- =============================================================== -->
+        <type name="CS_GET_FD_BASEINFO_REQ" desc="获取火龙塔基本信息请求" >
+        </type>
+        <type name="SC_GET_FD_BASEINFO_ACK" desc="获取火龙塔基本信息回应" >
+            <item name="Times" type="int" desc="剩余挑战次数" />
+            <item name="Buys" type="int" desc="剩余购买次数" />
+            <item name="Pass" type="int" desc="已过难度 1-难度1 2-难度2 3-难度3" />
+        </type>
+        <type name="CS_BUY_FD_TIMES_REQ" desc="买挑战次数请求 ">
+			<item name="BuyTimes" type="int" des="要购买的次数"/>
+		</type>
+		<type name="SC_BUY_FD_TIMES_ACK" desc="买挑战次数反馈 ">
+			<item name="Result" type="dword" desc="非0表示购买的挑战次数"/>
+			<item name="BuyTimesLeft" type="int" des="当天可以购买的挑战次数"/>
+		</type>
+
+        <!-- =============================================================== -->
+        <!--              公会相关协议(4200-4299)                            -->
+        <!-- =============================================================== -->
+        <type name="CS_GUILD_INFO_REQ" desc="公会信息请求，非入会返回SC_GUILD_LIST_ACK(第一页) 入会返回SC_GUILD_BASEINFO_ACK公会基本信息">
+        </type>
+        <type name="CS_GUILD_LIST_REQ" desc="公会列表请求，非入会玩家，返回SC_GUILD_LIST_ACK ">
+            <item name="Req" type="SGuildListReq" desc="请求信息"/>
+        </type>
+        <type name="SC_GUILD_LIST_ACK" desc="公会列表回应，非入会玩家 ">
+            <item name="Ack" type="SGuildListAck" desc="返回信息"/>
+        </type>
+        <type name="CS_GUILD_ENTER_REQ" desc="公会入会申请 ">
+            <item name="Req" type="SGuildEnterReq" desc=""/>
+        </type>
+        <type name="SC_GUILD_ENTER_ACK" desc="公会入会申请返回 ">
+            <item name="Ack" type="SGuildEnterAck" desc=""/>
+        </type>
+        <type name="CS_GUILD_CREATE_REQ" desc="创建公会 ">
+            <item name="Req" type="SGuildEnterAck" desc=""/>
+        </type>
+        <type name="SC_GUILD_CREATE_ACK" desc="创建公会 ">
+            <item name="Ack" type="SGuildEnterAck" desc=""/>
+        </type>
+        <type name="CS_GUILD_LEAVE_REQ" desc="离开公会请求 ">
+        </type>
+        <type name="SC_GUILD_LEAVE_ACK" desc="离开公会返回 ">
+            <item name="Ack" type="SGuildLeaveAck" desc=""/>
+        </type>
+        <type name="SC_GUILD_BASEINFO_ACK" desc="公会基本信息 ">
+            <item name="Ack" type="SGuildBaseInfo" desc=""/>
+        </type>
+        <type name="CS_GUILD_LOG_REQ" desc="公会日志查询 ">
+        </type>
+        <type name="SC_GUILD_LOG_ACK" desc="公会日志结果 ">
+            <item name="Ack" type="SGuildLogAck" desc=""/>
+        </type>
+        <type name="CS_GUILD_CHANGE_NOTICE_REQ" desc="公会修改公告请求 ">
+            <item name="Req" type="SGuildChangeNoticeReq" desc=""/>
+        </type>
+        <type name="SC_GUILD_CHANGE_NOTICE_ACK" desc="公会修改公告结果 ">
+            <item name="Ack" type="SGuildChangeNoticeAck" desc=""/>
+        </type>
+        <type name="CS_GUILD_DETAIL_REQ" desc="公会详细信息请求（公会大厅） ">
+        </type>
+        <type name="SC_GUILD_DETAIL_ACK" desc="公会详细信息返回（公会大厅） ">
+            <item name="Ack" type="SGuildDetailAck" desc=""/>
+        </type>
+        <type name="CS_GUILD_ENTERLIST_REQ" desc="公会申请列表请求 ">
+        </type>
+        <type name="SC_GUILD_ENTERLIST_ACK" desc="公会申请列表返回 ">
+            <item name="Ack" type="SGuildEnterListAck" desc=""/>
+        </type>
+        <type name="CS_GUILD_ENTER_ACCEPT_REQ" desc="公会申请.同意/拒绝 ">
+            <item name="Req" type="SGuildEnterAcceptReq" desc=""/>
+        </type>
+        <type name="SC_GUILD_ENTER_ACCEPT_ACK" desc="公会申请.同意/拒绝 返回 ">
+            <item name="Ack" type="SGuildEnterAcceptAck" desc=""/>
+        </type>
+        <type name="CS_GUILD_ENTER_CLEAR_REQ" desc="公会申请.清空 请求 ">
+        </type>
+        <type name="SC_GUILD_ENTER_CLEAR_ACK" desc="公会申请.清空 返回 ">
+            <item name="Ack" type="SGuildEnterClearAck" desc=""/>
+        </type>
+        
+
+
+    </types>
+    <messages>
+
+        <!-- =============================================================== -->
+        <!--           Gate Server和Client之间的协议(0-999)                  -->
+        <!-- =============================================================== -->
+        <message name="CGID_LOGIN"                id="1"              type="CG_LOGIN" />
+        <message name="GCID_LOGIN"                id="2"              type="GC_LOGIN" />
+        <message name="CGID_LOGOUT"               id="3"              type="CG_LOGOUT" />
+        <message name="GCID_LOGOUT"               id="4"              type="GC_LOGOUT" />
+        <message name="GCID_ROLELIST"             id="5"              type="GC_ROLELIST" />
+        <message name="CGID_CREATEROLE"           id="6"              type="CG_CREATEROLE" />
+        <message name="GCID_CREATEROLE"           id="7"              type="GC_CREATEROLE" />
+        <message name="CGID_DELROLE"              id="8"              type="CG_DELROLE" />
+        <message name="GCID_DELROLE"              id="9"              type="GC_DELROLE" />
+        <message name="CGID_SELECTROLE"           id="14"             type="CG_SELECTROLE" />
+        <message name="GCID_SELECTROLE"           id="15"             type="GC_SELECTROLE" />
+        <message name="GCID_QUEUE_INFO"           id="21"             type="GC_QUEUE_INFO" />
+        <message name="GCID_GPK_DYN_CODE"         id="26"             type="GC_GPK_CLT_DYN_CODE" />
+        <message name="CGID_GPK_NEGLECT"          id="28"             type="CG_GPK_CLT_NEGLECT" />
+        <message name="GCID_GPK_CAL_ORIGIN"       id="30"             type="GC_GPK_CAL_ORIGIN" />
+        <message name="CGID_GPK_CAL_RESULT"       id="32"             type="CG_GPK_CAL_RESULT" />
+        <message name="GCID_ERROR"                id="100"            type="GC_ERROR" />
+        <message name="GCID_ERRORSTRING"          id="101"            type="GC_ERRORSTRING" />
+		<message name="CGID_HEART_BEAT"           id="102"            type="CG_HEART_BEAT" />
+		<message name="GCID_HEART_BEAT"           id="103"            type="GC_HEART_BEAT" />
+		<message name="GCID_PUBLIC_STRING"        id="104"            type="GC_PUBLIC_STRING" />
+		
+        <!-- =============================================================== -->
+        <!--           login Server和Client之间的协议(1000-1099)             -->
+        <!-- =============================================================== -->
+        <message name="LGID_LOGIN_REQ" id="1001" type="LGPKG_LOGIN_REQ" />
+        <message name="LGID_LOGIN_ACK" id="1003" type="LGPKG_LOGIN_ACK" />
+
+        <message name="LGID_GAMESERVER_LIST_REQ" id="1011" type="LGPKG_GAMESERVER_LIST_REQ" />
+        <message name="LGID_GAMESERVER_LIST_ACK" id="1012" type="LGPKG_GAMESERVER_LIST_ACK" />
+
+        <!-- =============================================================== -->
+        <!--           Gate Server和Game Server之间的协议(1100-1999)         -->
+        <!-- =============================================================== -->
+        <message name="GSID_SERVERINFO_RPT"       id="1100"           type="GSPKG_SERVERINFO_RPT" />
+        <message name="GSID_SERVER_GROUP_DESC_RPT" id="1110"          type="GSPKG_SERVER_GROUP_DESC_RPT" />
+        <message name="GSID_ENTERGAME_REQ"        id="1211"           type="GSPKG_ENTERGAME_REQ" />
+        <message name="GSID_ENTERGAME_ACK"        id="1212"           type="GSPKG_ENTERGAME_ACK" />
+        <message name="GSID_LEAVEGAME_REQ"        id="1221"           type="GSPKG_LEAVEGAME_REQ" />
+        <message name="GSID_LEAVEGAME_ACK"        id="1222"           type="GSPKG_LEAVEGAME_ACK" />
+        <message name="GSID_KICKOUT_NTF"          id="1231"           type="GSPKG_KICKOUT_NTF" />
+        <message name="GSID_MSG_BROADCAST"        id="1232"           type="GSPKG_MSG_BROADCAST" />
+        <message name="GSID_LOAD_GSDATA_NTF"      id="1242"           type="GSPKG_LOAD_GSDATA_NTF" />
+        <message name="GSID_UPDATEGMLEVEL_NTF"    id="1246"           type="GSPKG_UPDATEGMLEVEL_NTF" />
+		<message name="GSID_SWITCHSCENE_REQ"      id="1247"           type="GSPKG_SWITCHSCENE_REQ" />
+		<message name="GSID_SWITCHSCENE_ACK"      id="1248"           type="GSPKG_SWITCHSCENE_ACK" />
+		
+
+
+        <!-- =============================================================== -->
+        <!--           Client 和Game Server之间的协议(2000-2999)             -->
+        <!-- =============================================================== -->
+
+
+        <!-- =============================================================== -->
+        <!--           登录场景相关协议(2000-2099)                           -->
+        <!-- =============================================================== -->
+        <message name="SCID_SELF_LOADSCENE"         id="2000"           type="SC_SELF_LOADSCENE" />
+        <message name="CSID_ENTERSCENE"             id="2001"           type="CS_ENTERSCENE" />
+        <message name="SCID_SELF_ENTERSCENE"        id="2002"           type="SC_SELF_ENTERSCENE" />
+
+        <message name="SCID_SELF_DATA_END"          id="2003"           type="SC_SELF_DATA_END" />
+        <message name="SCID_SELF_APPEAR"            id="2004"           type="SC_SELF_APPEAR" />
+        <message name="SCID_SELF_BASE_PRO"          id="2005"           type="SC_SELF_BASE_PRO" />
+
+        <message name="CSID_LEVEL_REQ"                id="2006"           type="CS_LEVEL_REQ" />
+        <message name="SCID_LEVEL_ACK"                id="2007"           type="SC_LEVEL_ACK" />
+        <message name="CSID_LEVEL_RESULT_NTF"       id="2010"           type="CS_LEVEL_RESULT_NTF" />
+        <message name="SCID_TREASURE_CHEST_NTF"      id="2011"          type="SC_TREASURE_CHEST_NTF" />
+        <message name="CSID_OPEN_TREASURE_CHEST_REQ" id="2012"          type="CS_OPEN_TREASURE_CHEST_REQ" />
+        <message name="SCID_OPEN_TREASURE_CHEST_ACK" id="2013"          type="SC_OPEN_TREASURE_CHEST_ACK" />
+        <message name="SCID_LEVEL_INFO"                id="2014"           type="SC_LEVEL_INFO" />
+        <message name="CSID_GET_BATTLE_BOX_REQ"         id="2015"       type="CS_GET_BATTLE_BOX_REQ" />
+        <message name="SCID_GET_BATTLE_BOX_ACK"         id="2016"       type="SC_GET_BATTLE_BOX_ACK" />
+        <message name="SCID_BATTLE_GOT_STAR_NTF"        id="2017"       type="SC_BATTLE_GOT_STAR_NTF" />
+        <message name="SCID_SELF_VOLATILE_PRO"          id="2030"           type="SC_SELF_VOLATILE_PRO" />
+
+		<message name="SCID_CLIENT_CONFIG_NTF"          id="2040"           type="SC_CLIENT_CONFIG_NTF" />
+		<message name="CSID_CLIENT_CONFIG_UPDATE"       id="2041"           type="CS_CLIENT_CONFIG_UPDATE" />
+		
+
+        <message name="SCID_ERROR_NTF"             id="2050"           type="SC_ERROR_NTF" />
+      
+        <!-- =============================================================== -->
+        <!--           物品相关协议(2100-2199)                               -->
+        <!-- =============================================================== -->
+        <message name="SCID_SELF_ITEM_NTF"      id="2100"           type="SC_SELF_ITEM_NTF" />
+        <message name="CSID_MOVE_ITEM_REQ"      id="2101"           type="CS_MOVE_ITEM_REQ" />
+        <message name="SCID_MOVE_ITEM_ACK"      id="2102"           type="SC_MOVE_ITEM_ACK" />
+        <!-- =============================================================== -->
+        <message name="SCID_ROLE_BAG_NTF"       id="2110"           type="SC_ROLE_BAG_NTF" />
+        <message name="SCID_ROLE_EQUIP_NTF"     id="2111"           type="SC_ROLE_EQUIP_NTF" />
+
+        <message name="CSID_ROLE_EQUIP_REQ"     id="2112"           type="CS_ROLE_EQUIP_REQ" />
+        <message name="CSID_ROLE_EVENT_REQ"     id="2113"           type="CS_ROLE_EVENT_REQ" />
+        <message name="SCID_ROLE_BAG_SINGLE_LEAVE_NTF"        id="2114"           type="SC_ROLE_BAG_SINGLE_LEAVE_NTF" />
+        <message name="SCID_ROLE_BAG_SINGLE_ENTER_NTF"        id="2115"           type="SC_ROLE_BAG_SINGLE_ENTER_NTF" />
+        <message name="SCID_ROLE_EQUIP_SINGLE_LEAVE_NTF"        id="2116"           type="SC_ROLE_EQUIP_SINGLE_LEAVE_NTF" />
+        <message name="SCID_ROLE_EQUIP_SINGLE_ENTER_NTF"        id="2117"           type="SC_ROLE_EQUIP_SINGLE_ENTER_NTF" />
+        <message name="CSID_ROLE_ITEMUP_RPT"     id="2118"           type="CS_ROLE_ITEMUP_RPT" />
+        <message name="SCID_ROLE_ITEMUP_NTF"     id="2119"           type="SC_ROLE_ITEMUP_NTF" />
+        <message name="SCID_ROLE_ITEMUP_ACK"     id="2120"           type="SC_ROLE_ITEMUP_ACK" />
+
+        <message name="SCID_ROLE_SUIT_NTF"     id="2121"           type="SC_ROLE_SUIT_NTF" />
+
+        <message name="CSID_ROLE_HOLE_ON_REQ"     id="2122"           type="CS_ROLE_HOLE_ON_REQ" />
+        <message name="SCID_ROLE_HOLE_ON_ACK"     id="2123"           type="SC_ROLE_HOLE_ON_ACK" />
+
+        <message name="CSID_ROLE_HOLE_OFF_REQ"     id="2124"           type="CS_ROLE_HOLE_OFF_REQ" />
+        <message name="SCID_ROLE_HOLE_OFF_ACK"     id="2125"           type="SC_ROLE_HOLE_OFF_ACK" />
+
+        <message name="CSID_ROLE_HOLE_REFRESH_REQ"     id="2126"           type="CS_ROLE_HOLE_REFRESH_REQ" />
+        <message name="SCID_ROLE_HOLE_REFRESH_ACK"     id="2127"           type="SC_ROLE_HOLE_REFRESH_ACK" />
+
+        <message name="CSID_ROLE_HOLE_MERGE_REQ"     id="2128"           type="CS_ROLE_HOLE_MERGE_REQ" />
+        <message name="SCID_ROLE_HOLE_MERGE_ACK"     id="2129"           type="SC_ROLE_HOLE_MERGE_ACK" />
+
+        <message name="CSID_ROLE_HOLE_MERGE2_REQ"     id="2130"           type="CS_ROLE_HOLE_MERGE2_REQ" />
+        <message name="SCID_ROLE_HOLE_MERGE2_ACK"     id="2131"           type="SC_ROLE_HOLE_MERGE2_ACK" />
+
+        <message name="CSID_LOCK_RPT"     id="2140"           type="CS_LOCK_RPT" />
+
+        <message name="CSID_ROLE_USEITEM_REQ"     id="2141"           type="CS_ROLE_USEITEM_REQ" />
+
+        <message name="CSID_PET_USEITEM_REQ"     id="2143"           type="CS_PET_USEITEM_REQ" />
+        <message name="SCID_PET_USEITEM_ACK"     id="2144"           type="SC_PET_USEITEM_ACK" />
+
+        <message name="SCID_ROLE_LIMIT_NTF"     id="2145"           type="SC_ROLE_LIMIT_NTF" />
+
+        <message name="CSID_GATHER_ITEM_MERGE_REQ"      id="2150"           type="CS_GATHER_ITEM_MERGE_REQ" />
+        <message name="SCID_GATHER_ITEM_MERGE_ACK"      id="2152"           type="SC_GATHER_ITEM_MERGE_ACK" />
+
+        <message name="SCID_GATHER_INFO_NTF"      id="2153"           type="SC_GATHER_INFO_NTF" />
+        <message name="SCID_GATHER_SINGLE_ENTER_NTF"      id="2154"           type="SC_GATHER_SINGLE_ENTER_NTF" />
+        <message name="SCID_GATHER_SINGLE_LEAVE_NTF"      id="2155"           type="SC_GATHER_SINGLE_LEAVE_NTF" />
+
+        <message name="CSID_ROLE_PROD_REQ"      id="2156"           type="CS_ROLE_PROD_REQ" />
+        <message name="SCID_ROLE_PROD_ACK"      id="2157"           type="SC_ROLE_PROD_ACK" />
+
+        <message name="SCID_ROLE_USEITEM_START_ACK"     id="2160"           type="SC_ROLE_USEITEM_START_ACK" />
+        <message name="SCID_ROLE_USEITEM_END_ACK"     id="2161"           type="SC_ROLE_USEITEM_END_ACK" />
+
+        <!-- =============================================================== -->
+        <!--           技能相关协议(2200-2299)                               -->
+        <!-- =============================================================== -->
+        <message name="SCID_USER_SKILLS_NTF"      id="2200"           type="SC_USER_SKILLS_NTF" />
+        <message name="CSID_LEARN_SKILL"          id="2201"           type="CS_LEARN_SKILL" />
+        <message name="SCID_SKILL_INFO_NTF"       id="2202"           type="SC_SKILL_INFO_NTF" />
+        <message name="SCID_REMOVE_SKILL_NTF"     id="2203"           type="SC_REMOVE_SKILL_NTF" />
+        <message name="SCID_SKILL_POINT_NTF"      id="2204"           type="SC_SKILL_POINT_NTF" />
+		<message name="CSID_SKILL_RESET_ALL_REQ"  id="2205"           type="CS_SKILL_RESET_ALL_REQ" />
+		
+
+        <!-- =============================================================== -->
+        <!--           宠物相关协议(2300-2399)                               -->
+        <!-- =============================================================== -->
+        <message name="SCID_USER_PETS_NTF"        id="2300"           type="SC_USER_PETS_NTF" />
+        <message name="SCID_PET_INFO_NTF"         id="2301"           type="SC_PET_INFO_NTF" />
+        <message name="CSID_SET_BATTLE_PET_REQ"   id="2302"           type="CS_SET_BATTLE_PET_REQ" />
+        <message name="SCID_SET_BATTLE_PET_NTF"   id="2303"           type="SC_SET_BATTLE_PET_NTF" />
+        <message name="CSID_PET_GET_EXP_RPT"      id="2310"           type="CS_PET_GET_EXP_RPT" />
+        <message name="SCID_PET_LEVEL_NTF"        id="2311"           type="SC_PET_LEVEL_NTF" />
+        <message name="CSID_PET_UP_REQ"           id="2312"           type="CS_PET_UP_REQ" />
+        <message name="SCID_PET_UP_ACK"           id="2313"           type="SC_PET_UP_ACK" />
+        <message name="CSID_PET_MERGE_REQ"        id="2314"           type="CS_PET_MERGE_REQ" />
+        <message name="SCID_PET_ADD_NTF"          id="2315"           type="SC_PET_ADD_NTF" />
+        <message name="SCID_PETS_RECORD_NTF"      id="2316"           type="SC_PETS_RECORD_NTF" />
+        <message name="SCID_PET_BAG_NTF"          id="2317"           type="SC_PET_BAG_NTF" />
+        <message name="CSID_PET_EQUIP_REQ"        id="2330"           type="CS_PET_EQUIP_REQ" />
+        <message name="CSID_PET_EVENT_REQ"        id="2331"           type="CS_PET_EVENT_REQ" />
+        <message name="SCID_PET_BAG_SINGLE_LEAVE_NTF"        id="2332"           type="SC_PET_BAG_SINGLE_LEAVE_NTF" />
+        <message name="SCID_PET_BAG_SINGLE_ENTER_NTF"        id="2333"           type="SC_PET_BAG_SINGLE_ENTER_NTF" />
+        <message name="CSID_PET_TEAM_RPT"        id="2334"           type="CS_PET_TEAM_RPT" />
+
+        <message name="SCID_PET_TEAM_NTF"        id="2335"           type="SC_PET_TEAM_NTF" />
+
+        <message name="SCID_PET_GET_EXP_ACK"     id="2336"           type="SC_PET_GET_EXP_ACK" />
+
+        <message name="SCID_PET_SINGLE_ENTER_NTF" id="2337"           type="SC_PET_SINGLE_ENTER_NTF" />
+        <message name="SCID_PET_SINGLE_LEAVE_NTF" id="2338"           type="SC_PET_SINGLE_LEAVE_NTF" />
+        <message name="SCID_PET_EVENT_ACK"        id="2350"           type="SC_PET_EVENT_ACK" />
+        <!-- =============================================================== -->
+        <!--           移动同步相关协议(2400-2499)                               -->
+        <!-- =============================================================== -->
+        <message name="CSID_MOVE_SYNC_MODE"       id="2400"           type="CS_MOVE_SYNC_MODE" />
+        <message name="CSID_MOVE_BEGIN"           id="2401"           type="CS_MOVE_BEGIN" />
+        <message name="CSID_MOVE_STOP"            id="2402"           type="CS_MOVE_STOP" />
+        <message name="SCID_MOVE_BEGIN"           id="2403"           type="SC_MOVE_BEGIN" />
+        <message name="SCID_MOVE_STOP"            id="2404"           type="SC_MOVE_STOP" />
+        <message name="SCID_OTHER_APPEAR"         id="2405"           type="SC_OTHER_APPEAR" />
+        <message name="SCID_OTHER_UPDATE"         id="2406"           type="SC_OTHER_UPDATE" />
+        <message name="SCID_OTHER_DISAPPEAR"      id="2407"           type="SC_OTHER_DISAPPEAR" />
+
+        <!-- =============================================================== -->
+        <!--           关系相关协议(2600-2799)                           -->
+        <!-- =============================================================== -->
+        <message name="CSID_CHAT"      id="2600"           type="CS_CHAT" />
+		<message name="SCID_CHAT"      id="2601"           type="SC_CHAT" />
+		<message name="SCID_CHAT_ACK"  id="2602"           type="SC_CHAT_ACK" />
+
+        <!-- =============================================================== -->
+        <!--           好友相关协议(2800-2899)                           -->
+        <!-- =============================================================== -->
+        <message name="SCID_FRIENDS_LIST_NTF"               id="2800"    type="SC_FRIENDS_LIST_NTF" />
+        <message name="CSID_QUERY_ROLE_REQ"                 id="2801"    type="CS_QUERY_ROLE_REQ" />
+        <message name="SCID_QUERY_ROLE_ACK"                 id="2802"    type="SC_QUERY_ROLE_ACK" />
+        <message name="CSID_ADD_FRIEND_REQ"                 id="2803"    type="CS_ADD_FRIEND_REQ" />
+        <message name="SCID_ADD_FRIEND_ACK"                 id="2804"    type="SC_ADD_FRIEND_ACK" />
+        <message name="CSID_REMOVE_FRIEND_REQ"              id="2805"    type="CS_REMOVE_FRIEND_REQ" />
+        <message name="SCID_REMOVE_FRIEND_ACK"              id="2806"    type="SC_REMOVE_FRIEND_ACK" />
+        <message name="CSID_DONATE_ACTION_POINT_REQ"        id="2807"    type="CS_DONATE_ACTION_POINT_REQ" />
+        <message name="SCID_DONATE_ACTION_POINT_ACK"        id="2808"    type="SC_DONATE_ACTION_POINT_ACK" />
+        <message name="SCID_DONATE_ACTION_POINT_OTHER_NTF"  id="2809"    type="SC_DONATE_ACTION_POINT_OTHER_NTF" />
+        <message name="CSID_RECEIVE_ACTION_POINT_REQ"       id="2810"    type="CS_RECEIVE_ACTION_POINT_REQ" />
+        <message name="SCID_RECEIVE_ACTION_POINT_ACK"       id="2811"    type="SC_RECEIVE_ACTION_POINT_ACK" />
+        <message name="CSID_RESPONSE_ADD_FRIEND_REQ"        id="2812"    type="CS_RESPONSE_ADD_FRIEND_REQ" />
+        <message name="SCID_REQUEST_ADD_FRIEND_NTF"         id="2813"    type="SC_REQUEST_ADD_FRIEND_NTF" />
+        <message name="SCID_FRIEND_INFO_CHANGE_NTF"         id="2814"    type="SC_FRIEND_INFO_CHANGE_NTF" />
+        <message name="SCID_FRIEND_REMOVE_INVITE_NTF"       id="2815"    type="SC_FRIEND_REMOVE_INVITE_NTF" />
+        <message name="CSID_FRIEND_ASSIST_LIST_REQ"         id="2816"    type="CS_FRIEND_ASSIST_LIST_REQ" />
+        <message name="SCID_FRIEND_ASSIST_LIST_ACK"         id="2817"    type="SC_FRIEND_ASSIST_LIST_ACK" />
+        <message name="CSID_SELECT_FRIEND_ASSIST_REQ"       id="2818"    type="CS_SELECT_FRIEND_ASSIST_REQ" />
+        <message name="SCID_SELECT_FRIEND_ASSIST_ACK"       id="2819"    type="SC_SELECT_FRIEND_ASSIST_ACK" />
+        <message name="SCID_FRIEND_EPINFO_NTF"              id="2820"    type="SC_FRIEND_EPINFO_NTF" />
+        <message name="CSID_FRIENDS_LIST_REQ"               id="2821"    type="CS_FRIENDS_LIST_REQ" />
+
+        <!-- =============================================================== -->
+        <!--           活动相关协议(3000-3199)                           -->
+        <!-- =============================================================== -->
+        <message name="SCID_ABYSS_TRIGGER_ACK"              id="3000"    type="SC_ABYSS_TRIGGER_ACK" />
+        <message name="CSID_ABYSS_OPEN_REQ"               	id="3001"    type="CS_ABYSS_OPEN_REQ" />
+        <message name="SCID_ABYSS_OPEN_ACK"               	id="3002"    type="SC_ABYSS_OPEN_ACK" />
+        <message name="SCID_ABYSS_OPEN_NTF"            		id="3003"    type="SC_ABYSS_OPEN_NTF" />
+      
+        <message name="CSID_GET_ABYSS_TRIGGER_LIST_REQ"   	id="3004"    type="CS_GET_ABYSS_TRIGGER_LIST_REQ" />
+        <message name="SCID_GET_ABYSS_TRIGGER_LIST_ACK"   	id="3005"    type="SC_GET_ABYSS_TRIGGER_LIST_ACK" />
+        <message name="CSID_GET_ABYSS_OPEN_LIST_REQ"   		id="3006"    type="CS_GET_ABYSS_OPEN_LIST_REQ" />
+        <message name="SCID_GET_ABYSS_OPEN_LIST_ACK"   		id="3007"    type="SC_GET_ABYSS_OPEN_LIST_ACK" />
+        <message name="CSID_GET_ABYSS_OPEN_REC_REQ"   		id="3008"    type="CS_GET_ABYSS_OPEN_REC_REQ" />
+        <message name="SCID_GET_ABYSS_OPEN_REC_ACK"   		id="3009"    type="SC_GET_ABYSS_OPEN_REC_ACK" />
+        
+        <message name="SCID_ENTER_ABYSS_ACK"   				id="3011"    type="SC_ENTER_ABYSS_ACK" />
+
+        <message name="SCID_ABYSS_RUN_NTF"      			id="3016"    type="SC_ABYSS_RUN_NTF" />
+
+
+	<!-- =============================================================== -->
+        <!--           活动相关协议(3200-3299)                           -->
+        <!-- =============================================================== -->
+	<message name="SCID_MAIL_LIST_NTF"               id="3200"     type="SC_MAIL_LIST_NTF" />	
+	<message name="CSID_SEND_MAIL_REQ"               id="3201"     type="CS_SEND_MAIL_REQ" />
+	<message name="SCID_SEND_MAIL_ACK"               id="3202"     type="SC_SEND_MAIL_ACK" />
+	<message name="CSID_GET_ITEM_FROM_MAIL_REQ"      id="3203"     type="CS_GET_ITEM_FROM_MAIL_REQ" />
+	<message name="CSID_GET_MONEY_FROM_MAIL_REQ"     id="3204"     type="CS_GET_MONEY_FROM_MAIL_REQ" />
+	<message name="CSID_READ_MAIL_REQ"               id="3205"     type="CS_READ_MAIL_REQ" />
+	<message name="SCID_READ_MAIL_ACK"               id="3206"     type="SC_READ_MAIL_ACK" />
+	<message name="CSID_DELETE_MAIL_REQ"             id="3207"     type="CS_DELETE_MAIL_REQ" />
+	<message name="SCID_DELETE_MAIL_ACK"             id="3208"     type="SC_DELETE_MAIL_ACK" />
+	<message name="SCID_UPDATE_MAIL_NTF"             id="3209"     type="SC_UPDATE_MAIL_NTF" />
+
+        <!-- =============================================================== -->
+        <!--              商城相关协议(3300-3399)                            -->
+        <!-- =============================================================== -->
+        <message name="SCID_SHOP_ACTION_POINT_BOUGHT_NTF"       id="3300"     type="SC_SHOP_ACTION_POINT_BOUGHT_NTF" />
+        <message name="CSID_SHOP_BUY_ACTION_POINT_REQ"          id="3301"     type="CS_SHOP_BUY_ACTION_POINT_REQ" />
+        <message name="SCID_SHOP_BUY_ACTION_POINT_ACK"          id="3302"     type="SC_SHOP_BUY_ACTION_POINT_ACK" />
+        <message name="SCID_SHOP_BUY_PET_INFO_CHEAP_NTF"        id="3310"     type="SC_SHOP_BUY_PET_INFO_CHEAP_NTF" />
+        <message name="SCID_SHOP_BUY_PET_INFO_EXPENSIVE_NTF"    id="3311"     type="SC_SHOP_BUY_PET_INFO_EXPENSIVE_NTF" />
+        <message name="CSID_SHOP_BUY_PET_REQ"                   id="3312"     type="CS_SHOP_BUY_PET_REQ" />
+        <message name="SCID_SHOP_BUY_PET_ACK"                   id="3313"     type="SC_SHOP_BUY_PET_ACK" />
+        <message name="CSID_SHOP_GET_GOODSLIST_REQ"             id="3320"     type="CS_SHOP_GET_GOODSLIST_REQ" />
+        <message name="SCID_SHOP_GET_GOODSLIST_ACK"             id="3321"     type="SC_SHOP_GET_GOODSLIST_ACK" />
+        <message name="CSID_SHOP_BUY_GOODS_REQ"                 id="3322"     type="CS_SHOP_BUY_GOODS_REQ" />
+        <message name="SCID_SHOP_BUY_GOODS_ACK"                 id="3323"     type="SC_SHOP_BUY_GOODS_ACK" />
+        <!--              商城.神秘商店相关协议(3350-3399)                   -->
+        <message name="CSID_SHOP_SECRET_GOODS_REQ"              id="3350"     type="CS_SHOP_SECRET_GOODS_REQ" />
+        <message name="SCID_SHOP_SECRET_GOODS_ACK"              id="3351"     type="SC_SHOP_SECRET_GOODS_ACK" />
+        <message name="CSID_SHOP_SECRET_BUY_REQ"                id="3360"     type="CS_SHOP_SECRET_BUY_REQ" />
+        <message name="SCID_SHOP_SECRET_BUY_ACK"                id="3361"     type="SC_SHOP_SECRET_BUY_ACK" />
+        <message name="CSID_SHOP_SECRET_REFRESH_REQ"            id="3370"     type="CS_SHOP_SECRET_REFRESH_REQ" />
+
+        <!-- =============================================================== -->
+      <!--              PVP相关协议(3400-3499)                            -->
+      <!-- =============================================================== -->
+    <message name="CSID_SELF_PVP_PRO_REQ"          	id="3400"           type="CS_SELF_PVP_PRO_REQ" />
+	<message name="SCID_SELF_PVP_PRO_ACK"          	id="3401"           type="SC_SELF_PVP_PRO_ACK" />
+	<message name="CSID_GET_PVP_MATCH_REQ"          id="3402"           type="CS_GET_PVP_MATCH_REQ" />
+	<message name="SCID_GET_PVP_MATCH_ACK"          id="3403"           type="SC_GET_PVP_MATCH_ACK" />
+	<message name="CSID_ENTER_PVP_REQ"          	id="3404"           type="CS_ENTER_PVP_REQ" />
+	<message name="SCID_ENTER_PVP_ACK"          	id="3405"           type="SC_ENTER_PVP_ACK" />
+	<message name="CSID_PVP_RETULT_REQ"          	id="3406"           type="CS_PVP_RETULT_REQ" />
+	<message name="SCID_PVP_RETULT_ACK"          	id="3407"           type="SC_PVP_RETULT_ACK" />
+	<message name="CSID_GET_RANK_LIST_REQ"         	id="3408"           type="CS_GET_RANK_LIST_REQ" />
+	<message name="SCID_GET_RANK_LIST_ACK"         	id="3409"           type="SC_GET_RANK_LIST_ACK" />
+
+	<message name="CSID_GET_PVP_MILITARY_REWARD_REQ"          	id="3410"           type="CS_GET_PVP_MILITARY_REWARD_REQ" />
+	<message name="SCID_GET_PVP_MILITARY_REWARD_ACK"          	id="3411"           type="SC_GET_PVP_MILITARY_REWARD_ACK" />
+	<message name="CSID_GET_PVP_REPUTE_REWARD_REQ"          	id="3412"           type="CS_GET_PVP_REPUTE_REWARD_REQ" />
+	<message name="SCID_GET_PVP_REPUTE_REWARD_ACK"          	id="3413"           type="SC_GET_PVP_REPUTE_REWARD_ACK" />
+	
+	<message name="CSID_PVP_BUY_CHALLENGE_TIMES_REQ"          	id="3414"           type="CS_PVP_BUY_CHALLENGE_TIMES_REQ" />
+	<message name="SCID_PVP_BUY_CHALLENGE_TIMES_ACK"          	id="3415"           type="SC_PVP_BUY_CHALLENGE_TIMES_ACK" />
+	
+	<message name="SCID_PVP_TIME_NTF"          					id="3416"           type="SC_PVP_TIME_NTF" />
+	<message name="CSID_GET_PVP_ROLE_INFO_REQ"          		id="3417"           type="CS_GET_PVP_ROLE_INFO_REQ" />
+	<message name="SCID_GET_PVP_ROLE_INFO_ACK"          		id="3418"           type="SC_GET_PVP_ROLE_INFO_ACK" />
+        
+        <!-- =============================================================== -->
+        <!--              VIP相关协议(3500-3599)                             -->
+        <!-- =============================================================== -->
+        <message name="SCID_VIP_INFO_NTF"                       id="3500"     type="SC_VIP_INFO_NTF" />
+        <message name="SCID_VIP_RMBINFO_NTF"                    id="3501"     type="SC_VIP_RMBINFO_NTF" />
+        <!--              月卡                                               -->
+        <message name="SCID_VIP_MONTHCARD_NTF"                  id="3520"     type="SC_VIP_MONTHCARD_NTF" />
+        <message name="CSID_VIP_MONTHCARD_GETITEM_REQ"          id="3521"     type="CS_VIP_MONTHCARD_GETITEM_REQ" />
+        <message name="SCID_VIP_MONTHCARD_GETITEM_ACK"          id="3522"     type="SC_VIP_MONTHCARD_GETITEM_ACK" />
+
+        <!-- =============================================================== -->
+        <!--              领奖相关协议(3600-3699)                            -->
+        <!-- =============================================================== -->
+        <message name="SCID_GIFT_SIGN_NTF"                      id="3600"     type="SC_GIFT_SIGN_NTF" />
+        <message name="SCID_GIFT_SIGN_VIP_NTF"                  id="3601"     type="SC_GIFT_SIGN_VIP_NTF" />
+        <message name="CSID_GIFT_SIGN"                          id="3602"     type="CS_GIFT_SIGN" />
+        <message name="CSID_GIFT_SIGN_VIP"                      id="3603"     type="CS_GIFT_SIGN_VIP" />
+        <message name="SCID_GIFT_LEVEL_NTF"                     id="3610"     type="SC_GIFT_LEVEL_NTF" />
+        <message name="CSID_GIFT_LEVEL"                         id="3611"     type="CS_GIFT_LEVEL" />
+        <message name="SCID_GIFT_DAY_NTF"                       id="3620"     type="SC_GIFT_DAY_NTF" />
+        <message name="SCID_GIFT_DAY_UPD"                       id="3621"     type="SC_GIFT_DAY_UPD" />
+        <message name="CSID_GIFT_DAY_SCORE_REQ"                 id="3622"     type="CS_GIFT_DAY_SCORE_REQ" />
+        <message name="CSID_GIFT_DAY_BOX_REQ"                   id="3623"     type="CS_GIFT_DAY_BOX_REQ" />
+        <message name="SCID_GIFT_DAY_BOX_NTF"                   id="3624"     type="SC_GIFT_DAY_BOX_NTF" />
+        <!-- 激活码相关                                                      -->
+        <message name="CSID_GIFT_JIHUOMA_REQ"                   id="3660"     type="CS_GIFT_JIHUOMA_REQ" />
+        <message name="SCID_GIFT_JIHUOMA_ACK"                   id="3661"     type="SC_GIFT_JIHUOMA_ACK" />
+        <!-- 定时领取体力相关                                                -->
+        <message name="CSID_GIFT_EP_INFO_REQ"                   id="3670"     type="CS_GIFT_EP_INFO_REQ" />
+        <message name="SCID_GIFT_EP_INFO_ACK"                   id="3671"     type="SC_GIFT_EP_INFO_ACK" />
+        <message name="CSID_GIFT_RECEIVE_EP_REQ"                id="3672"     type="CS_GIFT_RECEIVE_EP_REQ" />
+        <message name="SCID_GIFT_RECEIVE_EP_ACK"                id="3673"     type="SC_GIFT_RECEIVE_EP_ACK" />
+
+        <!-- =============================================================== -->
+        <!--              世界boss相关协议(3700-3799)                             -->
+        <!-- =============================================================== -->
+        <message name="CSID_WB_INFO_REFRESH_REQ"                  id="3700"     type="CS_WB_INFO_REFRESH_REQ" />
+        <message name="SCID_WB_INFO_REFRESH_ACK"                  id="3701"     type="SC_WB_INFO_REFRESH_ACK" />
+        <message name="CSID_WB_ADD_BUF_REQ"                       id="3702"     type="CS_WB_ADD_BUF_REQ" />
+        <message name="SCID_WB_ADD_BUF_ACK"                       id="3703"     type="SC_WB_ADD_BUF_ACK" />
+        <message name="CSID_WB_RELIVE_REQ"                        id="3704"     type="CS_WB_RELIVE_REQ" />
+        <message name="SCID_WB_RELIVE_ACK"                        id="3705"     type="SC_WB_RELIVE_ACK" />
+        <message name="SCID_WB_KILLED_NTF"                        id="3706"     type="SC_WB_KILLED_NTF" />
+        <message name="SCID_WB_RUN_NTF"                        	  id="3707"     type="SC_WB_RUN_NTF" />
+        <message name="CSID_WB_ENTER_REQ"                  		  id="3708"     type="CS_WB_ENTER_REQ" />
+		<message name="SCID_WB_ENTER_ACK"                  		  id="3709"     type="SC_WB_ENTER_ACK" />
+		<message name="CSID_WB_RESULT_REQ"                  	  id="3710"     type="CS_WB_RESULT_REQ" />
+		<message name="SCID_WB_RESULT_ACK"                  	  id="3711"     type="SC_WB_RESULT_ACK" />
+        <!-- =============================================================== -->
+        <!--              排行榜相关协议(3800-3899)                             -->
+        <!-- =============================================================== -->
+        <message name="CSID_ROLE_RANK_REQ"                        id="3800"     type="CS_ROLE_RANK_REQ" />
+        <message name="SCID_ROLE_RANK_ACK"                        id="3801"     type="SC_ROLE_RANK_ACK" />
+        <!-- =============================================================== -->
+        <!--              战魂试炼相关协议(3900-3999)                             -->
+        <!-- =============================================================== -->
+        <message name="CSID_GET_PT_BASEINFO_REQ"            		id="3900"     type="CS_GET_PT_BASEINFO_REQ" />
+        <message name="SCID_GET_PT_BASEINFO_ACK"         			id="3901"     type="SC_GET_PT_BASEINFO_ACK" />
+        <message name="CSID_BUY_PT_TIMES_REQ"            			id="3902"     type="CS_BUY_PT_TIMES_REQ" />
+        <message name="SCID_BUY_PT_TIMES_ACK"         				id="3903"     type="SC_BUY_PT_TIMES_ACK" />
+        <!-- =============================================================== -->
+        <!--              金钱副本相关协议(4000-4099)                             -->
+        <!-- =============================================================== -->
+        <message name="CSID_GET_MD_BASEINFO_REQ"            		id="4000"     type="CS_GET_MD_BASEINFO_REQ" />
+        <message name="SCID_GET_MD_BASEINFO_ACK"         			id="4001"     type="SC_GET_MD_BASEINFO_ACK" />
+        <message name="CSID_BUY_MD_TIMES_REQ"            			id="4002"     type="CS_BUY_MD_TIMES_REQ" />
+        <message name="SCID_BUY_MD_TIMES_ACK"         				id="4003"     type="SC_BUY_MD_TIMES_ACK" />
+        <!-- =============================================================== -->
+        <!--              火龙塔相关协议(4100-4199)                             -->
+        <!-- =============================================================== -->
+        <message name="CSID_GET_FD_BASEINFO_REQ"            		id="4100"     type="CS_GET_FD_BASEINFO_REQ" />
+        <message name="SCID_GET_FD_BASEINFO_ACK"         			id="4101"     type="SC_GET_FD_BASEINFO_ACK" />
+        <message name="CSID_BUY_FD_TIMES_REQ"            			id="4102"     type="CS_BUY_FD_TIMES_REQ" />
+        <message name="SCID_BUY_FD_TIMES_ACK"         				id="4103"     type="SC_BUY_FD_TIMES_ACK" />
+
+        <!-- =============================================================== -->
+        <!--              公会相关协议(4200-4299)                            -->
+        <!-- =============================================================== -->
+        <message name="CSID_GUILD_INFO_REQ"                         id="4200"     type="CS_GUILD_INFO_REQ" />
+        <message name="CSID_GUILD_LIST_REQ"                         id="4201"     type="CS_GUILD_LIST_REQ" />
+        <message name="SCID_GUILD_LIST_ACK"                         id="4202"     type="SC_GUILD_LIST_ACK" />
+        <message name="CSID_GUILD_ENTER_REQ"                        id="4203"     type="CS_GUILD_ENTER_REQ" />
+        <message name="SCID_GUILD_ENTER_ACK"                        id="4204"     type="SC_GUILD_ENTER_ACK" />
+        <message name="CSID_GUILD_CREATE_REQ"                       id="4205"     type="CS_GUILD_CREATE_REQ" />
+        <message name="SCID_GUILD_CREATE_ACK"                       id="4206"     type="SC_GUILD_CREATE_ACK" />
+        <message name="CSID_GUILD_LEAVE_REQ"                        id="4207"     type="CS_GUILD_LEAVE_REQ" />
+        <message name="SCID_GUILD_LEAVE_ACK"                        id="4208"     type="SC_GUILD_LEAVE_ACK" />
+        <message name="SCID_GUILD_BASEINFO_ACK"                     id="4210"     type="SC_GUILD_BASEINFO_ACK" />
+        <message name="CSID_GUILD_LOG_REQ"                          id="4211"     type="CS_GUILD_LOG_REQ" />
+        <message name="SCID_GUILD_LOG_ACK"                          id="4212"     type="SC_GUILD_LOG_ACK" />
+        <message name="CSID_GUILD_CHANGE_NOTICE_REQ"                id="4213"     type="CS_GUILD_CHANGE_NOTICE_REQ" />
+        <message name="CSID_GUILD_DETAIL_REQ"                       id="4220"     type="CS_GUILD_DETAIL_REQ" />
+        <message name="SCID_GUILD_DETAIL_ACK"                       id="4221"     type="SC_GUILD_DETAIL_ACK" />
+        <message name="CSID_GUILD_ENTERLIST_REQ"                    id="4222"     type="CS_GUILD_ENTERLIST_REQ" />
+        <message name="SCID_GUILD_ENTERLIST_ACK"                    id="4223"     type="SC_GUILD_ENTERLIST_ACK" />
+        <message name="CSID_GUILD_ENTER_ACCEPT_REQ"                 id="4224"     type="CS_GUILD_ENTER_ACCEPT_REQ" />
+        <message name="SCID_GUILD_ENTER_ACCEPT_ACK"                 id="4225"     type="SC_GUILD_ENTER_ACCEPT_ACK" />
+        <message name="CSID_GUILD_ENTER_CLEAR_REQ"                  id="4226"     type="CS_GUILD_ENTER_CLEAR_REQ" />
+        <message name="SCID_GUILD_ENTER_CLEAR_ACK"                  id="4227"     type="SC_GUILD_ENTER_CLEAR_ACK" />
+
+    </messages>
+</coder>
+

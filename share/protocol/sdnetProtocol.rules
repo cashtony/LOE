@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="SDNET Protocol Generator"
+	Version="8.00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="SDNET Protocol"
+			DisplayName="SDNET Protocol"
+			CommandLine="rem IncrediBuild_RunFirst&#x0D;&#x0A;Rem IncrediBuild_OutputFile $(InputName).cpp&#x0D;&#x0A;Rem IncrediBuild_OutputFile $(InputName).h&#x0D;&#x0A;&#x0D;&#x0A;echo $(ProjectDir)..\..\..\..\share\protocol\coderex.exe $(InputPath) [OutputPath]&#x0D;&#x0A;$(ProjectDir)..\..\..\..\share\protocol\coderex.exe $(InputPath) [OutputPath]"
+			Outputs="$(InputDir)$(InputName).h;$(InputDir)$(InputName).cpp"
+			FileExtensions="*.xml"
+			ExecutionDescription="updateing protocol $(InputFileName)"
+			>
+			<Properties>
+				<StringProperty
+					Name="AdditionalDepends"
+					DisplayName="Additional Dependencis"
+					Category="General"
+					Description="Add Additional Dependencis"
+					DefaultValue="$(ProjectDir)..\..\..\..\share\protocol\headerproto.xml"
+				/>
+				<StringProperty
+					Name="OutputPath"
+					DisplayName="Output Directory"
+					Category="General"
+					Description="Output Directory"
+					Switch="[value]"
+					DefaultValue="$(InputDir)"
+				/>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>
